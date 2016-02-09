@@ -28,7 +28,7 @@ html = r"""
 	<div id="main">
             <div class="row">
             <div id="login">
-                    <form action="/cgi-bin/cdlcapital/validate_login.py" method="post" class="form-horizontal" role="form">
+                    <form action="/cgi-bin/kdowney_cdlcapital/front/validate_login.py" method="post" class="form-horizontal" role="form">
                         <div class="form-group">
                             <label class="control-label col-sm-1" for="username">Username</label>
                             <div class="col-sm-3">

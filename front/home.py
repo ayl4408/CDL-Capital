@@ -18,8 +18,8 @@ def check_cookie():
         if login_result == "True":
             main()
         else:
-            print "Location: http://cdl.ddns.net:4098/cgi-bin/cdlcapital/login.py\r\n"
+            print "Location: http://cdl.ddns.net:4098/cgi-bin/kdowney_cdlcapital/front/login.py\r\n"
     else:
-        print "Location: http://cdl.ddns.net:4098/cgi-bin/cdlcapital/login.py\r\n"
+        print "Location: http://cdl.ddns.net:4098/cgi-bin/kdowney_cdlcapital/front/login.py\r\n"
 
 check_cookie()

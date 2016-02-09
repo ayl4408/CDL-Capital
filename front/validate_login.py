@@ -1,19 +1,21 @@
 #!/usr/bin/python
 
 import cgi, Cookie
-from database import DB
-
+#from database import DB
+import sys
+import os
+sys.path.append(os.path.abspath("/usr/lib/cgi-bin/kdowney_cdlcapital"))
+from database_class import DB
 
 form = cgi.FieldStorage()
 
 username = str(form.getvalue("username"))
 password = str(form.getvalue("password"))
 
-'''
-print "Content-Type: text/html\r\n\r\n"
-print username
-print password
-'''
+#print "Content-Type: text/html\r\n\r\n"
+#print username
+#print password
+
 
 db = DB("localhost","root","mmGr2016","cdlcapital")
 result = db.query("select * from users where login = '"+username+"' and password = '"+password+"'")
@@ -23,8 +25,10 @@ if result:
 else:
     result = "False"
 
+
 cookie = Cookie.SimpleCookie()
 cookie['login'] = result
 
 print cookie
-print "Location: http://cdl.ddns.net:4098/cgi-bin/cdlcapital/home.py\r\n"
+print "Location: http://cdl.ddns.net:4098/cgi-bin/kdowney_cdlcapital/front/home.py\r\n"
+
