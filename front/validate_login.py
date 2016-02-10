@@ -20,4 +20,4 @@ cookie = Cookie.SimpleCookie()
 cookie['login'] = result
 
 print cookie
-print "Location: http://cdl.ddns.net:4098/cgi-bin/alee_cdlcapital/home.py\r\n"
+print "Location: http://cdl.ddns.net:4098/cgi-bin/alee_cdlcapital/front/home.py\r\n"

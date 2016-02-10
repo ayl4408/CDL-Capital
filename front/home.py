@@ -5,8 +5,12 @@ from templite import Templite
 
 
 def m(username):
-    print "Content-Type: text/html\r\n\r\n"
+    f = open("home.tpl","r")
+    html = str(f.read())
+    f.close()
+    
     t = Templite(html)
+    print "Content-Type: text/html\r\n\r\n"
     print t.render(user=username)
 
 def check_cookie():
@@ -18,14 +22,14 @@ def check_cookie():
         login_result = str(cookie['login'].value)
     
         if login_result == "False":
-            print "Location: http://cdl.ddns.net:4098/cgi-bin/alee_cdlcapital/login.py\r\n"
+            print "Location: http://cdl.ddns.net:4098/cgi-bin/alee_cdlcapital/front/login.py\r\n"
         else:
             username = login_result
             m(username)            
     else:
-        print "Location: http://cdl.ddns.net:4098/cgi-bin/alee_cdlcapital/login.py\r\n"
+        print "Location: http://cdl.ddns.net:4098/cgi-bin/alee_cdlcapital/front/login.py\r\n"
 
-html=r"""
+html2=r"""
 <!DOCTYPE html>
 <html>
 
@@ -208,9 +212,6 @@ html=r"""
                 </div>
         </div>
 <script type="text/javascript">
-
-        
-
         var intervalId = null;
         window.onload = start;
 
