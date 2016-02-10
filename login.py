@@ -3,10 +3,6 @@
 from templite import Templite
 import Cookie
 
-#Delete login cookie
-cookie=Cookie.SimpleCookie()
-cookie['login'] = False
-
 html = r"""
 <!DOCTYPE html>
 <html>

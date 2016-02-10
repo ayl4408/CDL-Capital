@@ -51,7 +51,7 @@ class Transactions:
     def get_volume(self):
         return self.volume
         
-    def set_voume(self,x):
+    def set_volume(self,x):
         self.volume = x
 
     def get_total_price(self):
