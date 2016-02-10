@@ -24,11 +24,6 @@ def check_cookie():
         if login_result == "False":
             print "Location: http://cdl.ddns.net:4098/cgi-bin/alee_cdlcapital/front/login.py\r\n"
         else:
-<<<<<<< HEAD
-            print "Location: http://cdl.ddns.net:4098/cgi-bin/kdowney_cdlcapital/front/login.py\r\n"
-    else:
-        print "Location: http://cdl.ddns.net:4098/cgi-bin/kdowney_cdlcapital/front/login.py\r\n"
-=======
             username = login_result
             m(username)            
     else:
@@ -533,7 +528,6 @@ html2=r"""
         </body>
 </html>
 """
->>>>>>> upstream/master
 
 check_cookie()
 
