@@ -1,14 +1,11 @@
-#!/usr/bin/python
+<?php
+    include('login.php'); // Includes Login Script
 
-from templite import Templite
-import Cookie
+    if(isset($_SESSION['login_user'])){
+        header("location: profile.php");
+    }
+?>
 
-<<<<<<< HEAD
-#Delete login cookie
-cookie=Cookie.SimpleCookie()
-cookie['login'] = False
-
-html = r"""
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,6 +13,7 @@ html = r"""
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <title>CDL Capital</title>
 </head>
@@ -29,23 +27,24 @@ html = r"""
 	<div id="main">
             <div class="row">
             <div id="login">
-                    <form action="/cgi-bin/kdowney_cdlcapital/front/validate_login.py" method="post" class="form-horizontal" role="form">
+                    <form action="" method="post" class="form-horizontal" role="form">
                         <div class="form-group">
                             <label class="control-label col-sm-1" for="username">Username</label>
                             <div class="col-sm-3">
-                                <input class="form-control" id="username" name="username" placeholder="Username" type="text" required>
+                                <input class="form-control" id="username" name="username" placeholder="Username" type="text">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-sm-1" for="password">Password</label>
                             <div class="col-sm-3"> 
-                                <input class="form-control" id="password" name="password" placeholder="********" type="password" required>
+                                <input class="form-control" id="password" name="password" placeholder="********" type="password">
                             </div>
                         </div>
                         <div class="form-group"> 
                             <div class="col-sm-offset-1 col-sm-1">
                                 <input class="form-control" name="submit" type="submit" value="Submit">
                             </div>
+                            <span><?php echo $error; ?></span>
                         </div>
                     </form>
             </div>
@@ -54,13 +53,3 @@ html = r"""
     </div>
     </body>
 </html>
-"""
-=======
-f = open("login.tpl","r")
-html = str(f.read())
-f.close()
->>>>>>> upstream/master
-
-t = Templite(html)
-print "Content-Type: text/html\r\n\r\n"
-print t.render()

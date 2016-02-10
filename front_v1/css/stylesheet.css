@@ -1,0 +1,42 @@
+body{
+	background-color: #F5F5DC; 
+}
+
+
+#cdl_name {
+	color: #A0D6A7;
+}
+
+#linReg{
+	display: none;
+}
+
+#clear_linReg{
+	display: none;
+}
+
+/*
+
+#graphs{
+	width: 90%;
+	height: 70%;
+}
+
+#graph_div{
+	width:800px;
+	height:500px;
+	float: left;
+
+}
+*/
+#volume_graph{
+	
+}
+
+/*
+
+#data_div{
+	float: bottom;
+}
+
+*/

@@ -1,47 +1,9 @@
-#!/usr/bin/python
-
-import Cookie, os
-from templite import Templite
-
-
-def m(username):
-    f = open("home.tpl","r")
-    html = str(f.read())
-    f.close()
-    
-    t = Templite(html)
-    print "Content-Type: text/html\r\n\r\n"
-    print t.render(user=username)
-
-def check_cookie():
-    cookie = Cookie.SimpleCookie()
-    cookie_string = Cookie.SimpleCookie(os.environ.get('HTTP_COOKIE'))
-
-    if cookie_string != None:
-        cookie.load(cookie_string)
-        login_result = str(cookie['login'].value)
-    
-        if login_result == "False":
-            print "Location: http://cdl.ddns.net:4098/cgi-bin/alee_cdlcapital/front/login.py\r\n"
-        else:
-<<<<<<< HEAD
-            print "Location: http://cdl.ddns.net:4098/cgi-bin/kdowney_cdlcapital/front/login.py\r\n"
-    else:
-        print "Location: http://cdl.ddns.net:4098/cgi-bin/kdowney_cdlcapital/front/login.py\r\n"
-=======
-            username = login_result
-            m(username)            
-    else:
-        print "Location: http://cdl.ddns.net:4098/cgi-bin/alee_cdlcapital/front/login.py\r\n"
-
-html2=r"""
 <!DOCTYPE html>
 <html>
 
 <head>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-        <!--<script type="text/javascript" src="jquery/jquery-1.9.1.min.js"></script>-->
-        <!--<script type="text/javascript" src="jquery/jquery.autocomplete.min.js"></script>-->
+        <script type="text/javascript" src="jquery/jquery-1.9.1.min.js"></script>
+        <script type="text/javascript" src="jquery/jquery.autocomplete.min.js"></script>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
@@ -54,7 +16,7 @@ html2=r"""
                 <div class="container">
                         <div class="jumbotron">
                         <h1>CDL Capital</h1>
-                        <h5>Welcome to your profile, ${ user }$</h5>
+                        <h5>Welcome to your profile, ${ username }$</h5>
 </br>
                                 <ul class="nav nav-pills">
                                         <li class="active"><a href="http://cdl.ddns.net:4098/CDLCapital/Front/profile.php">My Profile</a></li>
@@ -217,6 +179,7 @@ html2=r"""
                 </div>
         </div>
 <script type="text/javascript">
+
         var intervalId = null;
         window.onload = start;
 
@@ -227,7 +190,7 @@ html2=r"""
                 intervalId = setInterval(update_profile_information, 60000);
         }
 
-        
+
         function update_profile_information()
         {
                 var update_profile_result = $.ajax({
@@ -238,7 +201,6 @@ html2=r"""
                         async: false}).responseText;
 
                 var json_obj=JSON.parse(update_profile_result);
-                //console.log(json_obj['transactions']);
                 table_generate_users(json_obj['users']);
                 table_generate_transactions(json_obj['transactions']);
                 table_generate_owned_stocks(json_obj['owned_stocks']);
@@ -248,81 +210,81 @@ html2=r"""
 
         function table_generate_owned_stocks (json_obj)
         {
-            $('.owned_stocks_table tr td').remove();
-            var tb = document.createElement("tbody");
-   
-            for (i in json_obj)
-            {
-                var tr = document.createElement("tr");
-                var td1 = document.createElement("td");
-                var td2 = document.createElement("td");
-                var td3 = document.createElement("td");
-                var td4 = document.createElement("td");
-                var td5 = document.createElement("td");
-                
-                var t1 = document.createTextNode(json_obj[i]['stock']);
-                td1.appendChild(t1);
-                var t2 = document.createTextNode(json_obj[i]['current_shares']);
-                td2.appendChild(t2);
-                var t3 = document.createTextNode(json_obj[i]['current_price']);
-                td3.appendChild(t3);
-                var t4 = document.createTextNode(json_obj[i]['total_worth']);
-                td4.appendChild(t4);
-                var t5 = document.createTextNode(json_obj[i]['profit']);
-                td5.appendChild(t5);
-                
-                tr.appendChild(td1);
-                tr.appendChild(td2);
-                tr.appendChild(td3);
-                tr.appendChild(td4);
-                tr.appendChild(td5);
-                
-                tb.appendChild(tr);
-            }
-             
-            var $formrow = tb
-            $('.owned_stocks_table').append($formrow);
+                $('.owned_stocks_table tr td').remove();
+                var tb = document.createElement("tbody");
+
+                for (i in json_obj)
+                {
+                        var tr = document.createElement("tr");
+                        var td1 = document.createElement("td");
+                        var td2 = document.createElement("td");
+                        var td3 = document.createElement("td");
+                        var td4 = document.createElement("td");
+                        var td5 = document.createElement("td");
+
+                        var t1 = document.createTextNode(json_obj[i]['stock']);
+                        td1.appendChild(t1);
+                        var t2 = document.createTextNode(json_obj[i]['current_shares']);
+                        td2.appendChild(t2);
+                        var t3 = document.createTextNode(json_obj[i]['current_price']);
+                        td3.appendChild(t3);
+                        var t4 = document.createTextNode(json_obj[i]['total_worth']);
+                        td4.appendChild(t4);
+                        var t5 = document.createTextNode(json_obj[i]['profit']);
+                        td5.appendChild(t5);
+
+                        tr.appendChild(td1);
+                        tr.appendChild(td2);
+                        tr.appendChild(td3);
+                        tr.appendChild(td4);
+                        tr.appendChild(td5);
+
+                        tb.appendChild(tr);
+                }
+
+                var $formrow = tb
+                $('.owned_stocks_table').append($formrow);
         }
 
         function table_generate_transactions (json_obj)
         {
-            $('.transaction_table tr td').remove();
-            var tb = document.createElement("tbody");
-   
-            for (i in json_obj)
-            {
-              
-                var tr = document.createElement("tr");
-                var td1 = document.createElement("td");
-                var td2 = document.createElement("td");
-                var td3 = document.createElement("td");
-                var td4 = document.createElement("td");
-                var td5 = document.createElement("td");
-                var td6 = document.createElement("td");
+                $('.transaction_table tr td').remove();
+                var tb = document.createElement("tbody");
 
-                var t1 = document.createTextNode(json_obj[i]['trans_date']);
-                td1.appendChild(t1);
-                var t2 = document.createTextNode(json_obj[i]['trans_type']);
-                td2.appendChild(t2);
-                var t3 = document.createTextNode(json_obj[i]['stock']);
-                td3.appendChild(t3);
-                var t4 = document.createTextNode(json_obj[i]['price']);
-                td4.appendChild(t4);
-                var t5 = document.createTextNode(json_obj[i]['volume']);
-                td5.appendChild(t5);
-                var t6 = document.createTextNode(json_obj[i]['total_price']);
-                td6.appendChild(t6);                
+                for (i in json_obj)
+                {
 
-                tr.appendChild(td1);
-                tr.appendChild(td2);
-                tr.appendChild(td3);
-                tr.appendChild(td4);
-                tr.appendChild(td5);
-                tr.appendChild(td6);
+                        var tr = document.createElement("tr");
+                        var td1 = document.createElement("td");
+                        var td2 = document.createElement("td");
+                        var td3 = document.createElement("td");
+                        var td4 = document.createElement("td");
+                        var td5 = document.createElement("td");
+                        var td6 = document.createElement("td");
 
-                tb.appendChild(tr);
-              
-            }
+                        var t1 = document.createTextNode(json_obj[i]['trans_date']);
+                        td1.appendChild(t1);
+                        var t2 = document.createTextNode(json_obj[i]['trans_type']);
+                        td2.appendChild(t2);
+                        var t3 = document.createTextNode(json_obj[i]['stock']);
+                        td3.appendChild(t3);
+                        var t4 = document.createTextNode(json_obj[i]['price']);
+                        td4.appendChild(t4);
+                        var t5 = document.createTextNode(json_obj[i]['volume']);
+                        td5.appendChild(t5);
+                        var t6 = document.createTextNode(json_obj[i]['total_price']);
+                        td6.appendChild(t6);
+
+                        tr.appendChild(td1);
+                        tr.appendChild(td2);
+                        tr.appendChild(td3);
+                        tr.appendChild(td4);
+                        tr.appendChild(td5);
+                        tr.appendChild(td6);
+
+                        tb.appendChild(tr);
+                }
+
                 var $formrow = tb;
                 $('.transaction_table').append($formrow);
         }
@@ -337,7 +299,7 @@ html2=r"""
                 var td3 = document.createElement("td");
                 var td4 = document.createElement("td");
                 var td5 = document.createElement("td");
-                
+
                 var t1 = document.createTextNode(json_obj['total_portfolio']);
                 td1.appendChild(t1);
                 var t2 = document.createTextNode(json_obj['available_funds']);
@@ -348,7 +310,7 @@ html2=r"""
                 td4.appendChild(t4);
                 var t5 = document.createTextNode(json_obj['total_deposited']);
                 td5.appendChild(t5);
-                
+
                 tr.appendChild(td1);
                 tr.appendChild(td2);
                 tr.appendChild(td3);
@@ -356,28 +318,14 @@ html2=r"""
                 tr.appendChild(td5);
 
                 tb.appendChild(tr);
-                
+
                 var $formrow = tb;
 
                 $('.user_table tr td').remove();
                 $('.user_table').append($formrow);
         }
 
-        function load_profile_information()
-        {
-                var user_name='<?php echo $user_check; ?>';
-                var profile_information="profile_information";
-                profile_info_result = $.ajax({
-                        type: 'POST',
-                        url: "http://cdl.ddns.net:4098/CDLCapital/Front/router/front_router.php",
-                        data: 'user_name='+ user_name + '&profile_information='+ profile_information,
-                        dataType: "json",
-                        async: false}).responseText;
-
-                var profile_info_result_parsed=JSON.parse(profile_info_result);
-                //console.log(profile_info_result_parsed[2]);
-        }
-
+        
         function generate_sell_drop_down()
         {
                 var user_name='<?php echo $user_check; ?>';
@@ -398,6 +346,25 @@ html2=r"""
             for(var field in generate_sell_drop_down_parsed) {
                  $('<option value="'+ generate_sell_drop_down_parsed[field]['stock'] +'">' + generate_sell_drop_down_parsed[field]['stock'] + '</option>').appendTo('#company_name_sell');
             }
+        }
+
+        function load_profile_information()
+        {
+                var user_name='<?php echo $user_check; ?>';
+                var profile_information="profile_information";
+                profile_info_result = $.ajax({
+                        type: 'POST',
+                        url: "http://cdl.ddns.net:4098/CDLCapital/Front/router/front_router.php",
+                        data: 'user_name='+ user_name + '&profile_information='+ profile_information,
+                        dataType: "json",
+                        async: false}).responseText;
+
+                var profile_info_result_parsed=JSON.parse(profile_info_result);
+                //console.log(profile_info_result_parsed[2]);
+                table_generate_users(profile_info_result_parsed[0]);
+                table_generate_transactions(profile_info_result_parsed[1]);
+                table_generate_owned_stocks(profile_info_result_parsed[2]);
+                drawChart();
         }
 
         function Deposit()
@@ -532,9 +499,3 @@ html2=r"""
 
         </body>
 </html>
-"""
->>>>>>> upstream/master
-
-check_cookie()
-
-
