@@ -357,7 +357,7 @@
                         var buy_result = $.ajax({
                                 type: 'POST',
                                 url: "http://cdl.ddns.net:4098/cgi-bin/alee_cdlcapital/scripts/buy.py",
-                                data: 'username='+ '${username}$' + '&company_name='+ company_name.value + '&volume='+ volume.value,
+                                data: 'username='+ '${username}$' + '&company='+ company_name.value + '&volume='+ volume.value,
                                 dataType: "json",
                                 async: false}).responseText;
 
