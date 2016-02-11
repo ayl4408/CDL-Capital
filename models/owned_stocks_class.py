@@ -1,5 +1,11 @@
 #!/usr/bin/python
 
+import sys
+sys.path.insert(0, '/usr/lib/cgi-bin/alee_cdlcapital/back')
+from database_class import DB
+
+db = DB("localhost","root","mmGr2016","cdlcapital")
+
 class Owned_stocks:
     stock = None
     current_shares = None
@@ -16,6 +22,16 @@ class Owned_stocks:
         self.stock_owner = None
         self.profit = None
 
+    def populate_owned_stocks_model(self, user, company):
+        result = db.query("select * from owned_stocks where stock_owner=('%s')"%(user)+" and stock = ('%s')"%(company)+";")
+        if result:
+            self.stock = result[0][0]
+            self.current_shares = result[0][1]
+            self.current_price = result[0][2]
+            self.total_worth = result[0][3]
+            self.stock_owner = result[0][4]
+            self.profit = result[0][5]
+        
     def get_stock(self):
         return self.stock
 
@@ -51,3 +67,7 @@ class Owned_stocks:
 
     def set_profit(self,x):
         self.profit = x
+
+#o = Owned_stocks()
+#o.populate_owned_stocks_model('al356', 'nflx')
+#print o.get_profit()

@@ -1,5 +1,11 @@
 #!/usr/bin/python
 
+import sys
+sys.path.insert(0, '/usr/lib/cgi-bin/alee_cdlcapital/back')
+from database_class import DB
+
+db = DB("localhost","root","mmGr2016","cdlcapital")
+
 class Users:
 
     login = None
@@ -20,6 +26,18 @@ class Users:
         self.available_funds = None
         self.total_stock_values = None
         self.total_deposited = None
+
+    def populate_users_model(self, user):
+        result = db.query("select * from users where login = ('%s')"%(user)+";")
+        if result:
+            self.login = result[0][1]
+            self.password = result[0][2]
+            self.role = result[0][3]
+            self.profit = result[0][4]
+            self.total_portfolio = result[0][5]
+            self.available_funds = result[0][6]
+            self.total_stock_values = result[0][7]
+            self.total_deposited = result[0][8]
 
     def get_login(self):
         return self.login
@@ -69,3 +87,7 @@ class Users:
 
     def set_total_deposited(self,x):
         self.total_deposited = x
+
+#u = Users()
+#u.populate_users_model('al356')
+#print u.get_profit()
