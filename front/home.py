@@ -11,7 +11,7 @@ def m(username):
     
     t = Templite(html)
     print "Content-Type: text/html\r\n\r\n"
-    print t.render(user=username)
+    print t.render(username=username)
 
 def check_cookie():
     cookie = Cookie.SimpleCookie()
