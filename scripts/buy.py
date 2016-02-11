@@ -61,9 +61,6 @@ def update_owned_stocks(ask_price, final_price):
         
 def main():
     ask_price, final_price = calculate_price()
-
-    print ask_price
-    print final_price
     
     if final_price <= u.get_available_funds():
         update_transactions(ask_price, final_price)
