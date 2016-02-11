@@ -3,6 +3,7 @@
 import Cookie, os
 from templite import Templite
 
+print "Content-Type: text/html\r\n\r\n"
 
 def m(username):
     f = open("home.tpl","r")
@@ -10,7 +11,6 @@ def m(username):
     f.close()
     
     t = Templite(html)
-    print "Content-Type: text/html\r\n\r\n"
     print t.render(username=username)
 
 def check_cookie():

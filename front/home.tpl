@@ -1,19 +1,21 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-        <script type="text/javascript" src="jquery/jquery-1.9.1.min.js"></script>
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <!--<script type="text/javascript" src="jquery/jquery-1.9.1.min.js"></script>
         <script type="text/javascript" src="jquery/jquery.autocomplete.min.js"></script>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-        <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-        <script src="https://code.highcharts.com/highcharts.js"></script>
+        -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
 </head>
         
-        <body>
-                <div class="container">
+  <body>
+    <div class="container">
                         <div class="jumbotron">
                         <h1>CDL Capital</h1>
                         <h5>Welcome to your profile, ${ username }$</h5>
@@ -196,7 +198,7 @@
                 var update_profile_result = $.ajax({
                         type: 'POST',
                         url: "http://cdl.ddns.net:4098/cgi-bin/alee_cdlcapital/scripts/upload_profile_information.py",
-                        data: 'username='+ '${user}$',
+                        data: 'username='+ '${username}$',
                         dataType: "json",
                         async: false}).responseText;
 
