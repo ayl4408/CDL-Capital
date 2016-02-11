@@ -22,9 +22,9 @@ if form.getvalue("company") != None:
     company = form.getvalue("company")    
 
 #test variables
-username="al356"
-company='GOOG'
-volume=1
+#username="al356"
+#company='GOOG'
+#volume=1
 
 #Declare globals objects
 yql = YQLQuery()
