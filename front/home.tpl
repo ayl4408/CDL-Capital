@@ -180,18 +180,18 @@
 <br/>
                 </div>
         </div>
-<script type="text/javascript">
 
-        var intervalId = null;
-        window.onload = start;
+    <script type="text/javascript">
 
-        function start()
-        {
-                //generate_sell_drop_down();
-                update_profile_information();
-                intervalId = setInterval(update_profile_information, 60000);
-        }
+      var intervalId = null;
+      window.onload = start;
 
+      function start()
+      {
+          //generate_sell_drop_down();
+          update_profile_information();
+          intervalId = setInterval(update_profile_information, 60000);
+      }
 
         function update_profile_information()
         {
@@ -327,7 +327,67 @@
                 $('.user_table').append($formrow);
         }
 
-        
+        function Deposit()
+        {
+                var amount=document.getElementById('amount');
+
+                if(amount.value > 0)
+                {
+                        var deposit_result = $.ajax({
+                                type: 'POST',
+                                url: "http://cdl.ddns.net:4098/cgi-bin/alee_cdlcapital/scripts/deposit.py",
+                                data: 'username='+ '${username}$' + '&amount='+ amount.value,
+                                dataType: "datastring",
+                                async: false}).responseText;
+
+                  document.getElementById('deposit_status').innerHTML = deposit_result;
+                  update_profile_information();
+                }
+      
+                document.getElementById("deposit_form").reset();
+        }
+
+        function buy()
+        {
+            var company_name=document.getElementById('company_name_buy');
+            var volume=document.getElementById('volume_buy');
+
+                if(volume.value > 0)
+                {
+                        var buy_result = $.ajax({
+                                type: 'POST',
+                                url: "http://cdl.ddns.net:4098/cgi-bin/alee_cdlcapital/scripts/buy.py",
+                                data: 'username='+ '${username}$' + '&company_name='+ company_name.value + '&volume='+ volume.value,
+                                dataType: "json",
+                                async: false}).responseText;
+
+                    update_profile_information();
+                }
+                //generate_sell_drop_down();
+                document.getElementById("buy_form").reset();
+        }
+      
+        function sell()
+        {
+                var company_name=company_name_sell.value;
+                var volume=document.getElementById('volume_sell');
+                
+                if(volume.value > 0)
+                {
+                        var sell_result = $.ajax({
+                                type: 'POST',
+                                url: "http://cdl.ddns.net:4098/cgi-bin/alee_cdlcapital/scripts/sell.py",
+                                data: 'username='+ '${username}$' + '&company_name='+ company_name + '&volume='+ volume.value,
+                                dataType: "json",
+                                async: false}).responseText;
+
+                        update_profile_information();
+                }
+                //console.log(sell_result);
+                //generate_sell_drop_down();
+                document.getElementById("sell_form").reset();
+        }
+      
         function generate_sell_drop_down()
         {
                 var user_name='<?php echo $user_check; ?>';
@@ -367,76 +427,8 @@
                 table_generate_transactions(profile_info_result_parsed[1]);
                 table_generate_owned_stocks(profile_info_result_parsed[2]);
                 drawChart();
-        }
+        };
 
-        function Deposit()
-        {
-                var user_name='<?php echo $user_check; ?>';
-                var amount=document.getElementById('amount');
-
-                if(amount.value > 0)
-                {
-                        var deposit = "deposit";
-                        var deposit_result = $.ajax({
-                                type: 'POST',
-                                url: "http://cdl.ddns.net:4098/CDLCapital/Front/router/front_router.php",
-                                data: 'user_name='+ user_name + '&amount='+ amount.value + '&deposit='+ deposit,
-                                dataType: "datastring",
-                                async: false}).responseText;
-
-                document.getElementById('deposit_status').innerHTML = deposit_result;
-                load_profile_information();
-        }
-        document.getElementById("deposit_form").reset();
-    }
-
-        function buy()
-        {
-                var user_name='<?php echo $user_check; ?>';
-                var company_name=document.getElementById('company_name_buy');
-                var volume=document.getElementById('volume_buy');
-
-                if(volume.value > 0)
-                {
-                        var buy = "buy";
-                        var buy_result = $.ajax({
-                                type: 'POST',
-                                url: "http://cdl.ddns.net:4098/CDLCapital/Front/router/front_router.php",
-                                data: 'user_name='+ user_name + '&company_name='+ company_name.value + '&volume='+ volume.value  + '&buy='+ buy,
-                                dataType: "json",
-                                async: false}).responseText;
-
-                        //console.log(buy_result);
-                    //load_profile_information();
-                    update_profile_information();
-                }
-                generate_sell_drop_down();
-                document.getElementById("buy_form").reset();
-    }
-
-        function sell()
-        {
-                var user_name='<?php echo $user_check; ?>';
-                var company_name=company_name_sell.value;
-                var volume=document.getElementById('volume_sell');
-                var sell_result;
-
-                if(volume.value > 0)
-                {
-                        var sell = "sell";
-                        sell_result = $.ajax({
-                                type: 'POST',
-                                url: "http://cdl.ddns.net:4098/CDLCapital/Front/router/front_router.php",
-                                data: 'user_name='+ user_name + '&company_name='+ company_name + '&volume='+ volume.value  + '&sell='+ sell,
-                                dataType: "json",
-                                async: false}).responseText;
-
-                        update_profile_information();
-                }
-                console.log(sell_result);
-                generate_sell_drop_down();
-                document.getElementById("sell_form").reset();
-    };
 </script>
 
 <script type="text/javascript">
