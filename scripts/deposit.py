@@ -2,6 +2,7 @@
 
 import cgi, datetime
 import simplejson as json
+sys.path.insert(0,'/usr/lib/cgi-bin/alee_cdlcapital/back')
 from database_class import DB
 from decimal import *
 
