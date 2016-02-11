@@ -33,8 +33,8 @@ class Users:
             self.total_stock_values = result[0][7]
             self.total_deposited = result[0][8]
 
-    def update_users_model(self, user, profit, total_portfolio, available_funds, total_stock_values, total_deposited):
-        db.query("update users set profit=('%s')"%(profit)+", total_portfolio=('%s')"%(total_portfolio)+", available_funds=('%s')"%(available_funds)+", total_stock_values=('%s')"%(total_stock_values)+", total_deposited=('%s')"%(total_deposited)+";")
+    def update_users_model(self, profit, total_portfolio, available_funds, total_stock_values, total_deposited):
+        db.query("update users set profit=('%s')"%(profit)+", total_portfolio=('%s')"%(total_portfolio)+", available_funds=('%s')"%(available_funds)+", total_stock_values=('%s')"%(total_stock_values)+", total_deposited=('%s')"%(total_deposited)+" where login=('%s')"%(self.login)+";")
         
     def get_login(self):
         return self.login

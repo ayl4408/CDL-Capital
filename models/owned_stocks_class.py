@@ -31,6 +31,12 @@ class Owned_stocks:
             self.total_worth = result[0][3]
             self.stock_owner = result[0][4]
             self.profit = result[0][5]
+            return True
+        else:
+            return False
+
+    def insert_owned_stocks_model(self, company, current_shares, current_price, total_worth, stock_owner):
+        db.query("insert into owned_stocks values ('%s',%d,'%s','%s','%s','%s')"%(company, current_shares, current_price, total_worth, stock_owner, "0.00")+";")
         
     def get_stock(self):
         return self.stock
@@ -42,18 +48,21 @@ class Owned_stocks:
         return self.current_shares
 
     def set_current_shares(self,x):
+        db.query("update owned_stocks set current_shares=('%s')"%(x)+";")
         self.current_shares = x
 
     def get_current_price(self):
         return self.current_price
 
     def set_current_price(self,x):
+        db.query("update owned_stocks set current_price=('%s')"%(x)+";")
         self.current_price = x
 
     def get_total_worth(self):
         return self.total_worth
 
     def set_total_worth(self,x):
+        db.query("update owned_stocks set total_worth=('%s')"%(x)+";")
         self.total_worth = x
 
     def get_stock_owner(self):
@@ -66,8 +75,10 @@ class Owned_stocks:
         return self.profit
 
     def set_profit(self,x):
+        db.query("update owned_stocks set profit=('%s')"%(x)+";")
         self.profit = x
-
-#o = Owned_stocks()
-#o.populate_owned_stocks_model('al356', 'nflx')
-#print o.get_profit()
+'''
+o = Owned_stocks()
+print o.populate_owned_stocks_model('al356', 'nflx')
+print o.get_profit()
+'''

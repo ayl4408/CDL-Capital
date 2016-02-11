@@ -1,5 +1,11 @@
 #!/usr/bin/python
 
+import sys
+sys.path.insert(0, '/usr/lib/cgi-bin/alee_cdlcapital/back')
+from database_class import DB
+
+db = DB("localhost","root","mmGr2016","cdlcapital")
+
 class Transactions:
     user = None
     trans_date  = None
@@ -9,21 +15,21 @@ class Transactions:
     volume = None
     total_price = None
 
-    def __init__(self):
-        self.user = None
-        self.trans_date  = None
-        self.trans_type  = None
-        self.stock = None
-        self.price = None
-        self.volume = None
-        self.total_price = None
+    def __init__(self, user, trans_date, trans_type, stock, price, volume, total_price):
+        self.user = user
+        self.trans_date  = trans_date
+        self.trans_type  = trans_type
+        self.stock = stock
+        self.price = price
+        self.volume = volume
+        self.total_price = total_price
 
+    def update_transactions_model(self):
+        db.query("insert into transactions values ('%s','%s','%s','%s','%s',%d,'%s')"%(self.user, self.trans_date, self.trans_type, self.stock, self.price, self.volume, self.total_price)+";")
+        
     def get_user(self):
         return self.user
-        
-    def set_user(self,x):
-        self.user = x
-        
+                
     def get_trans_date(self):
         return self.trans_date
         
