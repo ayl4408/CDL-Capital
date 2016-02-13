@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
-import sys
-sys.path.insert(0, '/usr/lib/cgi-bin/alee_cdlcapital/back')
+import sys, LINK_HEADERS
+sys.path.insert(0, str(LINK_HEADERS.DATABASE_LINK))
 from database_class import DB
 
 db = DB("localhost","root","mmGr2016","cdlcapital")

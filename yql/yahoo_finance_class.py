@@ -7,7 +7,7 @@ try:
 except ImportError:
     from urllib import urlencode
 
-import simplejson
+import simplejson,sys
 
 # Yahoo! YQL API
 PUBLIC_API_URL  = 'http://query.yahooapis.com/v1/public/yql'
@@ -33,6 +33,8 @@ class YQLQuery(object):
     def get_ask_price(self, company):
         result = self.execute(ASK + str(company) + END_YQL)
         return result['query']['results']['quote']['Ask']
-        
-#yql = YQLQuery()
-#print yql.get_ask_price('GOOG')
+
+#yql= YQLQuery()
+
+#print yq.get_ask_price('TWTR')
+#print yql.get_all_symbols()
