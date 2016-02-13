@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-import cgi, datetime
+import cgi, datetime, LINK_HEADERS, sys
 import simplejson as json
-sys.path.insert(0,'/usr/lib/cgi-bin/alee_cdlcapital/back')
+sys.path.insert(0, str(LINK_HEADERS.DATABASE_LINK))
 from database_class import DB
 from decimal import *
 

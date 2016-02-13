@@ -1,10 +1,10 @@
 #!/usr/bin/python
 
-import cgi, datetime,sys
+import cgi, datetime,sys,LINK_HEADERS
 import simplejson as json
 from decimal import *
 from yahoo_finance_class import YQLQuery
-sys.path.insert(0,'/usr/lib/cgi-bin/alee_cdlcapital/models')
+sys.path.insert(0, str(LINK_HEADERS.MODELS_LINK))
 from users_class import Users
 from transactions_class import Transactions
 from owned_stocks_class import Owned_stocks
