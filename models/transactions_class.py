@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 import sys
-sys.path.insert(0, '/usr/lib/cgi-bin/alee_cdlcapital/back')
+sys.path.insert(0, str(LINK_HEADERS.DATABASE_LINK))
 from database_class import DB
 
 db = DB("localhost","root","mmGr2016","cdlcapital")
@@ -24,7 +24,7 @@ class Transactions:
         self.volume = volume
         self.total_price = total_price
 
-    def update_transactions_model(self):
+    def insert_transactions_model(self):
         db.query("insert into transactions values ('%s','%s','%s','%s','%s',%d,'%s')"%(self.user, self.trans_date, self.trans_type, self.stock, self.price, self.volume, self.total_price)+";")
         
     def get_user(self):

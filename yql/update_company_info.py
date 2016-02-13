@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-import sys,simplejson,re,time,datetime
+import sys,simplejson,re,time,datetime,LINK_HEADERS
 from yahoo_finance_class import YQLQuery
-sys.path.insert(0,'/usr/lib/cgi-bin/alee_cdlcapital/back')
+sys.path.insert(0, str(LINK_HEADERS.DATABASE_LINK))
 from database_class import DB
 
 def get_column_names():
