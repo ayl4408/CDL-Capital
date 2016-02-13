@@ -2,8 +2,8 @@
 
 import cgi, datetime, LINK_HEADERS, sys
 import simplejson as json
-sys.path.insert(0, str(LINK_HEADERS.DATABASE_LINK))
-from database_class import DB
+sys.path.insert(0, str(LINK_HEADERS.MODELS_LINK))
+from users_class import Users
 from decimal import *
 
 print "Content-Type: text/html\r\n\r\n"
@@ -16,15 +16,9 @@ if form.getvalue("username") != None:
 if form.getvalue("amount") != None:
     amount = form.getvalue("amount")
 
-#username="al356"
-#amount="100.00"
+u = Users()
+u.populate_users_model(username)
 
-db = DB('localhost', 'root', 'mmGr2016', 'cdlcapital')
-
-result1 = db.query("select total_portfolio, available_funds, total_deposited from users where login = ('%s')"%(str(username))+";")
-
-if result1:
-    total = Decimal(result1[0][0]) + Decimal(amount)
-    available = Decimal(result1[0][1]) + Decimal(amount)
-    deposited = Decimal(result1[0][2]) + Decimal(amount)
-    db.query("update users set total_portfolio=('%s')"%(total) +" , available_funds=('%s')"%(available) +" , total_deposited=('%s')"%(deposited) +" where login=('%s')"%(str(username))+";")
+u.set_total_portfolio(Decimal(u.get_total_portfolio()) + Decimal(amount))
+u.set_available_funds(u.get_available_funds() + Decimal(amount))
+u.set_total_deposited(u.get_total_deposited() + Decimal(amount))
