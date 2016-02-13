@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
-import cgi, Cookie, LINK_HEADERS
+import cgi, Cookie, LINK_HEADERS, sys
+sys.path.insert(0 , "/usr/lib/cgi-bin/alee_cdlcapital/back/")
 from database_class import DB
 
 form = cgi.FieldStorage()

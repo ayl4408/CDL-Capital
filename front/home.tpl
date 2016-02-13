@@ -21,9 +21,9 @@
                         <h5>Welcome to your profile, ${ username }$</h5>
 </br>
                                 <ul class="nav nav-pills">
-                                        <li class="active"><a href="http://cdl.ddns.net:4098/CDLCapital/Front/profile.php">My Profile</a></li>
-                                <li><a href="http://cdl.ddns.net:4098/CDLCapital/Front/home.php">Analysis</a></li>
-                                <li><a href="http://cdl.ddns.net:4098/CDLCapital/Front/logout.php">Logout</a></li>
+                                <li class="active"><a href=${home_link}$>My Profile</a></li>
+                                <li><a href=${home_link}$>Analysis</a></li>
+                                <li><a href=${login_link}$>Logout</a></li>
                                 </ul>
                         </div>
 
@@ -197,12 +197,13 @@
         {
                 var update_profile_result = $.ajax({
                         type: 'POST',
-                        url: "http://cdl.ddns.net:4098/cgi-bin/alee_cdlcapital/scripts/upload_profile_information.py",
+                        url: '${upload_link}$',
                         data: 'username='+ '${username}$',
                         dataType: "json",
                         async: false}).responseText;
 
-                var json_obj=JSON.parse(update_profile_result);
+      var json_obj=JSON.parse(update_profile_result);
+      console.log(json_obj);
                 table_generate_users(json_obj['users']);
                 table_generate_transactions(json_obj['transactions']);
                 table_generate_owned_stocks(json_obj['owned_stocks']);
@@ -335,7 +336,7 @@
                 {
                         var deposit_result = $.ajax({
                                 type: 'POST',
-                                url: "http://cdl.ddns.net:4098/cgi-bin/alee_cdlcapital/scripts/deposit.py",
+                                url: '${deposit_link}$',
                                 data: 'username='+ '${username}$' + '&amount='+ amount.value,
                                 dataType: "datastring",
                                 async: false}).responseText;
@@ -356,7 +357,7 @@
                 {
                         var buy_result = $.ajax({
                                 type: 'POST',
-                                url: "http://cdl.ddns.net:4098/cgi-bin/alee_cdlcapital/scripts/buy.py",
+                                url: '${buy_link}$',
                                 data: 'username='+ '${username}$' + '&company='+ company_name.value + '&volume='+ volume.value,
                                 dataType: "json",
                                 async: false}).responseText;
@@ -366,7 +367,7 @@
                 //generate_sell_drop_down();
                 document.getElementById("buy_form").reset();
         }
-      
+      /*
         function sell()
         {
                 var company_name=company_name_sell.value;
@@ -376,7 +377,7 @@
                 {
                         var sell_result = $.ajax({
                                 type: 'POST',
-                                url: "http://cdl.ddns.net:4098/cgi-bin/alee_cdlcapital/scripts/sell.py",
+                                url: '${sell_link}$',
                                 data: 'username='+ '${username}$' + '&company_name='+ company_name + '&volume='+ volume.value,
                                 dataType: "json",
                                 async: false}).responseText;
@@ -387,7 +388,7 @@
                 //generate_sell_drop_down();
                 document.getElementById("sell_form").reset();
         }
-      
+      */
         function generate_sell_drop_down()
         {
                 var user_name='<?php echo $user_check; ?>';
