@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-import cgi, datetime
+import cgi, datetime, sys
 import simplejson as json
 sys.path.insert(0,'/usr/lib/cgi-bin/alee_cdlcapital/back')
 from database_class import DB
@@ -55,4 +55,3 @@ if result3:
 
 json_result = json.dumps(data)
 print json_result
-#print "Location: http://cdl.ddns.net:4098/cgi-bin/alee_cdlcapital/home.py"
