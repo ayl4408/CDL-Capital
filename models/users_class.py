@@ -18,12 +18,12 @@ class Users:
     def __init__(self,user):
         result = db.query("select * from users where login = ('%s')"%(user)+";")
         if result:
-            self.login = result['login']
-            self.profit = result['profit']
-            self.total_portfolio = result['total_portfolio']
-            self.available_funds = result['available_funds']
-            self.total_stock_values = result['total_stock_values']
-            self.total_deposited = result['total_deposited']
+            self.login = result[0]['login']
+            self.profit = result[0]['profit']
+            self.total_portfolio = result[0]['total_portfolio']
+            self.available_funds = result[0]['available_funds']
+            self.total_stock_values = result[0]['total_stock_values']
+            self.total_deposited = result[0]['total_deposited']
 
     def update_users_model(self, profit, total_portfolio, available_funds, total_stock_values, total_deposited):
         db.query("update users set profit=('%s')"%(profit)+", total_portfolio=('%s')"%(total_portfolio)+", available_funds=('%s')"%(available_funds)+", total_stock_values=('%s')"%(total_stock_values)+", total_deposited=('%s')"%(total_deposited)+" where login=('%s')"%(self.login)+";")
