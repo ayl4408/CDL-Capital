@@ -2,9 +2,7 @@
 
 import cgi, datetime, sys, LINK_HEADERS
 import simplejson as json
-sys.path.insert(0, str(LINK_HEADERS.DATABASE_LINK))
 sys.path.insert(0, str(LINK_HEADERS.MODELS_LINK))
-from database_class import DB
 from users_class import Users
 from transactions_class import Transactions
 from owned_stocks_class import Owned_stocks
@@ -15,11 +13,7 @@ form = cgi.FieldStorage()
 
 if form.getvalue("username") != None:
     username = form.getvalue("username")
-else:
-    print "Location: http://cdl.ddns.net:4098/cgi-bin/alee_cdlcapital/home.py"
-
-db = DB('localhost', 'root', 'mmGr2016', 'cdlcapital')
-
+   
 u = Users()
 u.populate(username)
 
