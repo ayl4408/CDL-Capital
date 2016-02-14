@@ -17,12 +17,12 @@ class Owned_stocks:
     def __init__(self,user,company):
         result = db.query("select * from owned_stocks where stock_owner=('%s')"%(user)+" and stock = ('%s')"%(company)+";")
         if result:
-            self.stock = result['stock']
-            self.current_shares = result['current_shares']
-            self.current_price = result['current_price']
-            self.total_worth = result['total_worth']
-            self.stock_owner = result['stock_owner']
-            self.profit = result['profit']
+            self.stock = result[0]['stock']
+            self.current_shares = result[0]['current_shares']
+            self.current_price = result[0]['current_price']
+            self.total_worth = result[0]['total_worth']
+            self.stock_owner = result[0]['stock_owner']
+            self.profit = result[0]['profit']
         
     def insert_owned_stocks_model(self, company, current_shares, current_price, total_worth, stock_owner):
         db.query("insert into owned_stocks values ('%s',%d,'%s','%s','%s','%s')"%(company, current_shares, current_price, total_worth, stock_owner, "0.00")+";")

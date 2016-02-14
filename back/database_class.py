@@ -30,9 +30,9 @@ class DB:
         self.connect()
         result = self.session.execute(query)
         self.connection.commit()
-        if result is not None:
-            result = self.session.fetchall()
-            result=result[0]
+        result = self.session.fetchall()
+        if len(result):
+            result=list(result)
             self.disconnect()
             return result
         else:
@@ -45,10 +45,11 @@ class DB:
 
     def get_stock_symbols(self):
         self.connect()
-        query="select symbol from company_info"
+        query="select symbol from company_info;"
         result=self.session.execute(query)
-        if result is not None:
-            result=self.session.fetchall()
+        result=self.session.fetchall()
+        if len(result):
+            result=list(result)
             self.disconnect()
             return result
         else:
