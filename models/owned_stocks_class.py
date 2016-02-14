@@ -13,8 +13,16 @@ class Owned_stocks:
     total_worth = None
     stock_owner = None
     profit = None
+
+    def __init__(self):
+        self.stock = None
+        self.current_shares = None
+        self.current_price = None
+        self.total_worth = None
+        self.stock_owner = None
+        self.profit = None
     
-    def __init__(self,user,company):
+    def populate(self,user,company):
         result = db.query("select * from owned_stocks where stock_owner=('%s')"%(user)+" and stock = ('%s')"%(company)+";")
         if result:
             self.stock = result[0]['stock']
@@ -23,8 +31,11 @@ class Owned_stocks:
             self.total_worth = result[0]['total_worth']
             self.stock_owner = result[0]['stock_owner']
             self.profit = result[0]['profit']
-        
-    def insert_owned_stocks_model(self, company, current_shares, current_price, total_worth, stock_owner):
+
+    def select_all(self, user):
+        return db.query("select * from owned_stocks where stock_owner=('%s')"%(user)+";")
+            
+    def insert(self, company, current_shares, current_price, total_worth, stock_owner):
         db.query("insert into owned_stocks values ('%s',%d,'%s','%s','%s','%s')"%(company, current_shares, current_price, total_worth, stock_owner, "0.00")+";")
         
     def get_stock(self):
@@ -63,7 +74,10 @@ class Owned_stocks:
     def set_profit(self,x):
         db.query("update owned_stocks set profit=('%s')"%(x)+";")
         self.profit = x
+'''
+o = Owned_stocks()
+o.populate('al356', 'goog')
+print o.select_all('al356')
+print o.get_profit()
 
-#o = Owned_stocks('al356', 'nflx')
-#print o.get_profit()
-
+'''
