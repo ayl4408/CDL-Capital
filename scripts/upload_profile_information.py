@@ -3,7 +3,11 @@
 import cgi, datetime, sys, LINK_HEADERS
 import simplejson as json
 sys.path.insert(0, str(LINK_HEADERS.DATABASE_LINK))
+sys.path.insert(0, str(LINK_HEADERS.MODELS_LINK))
 from database_class import DB
+from users_class import Users
+from transactions_class import Transactions
+from owned_stocks_class import Owned_stocks
 
 print "Content-Type: text/html\r\n\r\n"
 
@@ -14,23 +18,25 @@ if form.getvalue("username") != None:
 else:
     print "Location: http://cdl.ddns.net:4098/cgi-bin/alee_cdlcapital/home.py"
 
-username="al356"
-
 db = DB('localhost', 'root', 'mmGr2016', 'cdlcapital')
 
-result1 = db.query("select * from users where login = ('%s')"%(str(username))+";")
-result2 = db.query("select * from transactions where user = ('%s')"%(str(username))+";")
-result3 = db.query("select * from owned_stocks where stock_owner = ('%s')"%(str(username))+";")
+u = Users()
+u.populate(username)
+
+t = Transactions()
+result2=t.select_all(username)
+
+o = Owned_stocks()
+result3=o.select_all(username)
 
 data={}
 
-if result1:
-    data['users']={}
-    data['users']['profit']=result1[0]['profit']
-    data['users']['total_portfolio']=result1[0]['total_portfolio']
-    data['users']['available_funds']=result1[0]['available_funds']
-    data['users']['total_stock_values']=result1[0]['total_stock_values']
-    data['users']['total_deposited']=result1[0]['total_deposited']
+data['users']={}
+data['users']['profit']=u.get_profit()
+data['users']['total_portfolio']=u.get_total_portfolio()
+data['users']['available_funds']=u.get_available_funds()
+data['users']['total_stock_values']=u.get_total_stock_values()
+data['users']['total_deposited']=u.get_total_deposited()
 
 if result2:
     data['transactions']={}

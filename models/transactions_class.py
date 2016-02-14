@@ -24,7 +24,7 @@ class Transactions:
         self.volume = None
         self.total_price = None
     
-    def populate(self, user, trans_date, trans_type, stock, price, volume, total_price):
+    def upload(self, user, trans_date, trans_type, stock, price, volume, total_price):
         self.user = user
         self.trans_date  = trans_date
         self.trans_type  = trans_type
@@ -36,7 +36,7 @@ class Transactions:
     def select_all(self,user):
         return db.query("select * from transactions where user=('%s')"%(user)+";")
         
-    def insert_transactions_model(self):
+    def insert(self):
         db.query("insert into transactions values ('%s','%s','%s','%s','%s',%d,'%s')"%(self.user, self.trans_date, self.trans_type, self.stock, self.price, self.volume, self.total_price)+";")
         
     def get_user(self):
