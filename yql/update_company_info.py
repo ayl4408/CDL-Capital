@@ -6,21 +6,17 @@ sys.path.insert(0, str(LINK_HEADERS.DATABASE_LINK))
 from database_class import DB
 
 def get_column_names():
-    get_column_names="select column_name from information_schema.columns where table_name='company_info'"
-    column_result=str(db.query(get_column_names))
-    column_result=re.sub("[()',]*",'',column_result)
-    column_result=column_result.split(' ')
-    return column_result
-
+    return db.get_column_names()
+    
 ###Sanitizes result of db query to retrieve ticker symbols from database and puts into list 
 ## @param result=all sticker symbols from db
 def create_result_list(result):
     l=[]
-    for i in result:
-        if "^" in i[0] or "." in i[0]:
+    for i in range(len(result)):
+        if "^" in result[i]['symbol'] or "." in result[i]['symbol']:
             continue
         else:
-            l.append(i[0].replace(" ",""))
+            l.append(result[i]['symbol'].replace(" ",""))
     return l
 
 ###converts ticker list into a string and executes yql query at intervals of 100 
@@ -64,22 +60,23 @@ def update_company_info(yql_result,db):
             START_SQL+=str(key) + "=" + str("'{}'".format(value)) + ","
 	START_SQL=START_SQL[:-1]
 	sql_query=START_SQL + " " + END_SQL
-	if "ZTR" in sql_query:
-            print sql_query
-        db.query(sql_query)   
+        #print sql_query
+	db.query(sql_query)   
 
 def main(): 
     yql = YQLQuery()
     db = DB("localhost","root","mmGr2016","cdlcapital")
     result = db.get_stock_symbols()
     l = create_result_list(result)
-
+    print l
+    
     while(1):
         opening_time = "14:30:00"
         closing_time = "22:30:00"
         current_time = datetime.datetime.utcnow().strftime("%H:%M:%S")
 
         if current_time > opening_time and current_time < closing_time:
+            print current_time
             request_yql(l,yql,db)
         time.sleep(120)
             
