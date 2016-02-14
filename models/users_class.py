@@ -7,7 +7,6 @@ from database_class import DB
 db = DB("localhost","root","mmGr2016","cdlcapital")
 
 class Users:
-
     login = None
     profit = None
     total_portfolio = None
@@ -15,7 +14,15 @@ class Users:
     total_stock_values = None
     total_deposited = None
 
-    def __init__(self,user):
+    def __init__(self):
+        self.login = None
+        self.profit = None
+        self.total_portfolio = None
+        self.available_funds = None
+        self.total_stock_values = None
+        self.total_deposited = None
+    
+    def populate(self,user):
         result = db.query("select * from users where login = ('%s')"%(user)+";")
         if result:
             self.login = result[0]['login']
@@ -25,7 +32,7 @@ class Users:
             self.total_stock_values = result[0]['total_stock_values']
             self.total_deposited = result[0]['total_deposited']
 
-    def update_users_model(self, profit, total_portfolio, available_funds, total_stock_values, total_deposited):
+    def update(self, profit, total_portfolio, available_funds, total_stock_values, total_deposited):
         db.query("update users set profit=('%s')"%(profit)+", total_portfolio=('%s')"%(total_portfolio)+", available_funds=('%s')"%(available_funds)+", total_stock_values=('%s')"%(total_stock_values)+", total_deposited=('%s')"%(total_deposited)+" where login=('%s')"%(self.login)+";")
         
     def get_login(self):
@@ -65,6 +72,8 @@ class Users:
     def set_total_deposited(self,x):
         db.query("update users set total_deposited=('%s')"%(x)+";")
         self.total_deposited = x
-
-#u = Users('al356')
-#print u.get_profit()
+'''
+u = Users()
+u.populate('al356')
+print u.get_profit()
+'''
