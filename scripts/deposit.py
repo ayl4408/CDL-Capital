@@ -17,7 +17,7 @@ if form.getvalue("amount") != None:
     amount = form.getvalue("amount")
 
 u = Users()
-u.populate_users_model(username)
+u.populate(username)
 
 u.set_total_portfolio(Decimal(u.get_total_portfolio()) + Decimal(amount))
 u.set_available_funds(u.get_available_funds() + Decimal(amount))
