@@ -31,12 +31,12 @@ class DB:
         self.connection.commit()
         result = self.session.fetchall()
         if len(result):
-            result=result[0]
+            result=list(result)
             self.disconnect()
             return result
         else:
             self.disconnect()
-            return 
+            return
 
     def disconnect(self):
         self.session.close()
