@@ -5,9 +5,6 @@ from yahoo_finance_class import YQLQuery
 sys.path.insert(0, str(LINK_HEADERS.DATABASE_LINK))
 from database_class import DB
 
-def get_column_names():
-    return db.get_column_names()
-    
 ###Sanitizes result of db query to retrieve ticker symbols from database and puts into list 
 ## @param result=all sticker symbols from db
 def create_result_list(result):
@@ -68,7 +65,6 @@ def main():
     db = DB("localhost","root","mmGr2016","cdlcapital")
     result = db.get_stock_symbols()
     l = create_result_list(result)
-    print l
     
     while(1):
         opening_time = "14:30:00"
@@ -76,11 +72,10 @@ def main():
         current_time = datetime.datetime.utcnow().strftime("%H:%M:%S")
 
         if current_time > opening_time and current_time < closing_time:
-            print current_time
             request_yql(l,yql,db)
+            #print "request: " + str(current_time)
+        else:
+            #print "NO request: " + str(current_time)
         time.sleep(120)
-            
-    #print "Stocks in the DB: " + str(len(result))
-    #print "Stocks after Parse: " + str(len(l))
     
 main()
