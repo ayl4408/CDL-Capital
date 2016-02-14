@@ -13,36 +13,22 @@ class Owned_stocks:
     total_worth = None
     stock_owner = None
     profit = None
-
-    def __init__(self):
-        self.stock = None
-        self.current_shares = None
-        self.current_price = None
-        self.total_worth = None
-        self.stock_owner = None
-        self.profit = None
-
-    def populate_owned_stocks_model(self, user, company):
+    
+    def __init__(self,user,company):
         result = db.query("select * from owned_stocks where stock_owner=('%s')"%(user)+" and stock = ('%s')"%(company)+";")
         if result:
-            self.stock = result[0][0]
-            self.current_shares = result[0][1]
-            self.current_price = result[0][2]
-            self.total_worth = result[0][3]
-            self.stock_owner = result[0][4]
-            self.profit = result[0][5]
-            return True
-        else:
-            return False
-
+            self.stock = result[0]['stock']
+            self.current_shares = result[0]['current_shares']
+            self.current_price = result[0]['current_price']
+            self.total_worth = result[0]['total_worth']
+            self.stock_owner = result[0]['stock_owner']
+            self.profit = result[0]['profit']
+        
     def insert_owned_stocks_model(self, company, current_shares, current_price, total_worth, stock_owner):
         db.query("insert into owned_stocks values ('%s',%d,'%s','%s','%s','%s')"%(company, current_shares, current_price, total_worth, stock_owner, "0.00")+";")
         
     def get_stock(self):
         return self.stock
-
-    def set_stock(self,x):
-        self.stock = x
 
     def get_current_shares(self):
         return self.current_shares
@@ -77,8 +63,7 @@ class Owned_stocks:
     def set_profit(self,x):
         db.query("update owned_stocks set profit=('%s')"%(x)+";")
         self.profit = x
-'''
-o = Owned_stocks()
-print o.populate_owned_stocks_model('al356', 'nflx')
-print o.get_profit()
-'''
+
+#o = Owned_stocks('al356', 'nflx')
+#print o.get_profit()
+

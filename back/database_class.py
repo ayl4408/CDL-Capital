@@ -20,7 +20,8 @@ class DB:
 
     def connect(self):
         try:
-            conn = MySQLdb.connect(self.host, self.user, self.password, self.database,cursorclass=MySQLdb.cursors.DictCursor)            self.connection = conn
+            conn = MySQLdb.connect(self.host, self.user, self.password, self.database,cursorclass=MySQLdb.cursors.DictCursor)
+            self.connection = conn
             self.session = conn.cursor()
         except MySQLdb.Error as e:
             print e
@@ -44,10 +45,11 @@ class DB:
 
     def get_stock_symbols(self):
         self.connect()
-        query="select symbol from company_info"
+        query="select symbol from company_info;"
         result=self.session.execute(query)
-        if result is not None:
-            result=self.session.fetchall()
+        result=self.session.fetchall()
+        if len(result):
+            result=list(result)
             self.disconnect()
             return result
         else:
