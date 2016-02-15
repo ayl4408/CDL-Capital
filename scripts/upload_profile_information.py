@@ -46,12 +46,14 @@ if result2:
 if result3:
     data['owned_stocks']={}
     for i in range(len(result3)):
-        data['owned_stocks'][i]={}
-        data['owned_stocks'][i]['stock']=result3[i]['stock']
-        data['owned_stocks'][i]['current_shares']=result3[i]['current_shares']
-        data['owned_stocks'][i]['current_price']=result3[i]['current_price']
-        data['owned_stocks'][i]['total_worth']=result3[i]['total_worth']
-        data['owned_stocks'][i]['profit']=result3[i]['profit']
+        if result3[i]['current_shares'] > 0:
+            data['owned_stocks'][i]={}
+            data['owned_stocks'][i]['stock']=result3[i]['stock']
+            data['owned_stocks'][i]['current_shares']=result3[i]['current_shares']
+            data['owned_stocks'][i]['current_price']=result3[i]['current_price']
+            data['owned_stocks'][i]['total_worth']=result3[i]['total_worth']
+            data['owned_stocks'][i]['profit']=result3[i]['profit']
 
 json_result = json.dumps(data)
 print json_result
+
