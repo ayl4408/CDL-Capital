@@ -47,6 +47,7 @@ class DB:
         self.connect()
         query="select symbol from company_info;"
         result=self.session.execute(query)
+	self.connection.commit()
         result=self.session.fetchall()
         if len(result):
             result=list(result)
