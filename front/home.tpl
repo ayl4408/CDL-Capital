@@ -455,9 +455,9 @@
                         data: 'user_name='+ user_name + '&portfolio_distribution='+ portfolio_distribution,
                         dataType: "json",
                         async: false}).responseText;
-		console.log(portfolio_distribution)
+		//console.log(portfolio_distribution)
                 portfolio_distribution_parsed=JSON.parse(portfolio_distribution);
-		console.log(portfolio_distribution_parsed)
+		//console.log(portfolio_distribution_parsed)
         $(function () {
                 $('#piechart').highcharts({
                 chart: {
