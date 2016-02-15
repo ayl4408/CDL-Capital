@@ -35,6 +35,14 @@ class Owned_stocks:
     def select_all(self, user):
         return db.query("select * from owned_stocks where stock_owner=('%s')"%(user)+";")
     
+    def get_portfolio(self,user):
+	result= db.query("select stock, total_worth from owned_stocks where stock_owner=('%s')"%(user)+";")
+	portfolio=[]
+	i=len(result)
+        for x in range(i):
+            portfolio.append([result[x]['stock'],result[x]['total_worth']])
+	return  portfolio
+    
     def get_all_stocks(self, user):
         return db.query("select stock from owned_stocks where stock_owner=('%s')"%(user)+";") 
         

@@ -207,7 +207,7 @@
                 table_generate_users(json_obj['users']);
                 table_generate_transactions(json_obj['transactions']);
                 table_generate_owned_stocks(json_obj['owned_stocks']);
-                //drawChart();
+                drawChart();
                 //load_profile_information();
         }
 
@@ -446,18 +446,18 @@
                 flag=false;
         }
 
-        var user_name='<?php echo $user_check; ?>';
-                var portfolio_distribution ="portfolio_distribution";
+        var user_name="${username}$";
+        var portfolio_distribution ="portfolio_distribution";
 
         var portfolio_distribution = $.ajax({
                         type: 'POST',
-                        url: "http://cdl.ddns.net:4098/CDLCapital/Front/router/front_router.php",
+                        url: "${portfolio_link}$",
                         data: 'user_name='+ user_name + '&portfolio_distribution='+ portfolio_distribution,
                         dataType: "json",
                         async: false}).responseText;
-
+		//console.log(portfolio_distribution)
                 portfolio_distribution_parsed=JSON.parse(portfolio_distribution);
-
+		//console.log(portfolio_distribution_parsed)
         $(function () {
                 $('#piechart').highcharts({
                 chart: {
