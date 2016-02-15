@@ -364,7 +364,7 @@
 		        //console.log(buy_result)
                     update_profile_information();
                 }
-                //generate_sell_drop_down();
+                generate_sell_drop_down();
                 document.getElementById("buy_form").reset();
         }
       
