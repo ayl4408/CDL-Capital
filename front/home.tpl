@@ -188,7 +188,7 @@
 
       function start()
       {
-          //generate_sell_drop_down();
+          generate_sell_drop_down();
           update_profile_information();
           intervalId = setInterval(update_profile_information, 60000);
       }
@@ -202,8 +202,8 @@
                         dataType: "json",
                         async: false}).responseText;
 
-      var json_obj=JSON.parse(update_profile_result);
-      console.log(json_obj);
+      		var json_obj=JSON.parse(update_profile_result);
+      		console.log(json_obj);
                 table_generate_users(json_obj['users']);
                 table_generate_transactions(json_obj['transactions']);
                 table_generate_owned_stocks(json_obj['owned_stocks']);
@@ -357,17 +357,17 @@
                 {
                         var buy_result = $.ajax({
                                 type: 'POST',
-                                url: '${buy_link}$',
-                                data: 'username='+ '${username}$' + '&company='+ company_name.value + '&volume='+ volume.value,
+                                url: '${transaction_link}$',
+                                data: 'username='+ '${username}$' + '&company='+ company_name.value + '&volume='+ volume.value + '&trans_type=buy',
                                 dataType: "json",
                                 async: false}).responseText;
-
+		        //console.log(buy_result)
                     update_profile_information();
                 }
                 //generate_sell_drop_down();
                 document.getElementById("buy_form").reset();
         }
-      /*
+      
         function sell()
         {
                 var company_name=company_name_sell.value;
@@ -377,8 +377,8 @@
                 {
                         var sell_result = $.ajax({
                                 type: 'POST',
-                                url: '${sell_link}$',
-                                data: 'username='+ '${username}$' + '&company_name='+ company_name + '&volume='+ volume.value,
+                                url: '${transaction_link}$',
+                                data: 'username='+ '${username}$' + '&company='+ company_name + '&volume='+ volume.value + '&trans_type=sell',
                                 dataType: "json",
                                 async: false}).responseText;
 
@@ -388,20 +388,21 @@
                 //generate_sell_drop_down();
                 document.getElementById("sell_form").reset();
         }
-      */
+     
         function generate_sell_drop_down()
         {
-                var user_name='<?php echo $user_check; ?>';
+                var user_name="${username}$";
                 var generate_sell_drop_down="generate_sell_drop_down";
                 var generate_sell_drop_down_parsed = [];
 
                 var generate_sell_drop_down_result = $.ajax({
                         type: 'POST',
-                        url: "http://cdl.ddns.net:4098/CDLCapital/Front/router/front_router.php",
+                        url: "${dropdown_link}$",
                         data: 'user_name='+ user_name + '&sell_companies_list='+ generate_sell_drop_down,
                         dataType: "json",
                         async: false}).responseText;
 
+                //console.log(generate_sell_drop_down_result);
                 generate_sell_drop_down_parsed=JSON.parse(generate_sell_drop_down_result);
                 //console.log(generate_sell_drop_down_parsed);
                 $('#company_name_sell').empty();
@@ -411,7 +412,7 @@
             }
         }
 
-        function load_profile_information()
+        /*function load_profile_information()
         {
                 var user_name='<?php echo $user_check; ?>';
                 var profile_information="profile_information";
@@ -428,7 +429,7 @@
                 table_generate_transactions(profile_info_result_parsed[1]);
                 table_generate_owned_stocks(profile_info_result_parsed[2]);
                 drawChart();
-        };
+        };*/
 
 </script>
 

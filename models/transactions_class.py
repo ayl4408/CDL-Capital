@@ -3,6 +3,9 @@
 import sys, LINK_HEADERS
 sys.path.insert(0, str(LINK_HEADERS.DATABASE_LINK))
 from database_class import DB
+sys.path.insert(0, str(LINK_HEADERS.MODELS_LINK))
+from owned_stocks_class import Owned_stocks
+from users_class import Users
 
 db = DB("localhost","root","mmGr2016","cdlcapital")
 

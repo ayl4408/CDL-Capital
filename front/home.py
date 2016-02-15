@@ -12,7 +12,7 @@ def m(username):
     f.close()
     
     t = Templite(html)
-    print t.render(username=username, login_link=LINK_HEADERS.LOGIN_LINK, home_link=LINK_HEADERS.HOME_LINK, buy_link=LINK_HEADERS.BUY_LINK, deposit_link=LINK_HEADERS.DEPOSIT_LINK, upload_link=LINK_HEADERS.UPLOAD_LINK, sell_link=LINK_HEADERS.SELL_LINK)
+    print t.render(username=username, login_link=LINK_HEADERS.LOGIN_LINK, home_link=LINK_HEADERS.HOME_LINK, transaction_link=LINK_HEADERS.TRANSACTION_LINK, deposit_link=LINK_HEADERS.DEPOSIT_LINK, upload_link=LINK_HEADERS.UPLOAD_LINK, yql_link=LINK_HEADERS.YQL_LINK, dropdown_link=LINK_HEADERS.DROPDOWN_LINK)
 
 def check_cookie():
     cookie = Cookie.SimpleCookie()

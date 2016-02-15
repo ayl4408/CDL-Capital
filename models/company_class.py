@@ -15,9 +15,10 @@ class Company:
     def __init__(self, symbol):
         sql="SELECT Ask, name FROM company_info WHERE symbol=" +"'"+ symbol + "'" + ";"
         result=db.query(sql)
-        self.ask = result['Ask']
-        self.symbol = symbol
-        self.name = result['name']
+        if result:
+            self.ask = result[0]['Ask']
+            self.symbol = symbol
+            self.name = result[0]['name']
 
     def get_ask(self):
         return self.ask

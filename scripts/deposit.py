@@ -22,3 +22,4 @@ u.populate(username)
 u.set_total_portfolio(Decimal(u.get_total_portfolio()) + Decimal(amount))
 u.set_available_funds(u.get_available_funds() + Decimal(amount))
 u.set_total_deposited(u.get_total_deposited() + Decimal(amount))
+
