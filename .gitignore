@@ -1,3 +1,6 @@
+*.pyc
+
+
 back/LINK_HEADERS.py
 front/LINK_HEADERS.py
 models/LINK_HEADERS.py
