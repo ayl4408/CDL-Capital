@@ -385,9 +385,10 @@
                         update_profile_information();
                 }
                 //console.log(sell_result);
-                //generate_sell_drop_down();
                 document.getElementById("sell_form").reset();
-        }
+                generate_sell_drop_down();
+                
+      }
      
         function generate_sell_drop_down()
         {
