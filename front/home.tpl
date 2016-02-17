@@ -9,6 +9,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://cdl.ddns.net:4098/mycss.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script src="https://code.highcharts.com/highcharts.js"></script>
@@ -138,6 +139,8 @@
                                                 <div id="user_information"></div>
 
                                                 <h4>Owned Stocks</h4>
+						<div class="col-sm-12">
+						<div style= "overflow:auto; height:350px;">
                                                 <table class="table table-hover owned_stocks_table">
                                                                 <thead>
                                             <tr>
@@ -149,6 +152,8 @@
                                                                 </tr>
                                         </thead>
                                                 </table>
+						</div>
+						</div>
 <br>
 <br>
                                                 <div id="owned_stocks_information"></div>
@@ -159,9 +164,13 @@
                                 </div>
 <br>
 <br>
-                                <div class="row">
-                                                <h4>Recent Transactions</h4>
-                                                <table class="table table-hover transaction_table">
+                                <div class="row" >
+
+					<h4>Recent Transactions</h4>
+				
+					<div class="col-sm-6">  
+					<div style= "overflow:auto; height:500px;">
+                                                <table class="table table-hover transaction_table" >
                                                 <thead><tr>
                                                     <th>Transaction Date </th>
                                                     <th>Transaction Type</th>
@@ -171,6 +180,8 @@
                                                     <th>Total Price</th>
                                                 </tr></thead>
                                                 </table>
+					</div>
+					</div>
 <br>
 <br>
                                                 <div id="transaction_information"></div>
@@ -214,9 +225,9 @@
         function table_generate_owned_stocks (json_obj)
         {
                 $('.owned_stocks_table tr td').remove();
-                var tb = document.createElement("tbody");
-
-                for (i in json_obj)
+                var tb = document.createElement("tbody");		
+		                
+		for (i in json_obj)
                 {
                         var tr = document.createElement("tr");
                         var td1 = document.createElement("td");
@@ -244,9 +255,10 @@
 
                         tb.appendChild(tr);
                 }
-
+		
                 var $formrow = tb
                 $('.owned_stocks_table').append($formrow);
+	
         }
 
         function table_generate_transactions (json_obj)
@@ -290,7 +302,10 @@
 
                 var $formrow = tb;
                 $('.transaction_table').append($formrow);
-        }
+       		
+	 }
+
+
 
         function table_generate_users (json_obj)
         {
@@ -494,4 +509,7 @@
 </script>
 
         </body>
+	
 </html>
+
+
