@@ -36,7 +36,7 @@ class Owned_stocks:
         return db.query("select * from owned_stocks where stock_owner=('%s')"%(user)+";")
     
     def get_portfolio(self,user):
-	result= db.query("select stock, total_worth from owned_stocks where stock_owner=('%s')"%(user)+";")
+	result= db.query("select stock, total_worth from owned_stocks where stock_owner=('%s')"%(user)+"and current_shares > 0" +";")
 	portfolio=[]
 	i=len(result)
         for x in range(i):
