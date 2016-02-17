@@ -87,7 +87,7 @@ class Owned_stocks:
         return self.profit
 
     def set_profit(self,x):
-        db.query("update owned_stocks set profit=('%s')"%(x) + "where stock_owner=" + "'" +  self.stock_owner + "'"  + " and stock=" + self.stock + ";")
+        db.query("update owned_stocks set profit=('%s')"%(x) + "where stock_owner=" + "'" +  self.stock_owner + "'"  + " and stock=" +  "'" + self.stock + "'"  + ";")
         self.profit = x
 '''
 o = Owned_stocks()
