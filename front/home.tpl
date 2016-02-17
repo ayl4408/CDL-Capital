@@ -386,7 +386,7 @@
                 }
                 //console.log(sell_result);
                 document.getElementById("sell_form").reset();
-                generate_sell_drop_down();
+                //generate_sell_drop_down();
                 
       }
      
