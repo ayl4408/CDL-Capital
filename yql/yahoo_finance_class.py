@@ -7,7 +7,7 @@ try:
 except ImportError:
     from urllib import urlencode
 
-import simplejson,sys
+import simplejson,sys, time
 
 # Yahoo! YQL API
 PUBLIC_API_URL  = 'http://query.yahooapis.com/v1/public/yql'
@@ -19,10 +19,19 @@ ASK= "select Ask from yahoo.finance.quotes where symbol in ('"
 END_YQL = "');"
 
 class YQLQuery(object):
+
+    connection = None
     
     def __init__(self):
-        self.connection = HTTPConnection('query.yahooapis.com')
-        
+
+        while True:
+            self.connection = HTTPConnection('query.yahooapis.com')
+
+            if self.connection != None:
+                break
+            else:
+                time.sleep(1)
+            
     def execute(self, yql, token = None):
         self.connection.request('GET', PUBLIC_API_URL + '?' + urlencode({ 'q': yql, 'format': 'json', 'env': DATATABLES_URL }))
         return simplejson.loads(self.connection.getresponse().read())
@@ -31,10 +40,12 @@ class YQLQuery(object):
         self.connection.close()
 
     def get_ask_price(self, company):
-        result = self.execute(ASK + str(company) + END_YQL)
-        return result['query']['results']['quote']['Ask']
-
+        while True:
+            result = self.execute(ASK + str(company) + END_YQL)
+            if "query" in result.keys():
+                return result['query']['results']['quote']['Ask']
+            time.sleep(1)
+            
 #yql= YQLQuery()
-
-#print yq.get_ask_price('TWTR')
+#print yql.get_ask_price('TWTR')
 #print yql.get_all_symbols()

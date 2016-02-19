@@ -32,8 +32,16 @@ def request_yql(l,yql,db):
         final+=1
 
 	if counter==50 or final == len(l):
-	    yql_query=START_YQL + result_string + END_YQL            
-	    yql_result=yql.execute(yql_query)
+	    yql_query=START_YQL + result_string + END_YQL
+
+            while True:
+                yql_result=yql.execute(yql_query)
+                
+                if "query" in yql_result.keys():
+                    break
+                else:
+                    time.sleep(1)
+                    
             isGood=update_company_info(yql_result,db)
             result_string=""
 	    counter=0
@@ -44,39 +52,40 @@ def request_yql(l,yql,db):
 ## @param yql_result = yql query result with stock data for all stock symbols in database 
 ## @param db = db object
 def update_company_info(yql_result,db):
-    for x in range(int(yql_result['query']['count'])):
     
+    for x in range(int(yql_result['query']['count'])):
         START_SQL="UPDATE company_info SET "
-        #END_SQL="WHERE symbol=" + re.sub("['*]",)'',str(yql_result['query']['results']['quote'][x]['symbol']))
         END_SQL="WHERE symbol=" + "'" + str(yql_result['query']['results']['quote'][x]['symbol']) + "'" + ";"
+
         for key, value in yql_result['query']['results']['quote'][x].iteritems():
             if key == "Change" or key == "Symbol":
                 continue
             if "'" in str(value):
                 value=str(value).replace("'","\\'")
             START_SQL+=str(key) + "=" + str("'{}'".format(value)) + ","
-	START_SQL=START_SQL[:-1]
+
+        START_SQL=START_SQL[:-1]
 	sql_query=START_SQL + " " + END_SQL
-        #print sql_query
-	db.query(sql_query)   
+        db.query(sql_query)   
 
 def main(): 
     yql = YQLQuery()
     db = DB("localhost","root","mmGr2016","cdlcapital")
     result = db.get_stock_symbols()
     l = create_result_list(result)
+
+    opening_time = "14:30:00"
+    closing_time = "21:30:00"
     
-    while(1):
-        opening_time = "14:30:00"
-        closing_time = "22:30:00"
+    while True:
         current_time = datetime.datetime.utcnow().strftime("%H:%M:%S")
 
         if current_time > opening_time and current_time < closing_time:
             request_yql(l,yql,db)
-            #print "request: " + str(current_time)
+            print "request: " + str(current_time)
         else:
-            #print "NO request: " + str(current_time)
-        time.sleep(120)
+            print "NO request: " + str(current_time)
+            time.sleep(540)
+        time.sleep(1)
     
 main()
-
