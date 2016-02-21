@@ -24,7 +24,7 @@
                                 <ul class="nav nav-pills">
                                 <li class="active"><a href=${home_link}$>My Profile</a></li>
                                 <li><a href=${home_link}$>Analysis</a></li>
-                                <li><a href=${login_link}$>Logout</a></li>
+                                <li><a href="javascript:logout();">Logout</a></li>
                                 </ul>
                         </div>
 
@@ -506,6 +506,11 @@
                 }]
             });
         });
+    }
+
+    function logout(){
+        document.cookie="login=False";
+        window.location="${login_link}$"
     }
 </script>
 
