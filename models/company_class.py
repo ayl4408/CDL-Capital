@@ -7,12 +7,17 @@ from database_class import DB
 db=DB("localhost", "root", "mmGr2016", "cdlcapital")
 
 class Company:
+
     ask = None
     symbol = None
     name = None
 
+    def __init__(self):
+        self.ask = None
+        self.symbol = None
+        self.name = None
 
-    def __init__(self, symbol):
+    def populate(self, symbol):
         sql="SELECT Ask, name FROM company_info WHERE symbol=" +"'"+ symbol + "'" + ";"
         result=db.query(sql)
         if result:
