@@ -1,8 +1,12 @@
 #!/usr/bin/python
 
 
-import Cookie, os, LINK_HEADERS
+import Cookie, os, LINK_HEADERS,sys
 from templite import Templite
+sys.path.insert(1 , str(LINK_HEADERS.DATABASE_LINK))
+from database_class import DB
+from auth_class import Auth
+
 
 def m(username):
     f = open("home.tpl","r")
@@ -20,12 +24,14 @@ def check_cookie():
 
     if (cookie_string != None) and ("login" in cookie_string):
         cookie.load(cookie_string)
+
+        username = str(cookie['username'].value);
         login_result = str(cookie['login'].value)
-    
-        if login_result == "False":
+        hashed_username =  Auth(DB("localhost","root","mmGr2016","cdlcapital")).get_hash_salted_username(username);
+        
+        if (login_result == "False") or (not login_result==hashed_username):
             print "Location: "+str(LINK_HEADERS.LOGIN_LINK)+"\r\n"
         else:
-            username = login_result
             m(username)            
     else:
         print "Location: "+str(LINK_HEADERS.LOGIN_LINK)+"\r\n"
