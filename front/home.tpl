@@ -165,10 +165,9 @@
 <br>
 <br>
                                 <div class="row" >
-
+					<div class="col-sm-6">
 					<h4>Recent Transactions</h4>
 				
-					<div class="col-sm-6">  
 					<div style= "overflow:auto; height:500px;">
                                                 <table class="table table-hover transaction_table" >
                                                 <thead><tr>
@@ -181,6 +180,31 @@
                                                 </tr></thead>
                                                 </table>
 					</div>
+					</div>
+					<div class="col-sm-6">
+					<h4>Most Active Stocks</h4>
+
+										
+					<div>
+						<h6>Best Changes</h6>
+						<table class="table table-hover percentchange_max_table" >
+						<thead><tr>
+							<th>Stock</th>
+							<th>Percent Change</th>
+						</tr></thead>
+						</table>
+					</div>
+
+					<div>
+                                                 <h6>Worst Changes</h6>
+                                                 <table class="table table-hover percentchange_min_table" >
+                                                 <thead><tr>                                                      
+                                                         <th>Stock</th>
+                                                         <th>Percent Change</th>
+                                                 </tr></thead>
+                                                 </table>
+                                         </div>
+
 					</div>
 <br>
 <br>
@@ -220,6 +244,7 @@
                 table_generate_owned_stocks(json_obj['owned_stocks']);
                 drawChart();
                 //load_profile_information();
+		most_active_stocks();
         }
 
         function table_generate_owned_stocks (json_obj)
@@ -446,6 +471,85 @@
                 table_generate_owned_stocks(profile_info_result_parsed[2]);
                 drawChart();
         };*/
+
+
+	function most_active_stocks()
+	{
+		 var most_active_stocks_result = $.ajax({
+                 	type: 'POST',
+                 	url: '${active_stocks_percentchange_link}$',
+                 	data: 'user_name='+ '${username}$',
+                 	async: false}).responseText;
+		var most_active_stocks_result_parsed = JSON.parse(most_active_stocks_result);
+		console.log(most_active_stocks_result_parsed);
+				
+		table_generate_active_stocks_percentchange (most_active_stocks_result_parsed);
+	
+	}
+
+
+	function table_generate_active_stocks_percentchange (json_obj)
+        {
+                $('.percentchange_min_table tr td').remove();
+                var tb = document.createElement("tbody");
+
+				
+					
+		// Doing the negative changes
+                for (i=0; i <= 4; i++)
+                {
+			
+                        var tr = document.createElement("tr");
+                        var td1 = document.createElement("td");
+                        var td2 = document.createElement("td");
+
+                        var t1 = document.createTextNode(i+1 + ". " + json_obj[i]['symbol']);
+                        td1.appendChild(t1);
+                        var t2 = document.createTextNode(json_obj[i]['PercentChange']);
+                        td2.appendChild(t2);
+
+                        tr.appendChild(td1);
+                        tr.appendChild(td2);
+                        tb.appendChild(tr);
+                }
+
+		
+
+                var $formrow = tb
+                $('.percentchange_min_table').append($formrow);
+
+				
+		
+		
+   		$('.percentchange_max_table tr td').remove();
+                var tb = document.createElement("tbody");
+
+		// Doing the positive changes
+                for (i=5; i <= 9; i++)
+                { 
+					
+                       var tr = document.createElement("tr");
+                       var td1 = document.createElement("td");
+                       var td2 = document.createElement("td");
+
+                       var t1 = document.createTextNode(i-4 + ". " + json_obj[i]['symbol']);
+                       td1.appendChild(t1);
+                       var t2 = document.createTextNode("+" + json_obj[i]['PercentChange']); // Add the + sign for display
+                       td2.appendChild(t2);
+
+                       tr.appendChild(td1);
+                       tr.appendChild(td2);
+
+                       tb.appendChild(tr);
+                 }
+
+                 var $formrow = tb
+                 $('.percentchange_max_table').append($formrow);
+			
+		
+	
+        }
+	
 
 </script>
 

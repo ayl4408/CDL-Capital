@@ -1,4 +1,5 @@
 *.pyc
+*.swp
 
 
 back/LINK_HEADERS.py
