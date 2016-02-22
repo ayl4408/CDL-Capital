@@ -502,11 +502,13 @@
                         var tr = document.createElement("tr");
                         var td1 = document.createElement("td");
                         var td2 = document.createElement("td");
+			td2.style.color = "red";
 
                         var t1 = document.createTextNode(i+1 + ". " + json_obj[i]['symbol']);
                         td1.appendChild(t1);
-                        var t2 = document.createTextNode(json_obj[i]['PercentChange']);
+                        var t2 = document.createTextNode(json_obj[i]['PercentChange'] + " %");
                         td2.appendChild(t2);
+
 
                         tr.appendChild(td1);
                         tr.appendChild(td2);
@@ -528,19 +530,21 @@
                 for (i=5; i <= 9; i++)
                 { 
 					
-                       var tr = document.createElement("tr");
-                       var td1 = document.createElement("td");
-                       var td2 = document.createElement("td");
+                        var tr = document.createElement("tr");
+                        var td1 = document.createElement("td");
+                        var td2 = document.createElement("td");
+			
+			td2.style.color = "green";
+			
+                        var t1 = document.createTextNode(i-4 + ". " + json_obj[i]['symbol']);
+                        td1.appendChild(t1);
+                        var t2 = document.createTextNode("+" + json_obj[i]['PercentChange'] + " %"); // Add the + sign for display
+                        td2.appendChild(t2);
 
-                       var t1 = document.createTextNode(i-4 + ". " + json_obj[i]['symbol']);
-                       td1.appendChild(t1);
-                       var t2 = document.createTextNode("+" + json_obj[i]['PercentChange']); // Add the + sign for display
-                       td2.appendChild(t2);
+                        tr.appendChild(td1);
+                        tr.appendChild(td2);
 
-                       tr.appendChild(td1);
-                       tr.appendChild(td2);
-
-                       tb.appendChild(tr);
+                        tb.appendChild(tr);
                  }
 
                  var $formrow = tb
