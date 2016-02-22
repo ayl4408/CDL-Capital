@@ -35,7 +35,8 @@ u.populate(username)
 o = Owned_stocks()
 o.populate(username, company)
 
-c=Company(company)
+c=Company()
+c.populate(company)
 
 #Declare global variables
 time = datetime.datetime.utcnow()
