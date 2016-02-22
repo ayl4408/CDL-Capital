@@ -18,12 +18,12 @@ class Company:
         self.name = None
 
     def populate(self, symbol):
-        sql="SELECT Ask, name FROM company_info WHERE symbol=" +"'"+ symbol + "'" + ";"
+        sql="SELECT Ask, Name FROM company_info WHERE symbol=" +"'"+ symbol + "'" + ";"
         result=db.query(sql)
         if result:
             self.ask = result[0]['Ask']
             self.symbol = symbol
-            self.name = result[0]['name']
+            self.name = result[0]['Name']
 
     def get_ask(self):
         return self.ask
