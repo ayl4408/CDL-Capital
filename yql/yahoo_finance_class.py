@@ -33,9 +33,13 @@ class YQLQuery(object):
                 time.sleep(1)
             
     def execute(self, yql, token = None):
-        self.connection.request('GET', PUBLIC_API_URL + '?' + urlencode({ 'q': yql, 'format': 'json', 'env': DATATABLES_URL }))
-        return simplejson.loads(self.connection.getresponse().read())
-
+        while True:
+            self.connection.request('GET', PUBLIC_API_URL + '?' + urlencode({ 'q': yql, 'format': 'json', 'env': DATATABLES_URL }))
+            try:
+                return simplejson.loads(self.connection.getresponse().read())
+            except ValueError:
+                print "No JSON, execute failed"
+            
     def __del__(self):
         self.connection.close()
 
