@@ -39,7 +39,8 @@ class YQLQuery(object):
                 return simplejson.loads(self.connection.getresponse().read())
             except ValueError:
                 print "No JSON, execute failed"
-            
+                time.sleep(1)
+                
     def __del__(self):
         self.connection.close()
 

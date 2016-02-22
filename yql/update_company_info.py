@@ -86,6 +86,6 @@ def main():
         else:
             print "NO request: " + str(current_time)
             time.sleep(540)
-        time.sleep(1)
+        time.sleep(120)
     
 main()
