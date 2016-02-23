@@ -31,6 +31,7 @@
                         <ul class ="nav nav-tabs">
                             <li class="active"><a data-toggle="tab" href="#home">Portfolio</a></li>
                             <li><a data-toggle="tab" href="#menu1">Transactions</a></li>
+			    <li><a data-toggle="tab" href="#menu2">Trending</a></li>
                         </ul>
 
                         <div class="tab-content">
@@ -162,6 +163,7 @@
                                                         <div id="piechart" style="width: 900px; height: 500px;"></div>
                                                 </div>
                                 </div>
+				
 <br>
 <br>
                                 <div class="row" >
@@ -181,6 +183,10 @@
                                                 </table>
 					</div>
 					</div>
+				</div>
+			</div>
+					
+                                <div id="menu2" class="tab-pane fade">	
 					<div class="col-sm-6">
 					<h4>Most Active Stocks</h4>
 
@@ -210,10 +216,9 @@
 <br>
                                                 <div id="transaction_information"></div>
                                         </div>
-                                </div>
+				</div>
 <br/>
 <br/>
-                </div>
         </div>
 
     <script type="text/javascript">
