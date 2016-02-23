@@ -33,3 +33,7 @@ class Company:
 
     def get_name(self):
         return self.name
+
+    def get_all_percentchange(self):
+	return db.query("SELECT symbol, PercentChange FROM company_info WHERE PercentChange IS NOT NULL AND PercentChange!='None';")
+	

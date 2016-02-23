@@ -4,12 +4,14 @@ import cgi, datetime, sys, LINK_HEADERS
 import simplejson as json
 from random import randint
 sys.path.insert(0, str(LINK_HEADERS.MODELS_LINK))
-sys.path.insert(0, str(LINK_HEADERS.DATABASE_LINK))
-from database_class import DB
+#sys.path.insert(0, str(LINK_HEADERS.DATABASE_LINK))
+#from database_class import DB
+from company_class import Company
 print "Content-Type: text/html\r\n\r\n"
 
  
-db = DB("localhost","root","mmGr2016","cdlcapital")
+#db = DB("localhost","root","mmGr2016","cdlcapital")
+c = Company()
 
 
 def swap(array, i, j):
@@ -23,7 +25,8 @@ def percentchange_quick_sort(array, left, right):
         return
     k = randint(left, right)
     swap(array, left, k)
-    array[left]["PercentChange"] = array[left]["PercentChange"].translate(None, '+%')
+    
+    array[left]["PercentChange"] = array[left]["PercentChange"].translate(None, '+%') # Do this because float() won't read "+'s & %'s but it will read -'s, need to strip them
     pivot = float(array[left]["PercentChange"])
    
     l = left + 1
@@ -56,8 +59,8 @@ def percentchange_quick_sort(array, left, right):
 
 def main():
 
-    result = db.query("SELECT symbol, PercentChange FROM company_info WHERE PercentChange IS NOT NULL AND PercentChange!='None';")
-
+    #result = db.query("SELECT symbol, PercentChange FROM company_info WHERE PercentChange IS NOT NULL AND PercentChange!='None';")
+    result = c.get_all_percentchange()
     percentchange_quick_sort(result, 0, len(result)-1)
 
     json_object=[]
