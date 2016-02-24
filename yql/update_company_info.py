@@ -96,15 +96,15 @@ def main():
     while True:
         current_time = datetime.utcnow().strftime("%H:%M:%S")
         start=time.time()
-        #if current_time > opening_time and current_time < closing_time:
-        print "request: " + str(current_time)
-        request_yql(l,yql,db)
-        runtime=time.time()-start
-        if runtime < 4.2:
-            sleeptime=4.2-runtime
-	    time.sleep(sleeptime)
-        #else:
-           # print "NO request: " + str(current_time)
-           # time.sleep(540)
+        if current_time > opening_time and current_time < closing_time:
+            print "request: " + str(current_time)
+            request_yql(l,yql,db)
+            runtime=time.time()-start
+            if runtime < 4.2:
+                sleeptime=4.2-runtime
+	        time.sleep(sleeptime)
+        else:
+            print "NO request: " + str(current_time)
+            time.sleep(540)
     
 main()
