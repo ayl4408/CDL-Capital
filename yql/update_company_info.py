@@ -1,6 +1,6 @@
 #!/usr/bin/python
-
-import sys,simplejson,re,time,datetime,LINK_HEADERS
+from datetime import datetime
+import sys,simplejson,re,time,LINK_HEADERS
 from yahoo_finance_class import YQLQuery
 sys.path.insert(0, str(LINK_HEADERS.DATABASE_LINK))
 from database_class import DB
@@ -36,7 +36,6 @@ def request_yql(l,yql,db):
 
             while True:
                 yql_result=yql.execute(yql_query)
-                
                 if "query" in yql_result.keys():
                     break
                 else:
@@ -52,21 +51,39 @@ def request_yql(l,yql,db):
 ## @param yql_result = yql query result with stock data for all stock symbols in database 
 ## @param db = db object
 def update_company_info(yql_result,db):
-    
+    column_query_result=db.get_column_names()
+    num_columns=len(column_query_result)
+    column_names=str(column_query_result).strip("[]")
+    column_names=column_names.replace("'","")
+    START_SQL="INSERT INTO company_info(" + column_names + ")" + "VALUES"
+    END_SQL= ""
+    VALUES_LIST=[]
     for x in range(int(yql_result['query']['count'])):
-        START_SQL="UPDATE company_info SET "
-        END_SQL="WHERE symbol=" + "'" + str(yql_result['query']['results']['quote'][x]['symbol']) + "'" + ";"
-
+	values=[]
         for key, value in yql_result['query']['results']['quote'][x].iteritems():
-            if key == "Change" or key == "Symbol":
+            if key == "Change" or key == "symbol":
                 continue
-            if "'" in str(value):
-                value=str(value).replace("'","\\'")
-            START_SQL+=str(key) + "=" + str("'{}'".format(value)) + ","
-
-        START_SQL=START_SQL[:-1]
-	sql_query=START_SQL + " " + END_SQL
-        db.query(sql_query)   
+            value=str(value).replace("'","\\'")
+	    values.append(value)
+        values=tuple(values)
+	VALUES_LIST.append(values)
+    VALUES_LIST=str(VALUES_LIST).strip("[]")
+    for x in range(num_columns):
+        END_SQL+= str(column_query_result[x]) + "=VALUES(" + str(column_query_result[x]) + "),"        
+    END_SQL=END_SQL[:-1] + ";"
+    		
+    SQL_QUERY=START_SQL + VALUES_LIST + " ON DUPLICATE KEY UPDATE " + END_SQL
+    count=0
+    max_attempts=5
+    while True:
+        try:
+            db.query(SQL_QUERY)
+        except Exception, e :
+            print str(e) 
+	    count=count+1
+	    if (count == max_attempts):
+                raise e
+        break
 
 def main(): 
     yql = YQLQuery()
@@ -76,16 +93,18 @@ def main():
 
     opening_time = "14:30:00"
     closing_time = "21:30:00"
-    
     while True:
-        current_time = datetime.datetime.utcnow().strftime("%H:%M:%S")
-
+        current_time = datetime.utcnow().strftime("%H:%M:%S")
+        start=time.time()
         if current_time > opening_time and current_time < closing_time:
-            request_yql(l,yql,db)
             print "request: " + str(current_time)
+            request_yql(l,yql,db)
+            runtime=time.time()-start
+            if runtime < 4.2:
+                sleeptime=4.2-runtime
+	        time.sleep(sleeptime)
         else:
             print "NO request: " + str(current_time)
             time.sleep(540)
-        time.sleep(120)
     
 main()
