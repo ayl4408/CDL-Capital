@@ -665,7 +665,7 @@
 			            var last_name=document.getElementById("update_info_last_name").value;
      			            $.ajax({
 			              type: "POST",
-			              url: " http://cdl.ddns.net:4098/cgi-bin/cdl_irally/scripts/update_user.py",
+			              url: "${update_user_link}$",
 			              data: {"username":"${username}$","passcode":passcode,"first_name":first_name, "last_name":last_name},
 	   		              success: function(result){
 			              result=JSON.parse(result);
@@ -688,6 +688,11 @@
 			           var passcode= document.getElementById("create_user_passcode").value;
 			           var verify= document.getElementById("create_user_verify").value;
 
+			           if(username == "" || first_name=="" || last_name=="" || passcode=="" || verify==""){
+			               alert("Incomplete Form");
+			               return;
+			           }
+
 			           if(passcode!==verify){
 			              alert("Password Mismatch");
 			              return;
@@ -695,7 +700,7 @@
 
 			            $.ajax({
 			              type: "POST",
-			              url: " http://cdl.ddns.net:4098/cgi-bin/cdl_irally/scripts/create_user.py",
+			              url: "${create_user_link}$",
 			              data: {"username":username,"passcode":passcode,"first_name":first_name, "last_name":last_name},
 	   		              success: function(result){
 			       
