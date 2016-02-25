@@ -45,3 +45,14 @@ class Company:
 	
 	
 	
+    def select_in_list(self, stock_list):
+        dict={}
+        dict['stock']={}
+        for stock in stock_list:
+            result = db.query("select Ask from company_info where symbol = ('%s')"%(stock)+";")
+            dict['stock'][stock]=result[0]['Ask']
+        return dict
+
+#c = Company()
+#c.select_in_list(['aapl','nflx'])
+    
