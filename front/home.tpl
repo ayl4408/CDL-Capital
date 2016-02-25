@@ -220,7 +220,7 @@
 					
                                 <div id="menu2" class="tab-pane fade">	
 					<div class="col-sm-6">
-					<h4>Most Active Stocks</h4>
+					<h4>Percent Change In Price</h4>
 
 										
 					<div>
@@ -244,6 +244,23 @@
                                          </div>
 
 					</div>
+
+					<div class="col-sm-6">
+					<h4>Percent Change in Average Daily Volume Traded</h4>
+					<div></div>					
+
+					<div>
+						<table class="table table-hover volumechange_max_table">
+						<thead><tr>
+							<th>Stock</th>
+							<th>Percent Change</th>
+						</tr></thead>
+						</table>
+					</div>
+					
+					</div>
+
+
 <br>
 <br>
                                                 <div id="transaction_information"></div>
@@ -282,6 +299,7 @@
                 drawChart();
                 //load_profile_information();
 		most_active_stocks();
+		most_active_stocks_volume();
         }
 
         function table_generate_owned_stocks (json_obj)
@@ -518,7 +536,7 @@
                  	data: 'user_name='+ '${username}$',
                  	async: false}).responseText;
 		var most_active_stocks_result_parsed = JSON.parse(most_active_stocks_result);
-		console.log(most_active_stocks_result_parsed);
+	//	console.log(most_active_stocks_result_parsed);
 				
 		table_generate_active_stocks_percentchange (most_active_stocks_result_parsed);
 	
@@ -586,10 +604,50 @@
 
                  var $formrow = tb
                  $('.percentchange_max_table').append($formrow);
-			
-		
-	
+				
         }
+
+	function most_active_stocks_volume()
+	{
+		var most_active_stocks_volume_result = $.ajax({
+			type: 'POST',
+			url: '${active_stocks_volumechange_link}$',
+			data: 'user_name='+ '${username}$',
+			async: false}).responseText;
+		var most_active_stocks_volume_result_parsed = JSON.parse(most_active_stocks_volume_result);
+		console.log(most_active_stocks_volume_result_parsed);
+
+		table_generate_active_stocks_volumechange(most_active_stocks_volume_result_parsed);
+	}
+
+	function table_generate_active_stocks_volumechange (json_obj)
+	{
+		$('.volumechange_max_table tr td').remove();
+		var tb = document.createElement("tbody");
+
+		for (i=0; i <=9; i++)
+		{
+			
+			var tr = document.createElement("tr");
+			var td1 = document.createElement("td");
+			var td2 = document.createElement("td");
+			td2.style.color = "green"
+			
+			var t1 = document.createTextNode(i+1 + ". " + json_obj[i]['symbol']);
+			td1.appendChild(t1);
+			var t2 = document.createTextNode(json_obj[i]['volume_change'] + " %");
+			td2.appendChild(t2);
+
+			tr.appendChild(td1);
+			tr.appendChild(td2);
+			tb.appendChild(tr);			
+		}
+
+		var $formrow = tb
+		$('.volumechange_max_table').append($formrow);
+
+	} 
+
 	
 
 </script>

@@ -36,6 +36,16 @@ class Company:
 
     def get_all_percentchange(self):
 	return db.query("SELECT symbol, PercentChange FROM company_info WHERE PercentChange IS NOT NULL AND PercentChange!='None';")
+
+    def get_all_volume(self):
+	#return db.query("SELECT symbol, Volume FROM company_info WHERE Volume IS NOT NULL AND Volume!='None';")
+	return db.query("SELECT symbol, Volume FROM company_info;")
+
+    def get_all_averagedailyvolume(self):
+	#return db.query("SELECT symbol, AverageDailyVolume FROM company_info WHERE AverageDailyVolume IS NOT NULL AND AverageDailyVolume!='None';")
+	return db.query("SELECT symbol, AverageDailyVolume FROM company_info;")
+	
+	
 	
     def select_in_list(self, stock_list):
         dict={}
