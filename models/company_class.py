@@ -33,3 +33,18 @@ class Company:
 
     def get_name(self):
         return self.name
+
+    def get_all_percentchange(self):
+	return db.query("SELECT symbol, PercentChange FROM company_info WHERE PercentChange IS NOT NULL AND PercentChange!='None';")
+	
+    def select_in_list(self, stock_list):
+        dict={}
+        dict['stock']={}
+        for stock in stock_list:
+            result = db.query("select Ask from company_info where symbol = ('%s')"%(stock)+";")
+            dict['stock'][stock]=result[0]['Ask']
+        return dict
+
+#c = Company()
+#c.select_in_list(['aapl','nflx'])
+    

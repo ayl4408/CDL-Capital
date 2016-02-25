@@ -56,7 +56,8 @@ def calculate_portfolio(final_price):
         u.set_total_stock_values(Decimal(u.get_total_stock_values()) + Decimal(final_price))
     elif trans_type == "sell":
         u.set_available_funds(Decimal(u.get_available_funds()) + Decimal(final_price))
-        u.set_total_stock_values(Decimal(u.get_total_stock_values()) - Decimal(final_price))    
+        u.set_total_stock_values(Decimal(u.get_total_stock_values()) - Decimal(final_price))
+    u.set_total_portfolio(u.get_total_stock_values() + u.get_available_funds())
 
 def update_owned_stocks(ask_price, final_price):
     if trans_type == "buy":

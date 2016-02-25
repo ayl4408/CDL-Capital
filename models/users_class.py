@@ -35,6 +35,9 @@ class Users:
     def update(self, profit, total_portfolio, available_funds, total_stock_values, total_deposited):
         db.query("update users set profit=('%s')"%(profit)+", total_portfolio=('%s')"%(total_portfolio)+", available_funds=('%s')"%(available_funds)+", total_stock_values=('%s')"%(total_stock_values)+", total_deposited=('%s')"%(total_deposited)+" where login=('%s')"%(self.login)+";")
         
+    def select_all_users(self):
+        return db.query("select login from users;")
+        
     def get_login(self):
         return self.login
 
