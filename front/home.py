@@ -1,10 +1,10 @@
 #!/usr/bin/python
 
-
 import Cookie, os, LINK_HEADERS,sys
 from templite import Templite
-sys.path.insert(1 , str(LINK_HEADERS.DATABASE_LINK))
+sys.path.insert(0 , str(LINK_HEADERS.DATABASE_LINK))
 from database_class import DB
+sys.path.insert(1 , str(LINK_HEADERS.SCRIPTS_LINK))
 from auth_class import Auth
 
 
@@ -27,7 +27,7 @@ def check_cookie():
 
         username = str(cookie['username'].value);
         login_result = str(cookie['login'].value)
-        hashed_username =  Auth(DB("localhost","root","mmGr2016","cdlcapital")).get_hash_salted_username(username);
+        hashed_username =  Auth().get_hashed_username(username);
         
         if (login_result == "False") or (not login_result==hashed_username):
             print "Location: "+str(LINK_HEADERS.LOGIN_LINK)+"\r\n"

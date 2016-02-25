@@ -31,10 +31,41 @@
                         <ul class ="nav nav-tabs">
                             <li class="active"><a data-toggle="tab" href="#home">Portfolio</a></li>
                             <li><a data-toggle="tab" href="#menu1">Transactions</a></li>
+			    <li><a data-toggle="tab" href="#settings_menu">Settings</a></li>
                         </ul>
 
-                        <div class="tab-content">
-                                <div id="menu1" class="tab-pane fade">
+                        <div class="tab-content" >
+
+			  <div id="settings_menu" class="tab-pane fade">
+			    <div class="panel panel-info">
+			      <div class="panel-heading">Update Information</div>
+
+			      <div id="settings_update_body" class="panel-body" id="update_info">
+				First Name: <input id="update_info_first_name" class="form-control" type="text"/>
+				Last  Name: <input id="update_info_last_name"class="form-control" type="text"/>
+				
+				<br><button class="btn btn-warning" onclick="update_info();">Update</button>
+			      </div>			      
+			    </div>
+
+			    <div class="panel panel-info">
+			      <div class="panel-heading">Create New User</div>
+			      <div id="settings_create_user" class="panel-body">
+				Username : <input id="create_user_username" class="form-control" type="text"/>
+				First Name: <input id="create_user_first_name" class="form-control" type="text"/>
+				Last Name: <input id="create_user_last_name" class="form-control" type="text"/>
+				Password : <input id="create_user_passcode" class="form-control" type="password"/>
+				Verify Password: <input id="create_user_verify" class="form-control" type="password"/>
+
+				<br><button class="btn btn-success" onclick="create_user();">Create User</button>
+			      </div>
+			      
+			    </div>
+			    
+			    
+			  </div>
+
+			  <div id="menu1" class="tab-pane fade">
 </br>
 </br>
                                         <div class="row">
@@ -616,10 +647,70 @@
         });
     }
 
-    function logout(){
+
+      function logout(){
         document.cookie="login=False";
         window.location="${login_link}$"
-    }
+      }
+
+			       function update_info(){
+			            var passcode=prompt("Please enter your pasword");
+			            var first_name=document.getElementById("update_info_first_name").value;
+			            var last_name=document.getElementById("update_info_last_name").value;
+     			            $.ajax({
+			              type: "POST",
+			              url: " http://cdl.ddns.net:4098/cgi-bin/cdl_irally/scripts/update_user.py",
+			              data: {"username":"${username}$","passcode":passcode,"first_name":first_name, "last_name":last_name},
+	   		              success: function(result){
+			              result=JSON.parse(result);
+			              if(result.status=="Fail"){
+			                 result="<div class='alert alert-danger'>Update Failed</div>";
+			              }else{
+			                 result="<div class='alert alert-success'>Successfully Updated!</div> ";
+               			      }
+ 
+			              result += "<button class='btn btn-info' onclick='refresh_page()'>Reload</button>";
+			       
+			              $("#settings_update_body").html(result);
+			           }});
+			       }
+
+			       function create_user(){
+			           var username=document.getElementById("create_user_username").value;
+			           var first_name= document.getElementById("create_user_first_name").value;
+			           var last_name= document.getElementById("create_user_last_name").value;
+			           var passcode= document.getElementById("create_user_passcode").value;
+			           var verify= document.getElementById("create_user_verify").value;
+
+			           if(passcode!==verify){
+			              alert("Password Mismatch");
+			              return;
+			           }
+
+			            $.ajax({
+			              type: "POST",
+			              url: " http://cdl.ddns.net:4098/cgi-bin/cdl_irally/scripts/create_user.py",
+			              data: {"username":username,"passcode":passcode,"first_name":first_name, "last_name":last_name},
+	   		              success: function(result){
+			       
+			              result=JSON.parse(result);
+			              if(result.status=="Fail"){
+			                 result="<div class='alert alert-danger'>Create Failed</div>";
+			              }else{
+			                 result="<div class='alert alert-success'>Successfully Created!</div> ";
+			              }
+
+			              result += "<button class='btn btn-info' onclick='refresh_page()'>Reload</button>";
+			       
+			              $("#settings_create_user").html(result);
+			           }});
+			       }
+
+			       function refresh_page(){
+			           location.reload();
+			       }
+			       
+    
 </script>
 
         </body>
