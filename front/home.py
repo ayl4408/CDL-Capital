@@ -1,10 +1,10 @@
 #!/usr/bin/python
 
-
 import Cookie, os, LINK_HEADERS,sys
 from templite import Templite
-sys.path.insert(1 , str(LINK_HEADERS.DATABASE_LINK))
+sys.path.insert(0 , str(LINK_HEADERS.DATABASE_LINK))
 from database_class import DB
+sys.path.insert(1 , str(LINK_HEADERS.SCRIPTS_LINK))
 from auth_class import Auth
 
 
@@ -16,7 +16,7 @@ def m(username):
     print "Content-Type: text/html\r\n\r\n"
 
     t = Templite(html)
-    print t.render(username=username, login_link=LINK_HEADERS.LOGIN_LINK, home_link=LINK_HEADERS.HOME_LINK, transaction_link=LINK_HEADERS.TRANSACTION_LINK, deposit_link=LINK_HEADERS.DEPOSIT_LINK, upload_link=LINK_HEADERS.UPLOAD_LINK, dropdown_link=LINK_HEADERS.DROPDOWN_LINK, portfolio_link=LINK_HEADERS.PORTFOLIO_LINK, active_stocks_percentchange_link=LINK_HEADERS.ACTIVE_STOCKS_PERCENTCHANGE_LINK)
+    print t.render(username=username, login_link=LINK_HEADERS.LOGIN_LINK, home_link=LINK_HEADERS.HOME_LINK, transaction_link=LINK_HEADERS.TRANSACTION_LINK, deposit_link=LINK_HEADERS.DEPOSIT_LINK, upload_link=LINK_HEADERS.UPLOAD_LINK, dropdown_link=LINK_HEADERS.DROPDOWN_LINK, portfolio_link=LINK_HEADERS.PORTFOLIO_LINK, active_stocks_percentchange_link=LINK_HEADERS.ACTIVE_STOCKS_PERCENTCHANGE_LINK, create_user_link=LINK_HEADERS.CREATE_USER_LINK, update_user_link=LINK_HEADERS.UPDATE_USER_LINK)
 
 def check_cookie():
     cookie = Cookie.SimpleCookie()
@@ -27,7 +27,7 @@ def check_cookie():
 
         username = str(cookie['username'].value);
         login_result = str(cookie['login'].value)
-        hashed_username =  Auth(DB("localhost","root","mmGr2016","cdlcapital")).get_hash_salted_username(username);
+        hashed_username =  Auth().get_hashed_username(username);
         
         if (login_result == "False") or (not login_result==hashed_username):
             print "Location: "+str(LINK_HEADERS.LOGIN_LINK)+"\r\n"
