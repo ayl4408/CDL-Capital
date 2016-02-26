@@ -59,7 +59,10 @@ class DB:
 
     def get_column_names(self):
         get_column_names="select column_name from information_schema.columns where table_name='company_info'"
-        column_result=str(self.query(get_column_names))
-        column_result=re.sub("[()',]*",'',column_result)
-        column_result=column_result.split(' ')
-        return column_result
+        column_names=[]
+        column_result=self.query(get_column_names)
+	for column in column_result:
+            column_names.append(column['column_name'])
+        #column_result=re.sub("[()',]*",'',column_result)
+        #column_result=column_result.split(' ')
+        return column_names
