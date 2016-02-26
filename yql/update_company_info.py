@@ -73,17 +73,10 @@ def update_company_info(yql_result,db):
     END_SQL=END_SQL[:-1] + ";"
     		
     SQL_QUERY=START_SQL + VALUES_LIST + " ON DUPLICATE KEY UPDATE " + END_SQL
-    count=0
-    max_attempts=5
-    while True:
-        try:
-            db.query(SQL_QUERY)
-        except Exception, e :
-            print str(e) 
-	    count=count+1
-	    if (count == max_attempts):
-                raise e
-        break
+    try:
+        db.query(SQL_QUERY)
+    except Exception, e :
+        print str(e) 
 
 def main(): 
     yql = YQLQuery()
@@ -102,7 +95,7 @@ def main():
             runtime=time.time()-start
             if runtime < 4.2:
                 sleeptime=4.2-runtime
-	        time.sleep(sleeptime)
+                time.sleep(sleeptime)
         else:
             print "NO request: " + str(current_time)
             time.sleep(540)
