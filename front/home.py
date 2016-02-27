@@ -5,7 +5,8 @@ from templite import Templite
 sys.path.insert(0 , str(LINK_HEADERS.DATABASE_LINK))
 from database_class import DB
 sys.path.insert(1 , str(LINK_HEADERS.SCRIPTS_LINK))
-from auth_class import Auth
+sys.path.insert(1 , str(LINK_HEADERS.SERVICE_LINK))
+from auth_service import Auth
 
 
 def m(username):

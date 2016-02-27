@@ -6,8 +6,9 @@ from database_class import DB
 sys.path.insert(0 , str(LINK_HEADERS.MODELS_LINK))
 from profile_model import Profile
 sys.path.insert(0 , str(LINK_HEADERS.DAO_LINK))
+sys.path.insert(0 , str(LINK_HEADERS.SERVICE_LINK))
 from login_dao import Login_dao
-from auth_class import Auth
+from auth_service import Auth
 
 print "Content-Type: text/html\r\n\r\n"
 
