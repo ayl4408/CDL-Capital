@@ -298,8 +298,8 @@
                 table_generate_owned_stocks(json_obj['owned_stocks']);
                 drawChart();
                 //load_profile_information();
-		most_active_stocks();
-		most_active_stocks_volume();
+		//most_active_stocks();
+		//most_active_stocks_volume();
         }
 
         function table_generate_owned_stocks (json_obj)
@@ -481,7 +481,7 @@
                 }
                 //console.log(sell_result);
                 document.getElementById("sell_form").reset();
-                //generate_sell_drop_down();
+                generate_sell_drop_down();
                 
       }
      
@@ -507,7 +507,7 @@
                  $('<option value="'+ generate_sell_drop_down_parsed[field]['stock'] +'">' + generate_sell_drop_down_parsed[field]['stock'] + '</option>').appendTo('#company_name_sell');
             }
         }
-
+      
         /*function load_profile_information()
         {
                 var user_name='<?php echo $user_check; ?>';
@@ -527,7 +527,7 @@
                 drawChart();
         };*/
 
-
+      /*
 	function most_active_stocks()
 	{
 		 var most_active_stocks_result = $.ajax({
@@ -648,7 +648,7 @@
 
 	} 
 
-	
+	*/
 
 </script>
 

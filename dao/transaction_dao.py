@@ -65,7 +65,11 @@ class Transaction_dao:
                for i in range(len(result)):
                     l.append(result[i]['stock'])
                return l
-          
+     
+     def get_user_owned_stocks_list(self, user):
+          result=self.db.query("select distinct stock from transactions where user=('%s') and sold='0'"%(user) + ";")
+          return result
+
      def get_owned_stock_model(self, user, stock, price):
           volume_result= self.db.query("select count(*) from transactions where user=('%s') and stock=('%s') and sold='0'"%(user, stock)+";")
           profit_result = self.db.query("select sum(profit) from transactions where user=('%s') and stock=('%s')"%(user, stock)+";")
