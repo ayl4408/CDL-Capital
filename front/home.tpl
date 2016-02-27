@@ -225,22 +225,26 @@
 										
 					<div>
 						<h6>Best Changes</h6>
+						<div style= "overflow:auto; height:250px;">
 						<table class="table table-hover percentchange_max_table" >
 						<thead><tr>
 							<th>Stock</th>
 							<th>Percent Change</th>
 						</tr></thead>
 						</table>
+						</div>
 					</div>
 
 					<div>
-                                                 <h6>Worst Changes</h6>
-                                                 <table class="table table-hover percentchange_min_table" >
-                                                 <thead><tr>                                                      
+                                                <h6>Worst Changes</h6>
+						<div style="overflow:auto; height:250px">
+                                                <table class="table table-hover percentchange_min_table" >
+                                                <thead><tr>                                                      
                                                          <th>Stock</th>
-                                                         <th>Percent Change</th>
-                                                 </tr></thead>
-                                                 </table>
+						         <th>Percent Change</th>
+                                                </tr></thead>
+                                                </table>
+						</div>
                                          </div>
 
 					</div>
@@ -249,14 +253,14 @@
 					<h4>Percent Change in Average Daily Volume Traded</h4>
 					<div></div>					
 
-					<div>
+						<div style="overflow;auto; height:500px">
 						<table class="table table-hover volumechange_max_table">
 						<thead><tr>
 							<th>Stock</th>
 							<th>Percent Change</th>
 						</tr></thead>
 						</table>
-					</div>
+						</div>
 					
 					</div>
 
@@ -277,7 +281,7 @@
 
       function start()
       {
-          generate_sell_drop_down();
+          //generate_sell_drop_down();
           update_profile_information();
           intervalId = setInterval(update_profile_information, 60000);
       }
@@ -296,10 +300,10 @@
                 table_generate_users(json_obj['users']);
                 table_generate_transactions(json_obj['transactions']);
                 table_generate_owned_stocks(json_obj['owned_stocks']);
-                drawChart();
+                //drawChart();
                 //load_profile_information();
-		most_active_stocks();
-		most_active_stocks_volume();
+		//most_active_stocks();
+		//most_active_stocks_volume();
         }
 
         function table_generate_owned_stocks (json_obj)
@@ -459,7 +463,7 @@
 		        //console.log(buy_result)
                     update_profile_information();
                 }
-                generate_sell_drop_down();
+                //generate_sell_drop_down();
                 document.getElementById("buy_form").reset();
         }
       
@@ -484,7 +488,7 @@
                 //generate_sell_drop_down();
                 
       }
-     
+     /*
         function generate_sell_drop_down()
         {
                 var user_name="${username}$";
@@ -507,7 +511,7 @@
                  $('<option value="'+ generate_sell_drop_down_parsed[field]['stock'] +'">' + generate_sell_drop_down_parsed[field]['stock'] + '</option>').appendTo('#company_name_sell');
             }
         }
-
+      */
         /*function load_profile_information()
         {
                 var user_name='<?php echo $user_check; ?>';
@@ -527,7 +531,7 @@
                 drawChart();
         };*/
 
-
+      
 	function most_active_stocks()
 	{
 		 var most_active_stocks_result = $.ajax({
@@ -536,7 +540,7 @@
                  	data: 'user_name='+ '${username}$',
                  	async: false}).responseText;
 		var most_active_stocks_result_parsed = JSON.parse(most_active_stocks_result);
-	//	console.log(most_active_stocks_result_parsed);
+		console.log(most_active_stocks_result_parsed);
 				
 		table_generate_active_stocks_percentchange (most_active_stocks_result_parsed);
 	
@@ -625,7 +629,7 @@
 		$('.volumechange_max_table tr td').remove();
 		var tb = document.createElement("tbody");
 
-		for (i=0; i <=9; i++)
+		for (i=0; i <json_obj.length; i++)
 		{
 			
 			var tr = document.createElement("tr");

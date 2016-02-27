@@ -20,8 +20,22 @@ class Company_dao:
             c = Company()
             c.set_ask(result[0]['Ask'])
             c.set_name(result[0]['Name'])
-            #c.set_ask(result[0]['']) #percent change
+            c.set_percent_change(result[0]['PercentChange']) 
             c.set_symbol(symbol)
             c.set_avg_daily_volume(result[0]['AverageDailyVolume'])
             c.set_volume(result[0]['Volume'])
             return c
+
+    def get_all_companies_model(self):
+	result = self.db.query("select * from company_info;")
+	if result:
+	    l = []
+	    for i in range(len(result)):
+		c = Company()
+		c.set_symbol(result[i]['Symbol'])
+		c.set_percent_change(result[i]['PercentChange'].translate(None, '+%')
+		c.set_volume(result[i]['Volume'])
+		c.set_avg_daily_volume(result[i]['AverageDailyVolume'])
+		l.append(c)
+	    return l
+	
