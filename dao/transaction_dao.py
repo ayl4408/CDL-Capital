@@ -73,7 +73,7 @@ class Transaction_dao:
                volume = int(volume_result[0]['count(*)'])
                total_worth = volume * price
                profit = Decimal(profit_result[0]['sum(profit)'])
-               o = User_stock_value(stock, volume, price, total_worth, profit)
+               o = Owned_stock(stock, volume, price, total_worth, profit)
                return o
 
      def get_user_stock_value_model(self, user):
@@ -86,7 +86,7 @@ class Transaction_dao:
                profit = None
                
           if result2[0]['sum(price)'] != None:
-               total_stock_values = Decimal(result1[0]['sum(profit)']) + Decimal(result2[0]['sum(price)'])
+               total_stock_values =  Decimal(result2[0]['sum(price)'])
           else:
                total_stock_values = None
                
