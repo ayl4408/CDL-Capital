@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-import sys, LINK_HEADERS
+import sys, LINK_HEADERS,datetime
 from decimal import *
 sys.path.insert(0, str(LINK_HEADERS.DATABASE_LINK))
 sys.path.insert(0, str(LINK_HEADERS.MODELS_LINK))
@@ -20,7 +20,7 @@ class Transaction_dao:
           if result:
                l = []
                for i in range(len(result)):
-                    t = Transactions(result[i]['user'],result[i]['trans_date'],result[i]['stock'],result[i]['price'],result[i]['sold'],result[i]['order_id'],result[i]['profit'])
+                    t = Transaction(result[i]['user'],result[i]['trans_date'],result[i]['stock'],result[i]['price'],result[i]['sold'],result[i]['order_id'],result[i]['profit'])
                     l.append(t)
                l.sort(key=lambda x: x.get_trans_date(), reverse=False)
                return l
@@ -30,7 +30,7 @@ class Transaction_dao:
           if result:
                l = []
                for i in range(len(result)):
-                    t = Transactions(result[i]['user'],result[i]['trans_date'],result[i]['stock'],result[i]['price'],result[i]['sold'],result[i]['order_id'],result[i]['profit'])
+                    t = Transaction(result[i]['user'],result[i]['trans_date'],result[i]['stock'],result[i]['price'],result[i]['sold'],result[i]['order_id'],result[i]['profit'])
                     l.append(t)
                l.sort(key=lambda x: x.get_trans_date(), reverse=False)
                return l
@@ -40,7 +40,7 @@ class Transaction_dao:
           if result:
                l = []
                for i in range(len(result)):
-                    t = Transactions(result[i]['user'],result[i]['trans_date'],result[i]['stock'],result[i]['price'],result[i]['sold'],result[i]['order_id'],result[i]['profit'])
+                    t = Transaction(result[i]['user'],result[i]['trans_date'],result[i]['stock'],result[i]['price'],result[i]['sold'],result[i]['order_id'],result[i]['profit'])
                     l.append(t)
                l.sort(key=lambda x: x.get_trans_date(), reverse=False)
                return l
@@ -51,12 +51,12 @@ class Transaction_dao:
 
      def sell(self, user, stock, volume, price):
           result = self.db.query("select * from transactions where user=('%s') and stock=('%s') and sold='0'"%(user, stock)+" ORDER BY trans_date ASC, order_id ASC LIMIT "+str(volume)+";")
-
+          time = datetime.datetime.utcnow()
           if result:
                if len(result) >= volume:
                     for i in range(len(result)):
                          profit = Decimal(price) - Decimal(result[i]['price'])
-                         self.db.query("update transactions set sold='1', profit=('%s') where user=('%s') and stock=('%s') and trans_date=('%s') and order_id=(%d)"%(Decimal(profit), user, stock, result[i]['trans_date'], result[i]['order_id'])+";")
+                         self.db.query("update transactions set sold='1', profit=('%s'), trans_date=('%s') where user=('%s') and stock=('%s') and trans_date=('%s') and order_id=(%d)"%(Decimal(profit), str(time), user, stock, result[i]['trans_date'], result[i]['order_id'])+";")
 
      def get_user_stock_list(self, user):
           result = self.db.query("select distinct stock from transactions where user=('%s')"%(user)+";")
@@ -71,7 +71,7 @@ class Transaction_dao:
           profit_result = self.db.query("select sum(profit) from transactions where user=('%s') and stock=('%s')"%(user, stock)+";")
           if volume_result and profit_result:
                volume = int(volume_result[0]['count(*)'])
-               total_worth = volume * price
+               total_worth = int(volume) * Decimal(price)
                profit = Decimal(profit_result[0]['sum(profit)'])
                o = Owned_stock(stock, volume, price, total_worth, profit)
                return o
