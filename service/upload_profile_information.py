@@ -41,21 +41,18 @@ if t:
     for i in range(len(t)):
         data['transactions'][i]={}
         data['transactions'][i]['trans_date'] = t[i].get_trans_date().strftime('%Y-%m-%d %h:%m:%s')
-        if t[i].get_sold() == '1':
+        if t[i].get_sold() == 1:
             trans_type = 'sell'
         else:
             trans_type = 'buy'
         data['transactions'][i]['trans_type'] = trans_type
         data['transactions'][i]['stock'] = t[i].get_stock()
         data['transactions'][i]['price'] = t[i].get_price()
-        data['transactions'][i]['volume'] = 1
-        data['transactions'][i]['total_price'] = t[i].get_price()
 
 l = tdao.get_user_stock_list(username)
         
 if l:
     data['owned_stocks']={}
-    
     for i in range(len(l)):
         c = cdao.get_company_model(l[i])
         o = tdao.get_owned_stock_model(username, l[i], c.get_ask()) 

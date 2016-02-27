@@ -27,9 +27,9 @@ if form.getvalue("trans_type") != None:
 '''
 username="al356"
 company='tsla'
-volume=2
+volume=10
 trans_type='buy'
-#trans_type='sell'
+trans_type='sell'
 '''
 
 udao1 = User_stock_value_dao()

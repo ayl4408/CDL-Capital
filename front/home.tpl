@@ -181,7 +181,7 @@
                                                                     <th>Shares</th>
                                                                     <th>Current Price</th>
                                                                     <th>Total Worth</th>
-                                                                    <th>Profit</th>
+                                                                    <th>Net Gain/Loss</th>
                                                                 </tr>
                                         </thead>
                                                 </table>
@@ -209,8 +209,6 @@
                                                     <th>Transaction Type</th>
                                                     <th>Stock</th>
                                                     <th>Price</th>
-                                                    <th>Volume</th>
-                                                    <th>Total Price</th>
                                                 </tr></thead>
                                                 </table>
 					</div>
@@ -277,7 +275,7 @@
 
       function start()
       {
-          generate_sell_drop_down();
+          //generate_sell_drop_down();
           update_profile_information();
           intervalId = setInterval(update_profile_information, 60000);
       }
@@ -296,10 +294,10 @@
                 table_generate_users(json_obj['users']);
                 table_generate_transactions(json_obj['transactions']);
                 table_generate_owned_stocks(json_obj['owned_stocks']);
-                drawChart();
+                //drawChart();
                 //load_profile_information();
-		most_active_stocks();
-		most_active_stocks_volume();
+		//most_active_stocks();
+		//most_active_stocks_volume();
         }
 
         function table_generate_owned_stocks (json_obj)
@@ -354,9 +352,7 @@
                         var td2 = document.createElement("td");
                         var td3 = document.createElement("td");
                         var td4 = document.createElement("td");
-                        var td5 = document.createElement("td");
-                        var td6 = document.createElement("td");
-
+                        
                         var t1 = document.createTextNode(json_obj[i]['trans_date']);
                         td1.appendChild(t1);
                         var t2 = document.createTextNode(json_obj[i]['trans_type']);
@@ -365,18 +361,12 @@
                         td3.appendChild(t3);
                         var t4 = document.createTextNode(json_obj[i]['price']);
                         td4.appendChild(t4);
-                        var t5 = document.createTextNode(json_obj[i]['volume']);
-                        td5.appendChild(t5);
-                        var t6 = document.createTextNode(json_obj[i]['total_price']);
-                        td6.appendChild(t6);
-
+                        
                         tr.appendChild(td1);
                         tr.appendChild(td2);
                         tr.appendChild(td3);
                         tr.appendChild(td4);
-                        tr.appendChild(td5);
-                        tr.appendChild(td6);
-
+                        
                         tb.appendChild(tr);
                 }
 
@@ -459,7 +449,7 @@
 		        //console.log(buy_result)
                     update_profile_information();
                 }
-                generate_sell_drop_down();
+                //generate_sell_drop_down();
                 document.getElementById("buy_form").reset();
         }
       
@@ -484,7 +474,7 @@
                 //generate_sell_drop_down();
                 
       }
-     
+     /*
         function generate_sell_drop_down()
         {
                 var user_name="${username}$";
@@ -507,7 +497,7 @@
                  $('<option value="'+ generate_sell_drop_down_parsed[field]['stock'] +'">' + generate_sell_drop_down_parsed[field]['stock'] + '</option>').appendTo('#company_name_sell');
             }
         }
-
+      */
         /*function load_profile_information()
         {
                 var user_name='<?php echo $user_check; ?>';
@@ -527,7 +517,7 @@
                 drawChart();
         };*/
 
-
+      /*
 	function most_active_stocks()
 	{
 		 var most_active_stocks_result = $.ajax({
@@ -648,7 +638,7 @@
 
 	} 
 
-	
+	*/
 
 </script>
 
