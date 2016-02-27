@@ -4,8 +4,9 @@ import cgi,LINK_HEADERS, sys, json
 sys.path.insert(0 , str(LINK_HEADERS.DATABASE_LINK))
 from database_class import DB
 sys.path.insert(0 , str(LINK_HEADERS.MODELS_LINK))
-from profile_class import Profile
-from login_class import Login_DAO
+from profile_model import Profile
+sys.path.insert(0 , str(LINK_HEADERS.DAO_LINK))
+from login_dao import Login_dao
 from auth_class import Auth
 
 print "Content-Type: text/html\r\n\r\n"
@@ -19,7 +20,7 @@ last_name = str(form.getvalue("last_name"))
 
 
 profile = Profile(username, passcode, first_name, last_name);
-login_dao=Login_DAO()
+login_dao=Login_dao()
 
 try:
     login_dao.create_user(profile)

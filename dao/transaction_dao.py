@@ -8,13 +8,15 @@ from database_class import DB
 from transaction_model import Transaction
 from owned_stock_model import Owned_stock
 from user_stock_value_model import User_stock_value
+from PDO import PDO
 
 class Transaction_dao:
 
      db = None
 
      def __init__(self):
-         self.db = DB(LINK_HEADERS.DB_HOST, LINK_HEADERS.DB_USER, LINK_HEADERS.DB_PASSWORD, LINK_HEADERS.DB_NAME)                     
+          self.db =  PDO().get_connection(LINK_HEADERS.DB_HOST, LINK_HEADERS.DB_USER, LINK_HEADERS.DB_PASSWORD, LINK_HEADERS.DB_NAME)
+          
      def select_all(self, user):
           result = self.db.query("select * from transactions where user=('%s')"%(user)+";")
           if result:
@@ -65,7 +67,11 @@ class Transaction_dao:
                for i in range(len(result)):
                     l.append(result[i]['stock'])
                return l
-          
+     
+     def get_user_owned_stocks_list(self, user):
+          result=self.db.query("select distinct stock from transactions where user=('%s') and sold='0'"%(user) + ";")
+          return result
+
      def get_owned_stock_model(self, user, stock, price):
           volume_result= self.db.query("select count(*) from transactions where user=('%s') and stock=('%s') and sold='0'"%(user, stock)+";")
           profit_result = self.db.query("select sum(profit) from transactions where user=('%s') and stock=('%s')"%(user, stock)+";")
