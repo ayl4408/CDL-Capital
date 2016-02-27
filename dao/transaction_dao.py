@@ -73,14 +73,22 @@ class Transaction_dao:
                volume = int(volume_result[0]['count(*)'])
                total_worth = volume * price
                profit = Decimal(profit_result[0]['sum(profit)'])
-               o = Owned_stock(stock, volume, price, total_worth, profit)
+               o = User_stock_value(stock, volume, price, total_worth, profit)
                return o
 
      def get_user_stock_value_model(self, user):
           result1 = self.db.query("select sum(profit) from transactions where user=('%s')"%(user)+";")
           result2 = self.db.query("select sum(price) from transactions where user=('%s') and sold='0'"%(user)+";")
-          if result1 and result2:
+
+          if result1[0]['sum(profit)'] != None:
                profit = Decimal(result1[0]['sum(profit)'])
+          else:
+               profit = None
+               
+          if result2[0]['sum(price)'] != None:
                total_stock_values = Decimal(result1[0]['sum(profit)']) + Decimal(result2[0]['sum(price)'])
-               u = User_stock_value(user, profit, total_stock_values)
-               return u
+          else:
+               total_stock_values = None
+               
+          u = User_stock_value(user, profit, total_stock_values)
+          return u
