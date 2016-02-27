@@ -71,7 +71,7 @@ def main():
         
         if o.get_volume() >= volume:
             tdao.sell(username, company, volume, ask)
-            hdao.insert(username, time, 'buy', company, ask, final, volume)
+            hdao.insert(username, time, 'sell', company, ask, final, volume)
 
             u = tdao.get_user_stock_value_model(username)    
             udao1.update_total_stock_values(username, u.get_total_stock_values())
