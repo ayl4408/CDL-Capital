@@ -83,12 +83,12 @@ class Transaction_dao:
           if result1[0]['sum(profit)'] != None:
                profit = Decimal(result1[0]['sum(profit)'])
           else:
-               profit = None
+               profit = 0
                
           if result2[0]['sum(price)'] != None:
                total_stock_values =  Decimal(result2[0]['sum(price)'])
           else:
-               total_stock_values = None
+               total_stock_values = 0
                
           u = User_stock_value(user, profit, total_stock_values)
           return u
