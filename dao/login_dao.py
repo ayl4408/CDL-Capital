@@ -3,12 +3,13 @@
 import sys, LINK_HEADERS
 sys.path.insert(0,str(LINK_HEADERS.DATABASE_LINK))
 from database_class import DB
+from PDO import PDO
 
-class Login_DAO:#{
+class Login_dao:#{
     db_connection = None
     
     def __init__(self):
-        self.db_connection = DB("localhost", "root", "mmGr2016", "cdlcapital")
+        self.db_connection = PDO().get_connection(LINK_HEADERS.DB_HOST, LINK_HEADERS.DB_USER, LINK_HEADERS.DB_PASSWORD, LINK_HEADERS.DB_NAME)
         
     def create_user(self, profile):
         SQL="""
