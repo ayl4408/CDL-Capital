@@ -77,7 +77,7 @@ class Transaction_dao:
                return o
 
      def get_user_stock_value_model(self, user):
-          result1 = self.db.query("select sum(profit) from transactions where user=('%s')"%(user)+";")
+          result1 = self.db.query("select sum(profit) from transactions where user=('%s') and sold='1'"%(user)+";")
           result2 = self.db.query("select sum(price) from transactions where user=('%s') and sold='0'"%(user)+";")
 
           if result1[0]['sum(profit)'] != None:
