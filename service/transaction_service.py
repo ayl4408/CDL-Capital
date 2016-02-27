@@ -29,7 +29,7 @@ username="al356"
 company='tsla'
 volume=2
 trans_type='buy'
-trans_type='sell'
+#trans_type='sell'
 '''
 
 udao1 = User_stock_value_dao()
