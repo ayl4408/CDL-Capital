@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-class User:
+class User_stock_value:
     user = None
     profit = None
     total_stock_values = None

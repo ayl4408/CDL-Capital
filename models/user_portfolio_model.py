@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-class Users:
+class User_portfolio:
     user = None
     total_portfolio = None
     available_funds = None
