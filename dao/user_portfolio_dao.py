@@ -7,7 +7,7 @@ sys.path.insert(0, str(LINK_HEADERS.MODELS_LINK))
 from database_class import DB
 from user_portfolio_model import User_portfolio
 
-class Transaction_dao:
+class User_portfolio_dao:
 
     db = None
 
