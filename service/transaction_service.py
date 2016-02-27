@@ -9,6 +9,7 @@ from transaction_dao import Transaction_dao
 from user_portfolio_dao import User_portfolio_dao
 from user_stock_value_dao import User_stock_value_dao
 from company_dao import Company_dao
+from history_dao import History_dao
 
 print "Content-Type: text/html\r\n\r\n"
 
@@ -36,6 +37,7 @@ udao1 = User_stock_value_dao()
 udao2 = User_portfolio_dao()
 cdao = Company_dao()
 tdao = Transaction_dao()
+hdao = History_dao()
 
 c = cdao.get_company_model(company)
 
@@ -51,6 +53,7 @@ def main():
         u = udao2.get_user_portfolio_model(username)
         if final <= u.get_available_funds():
             tdao.buy(username, time, company, volume, ask)
+            hdao.insert(username, time, 'buy', company, ask, final, volume)
             
             o = tdao.get_user_stock_value_model(username)
             
@@ -69,6 +72,7 @@ def main():
         
         if o.get_volume() >= volume:
             tdao.sell(username, company, volume, ask)
+            hdao.insert(username, time, 'buy', company, ask, final, volume)
 
             u = tdao.get_user_stock_value_model(username)    
             udao1.update_total_stock_values(username, u.get_total_stock_values())

@@ -7,6 +7,7 @@ from transaction_dao import Transaction_dao
 from user_portfolio_dao import User_portfolio_dao
 from user_stock_value_dao import User_stock_value_dao
 from company_dao import Company_dao
+from history_dao import History_dao
 
 print "Content-Type: text/html\r\n\r\n"
 
@@ -21,6 +22,7 @@ tdao = Transaction_dao()
 u2 = User_stock_value_dao()
 u1 = User_portfolio_dao()
 cdao = Company_dao()
+hdao = History_dao()
 
 usv = tdao.get_user_stock_value_model(username)
 up = u1.get_user_portfolio_model(username)
@@ -34,20 +36,18 @@ data['users']['available_funds'] = up.get_available_funds()
 data['users']['total_stock_values'] = usv.get_total_stock_values()
 data['users']['total_deposited'] = up.get_total_deposited()
 
-t = tdao.select_all(username)
+t = hdao.select_all(username)
 
 if t:
     data['transactions']={}
     for i in range(len(t)):
         data['transactions'][i]={}
         data['transactions'][i]['trans_date'] = t[i].get_trans_date().strftime('%Y-%m-%d %h:%m:%s')
-        if t[i].get_sold() == 1:
-            trans_type = 'sell'
-        else:
-            trans_type = 'buy'
-        data['transactions'][i]['trans_type'] = trans_type
+        data['transactions'][i]['trans_type'] = t[i].get_trans_type()
         data['transactions'][i]['stock'] = t[i].get_stock()
         data['transactions'][i]['price'] = t[i].get_price()
+        data['transactions'][i]['total_price'] = t[i].get_total_price()
+        data['transactions'][i]['volume'] = t[i].get_volume()
 
 l = tdao.get_user_stock_list(username)
         
