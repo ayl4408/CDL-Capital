@@ -25,13 +25,12 @@ if form.getvalue("trans_type") != None:
     trans_type = form.getvalue("trans_type")
     
 #test variables
-'''
-username="al356"
-company='tsla'
-volume=10
-trans_type='buy'
-trans_type='sell'
-'''
+
+#username="al356"
+#company='tsla'
+#volume=10
+#trans_type='buy'
+#trans_type='sell'
 
 udao1 = User_stock_value_dao()
 udao2 = User_portfolio_dao()

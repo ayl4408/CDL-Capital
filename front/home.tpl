@@ -277,7 +277,7 @@
 
       function start()
       {
-          //generate_sell_drop_down();
+          generate_sell_drop_down();
           update_profile_information();
           intervalId = setInterval(update_profile_information, 60000);
       }
@@ -296,7 +296,7 @@
                 table_generate_users(json_obj['users']);
                 table_generate_transactions(json_obj['transactions']);
                 table_generate_owned_stocks(json_obj['owned_stocks']);
-                //drawChart();
+                drawChart();
                 //load_profile_information();
 		//most_active_stocks();
 		//most_active_stocks_volume();
@@ -459,7 +459,7 @@
 		        //console.log(buy_result)
                     update_profile_information();
                 }
-                //generate_sell_drop_down();
+                generate_sell_drop_down();
                 document.getElementById("buy_form").reset();
         }
       
@@ -481,10 +481,10 @@
                 }
                 //console.log(sell_result);
                 document.getElementById("sell_form").reset();
-                //generate_sell_drop_down();
+                generate_sell_drop_down();
                 
       }
-     /*
+     
         function generate_sell_drop_down()
         {
                 var user_name="${username}$";
@@ -507,7 +507,6 @@
                  $('<option value="'+ generate_sell_drop_down_parsed[field]['stock'] +'">' + generate_sell_drop_down_parsed[field]['stock'] + '</option>').appendTo('#company_name_sell');
             }
         }
-      */
         /*function load_profile_information()
         {
                 var user_name='<?php echo $user_check; ?>';
