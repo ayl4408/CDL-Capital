@@ -209,6 +209,8 @@
                                                     <th>Transaction Type</th>
                                                     <th>Stock</th>
                                                     <th>Price</th>
+						    <th>Total Price</th>
+						    <th>Volume</th>
                                                 </tr></thead>
                                                 </table>
 					</div>
@@ -352,6 +354,8 @@
                         var td2 = document.createElement("td");
                         var td3 = document.createElement("td");
                         var td4 = document.createElement("td");
+                        var td5 = document.createElement("td");
+                        var td6 = document.createElement("td");
                         
                         var t1 = document.createTextNode(json_obj[i]['trans_date']);
                         td1.appendChild(t1);
@@ -361,12 +365,18 @@
                         td3.appendChild(t3);
                         var t4 = document.createTextNode(json_obj[i]['price']);
                         td4.appendChild(t4);
+                        var t5 = document.createTextNode(json_obj[i]['total_price']);
+                        td5.appendChild(t5);
+                        var t6 = document.createTextNode(json_obj[i]['volume']);
+                        td6.appendChild(t6);
                         
                         tr.appendChild(td1);
                         tr.appendChild(td2);
                         tr.appendChild(td3);
                         tr.appendChild(td4);
-                        
+                        tr.appendChild(td5);
+                        tr.appendChild(td6);
+      
                         tb.appendChild(tr);
                 }
 
