@@ -8,13 +8,15 @@ from database_class import DB
 from transaction_model import Transaction
 from owned_stock_model import Owned_stock
 from user_stock_value_model import User_stock_value
+from PDO import PDO
 
 class Transaction_dao:
 
      db = None
 
      def __init__(self):
-         self.db = DB(LINK_HEADERS.DB_HOST, LINK_HEADERS.DB_USER, LINK_HEADERS.DB_PASSWORD, LINK_HEADERS.DB_NAME)                     
+          self.db =  PDO().get_connection(LINK_HEADERS.DB_HOST, LINK_HEADERS.DB_USER, LINK_HEADERS.DB_PASSWORD, LINK_HEADERS.DB_NAME)
+          
      def select_all(self, user):
           result = self.db.query("select * from transactions where user=('%s')"%(user)+";")
           if result:
