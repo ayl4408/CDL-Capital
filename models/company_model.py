@@ -8,7 +8,7 @@ class Company:
     avg_daily_volume = None
     percent_change = None
 
-    def __init__():
+    def __init__(self):
         self.name = None
         self.symbol = None
         self.ask = None
