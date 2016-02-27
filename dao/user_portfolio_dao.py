@@ -6,14 +6,15 @@ sys.path.insert(0, str(LINK_HEADERS.DATABASE_LINK))
 sys.path.insert(0, str(LINK_HEADERS.MODELS_LINK))
 from database_class import DB
 from user_portfolio_model import User_portfolio
+from PDO import PDO
 
 class User_portfolio_dao:
 
     db = None
 
     def __init__(self):
-        self.db = DB(LINK_HEADERS.DB_HOST, LINK_HEADERS.DB_USER, LINK_HEADERS.DB_PASSWORD, LINK_HEADERS.DB_NAME)
-                           
+        self.db =  PDO().get_connection(LINK_HEADERS.DB_HOST, LINK_HEADERS.DB_USER, LINK_HEADERS.DB_PASSWORD, LINK_HEADERS.DB_NAME)
+        
     def insert(self, user, total_portfolio, available_funds, total_deposited):
         self.db.query("insert into user_portfolio values ('%s','%s','%s','%s')"%(user, total_portfolio, available_funds, total_deposited)+";")
 
