@@ -26,5 +26,5 @@ class User_stock_value_dao:
     def get_user_stock_value_model(self, user):
         result = self.db.query("select * from user_stock_value where user = ('%s')"%(user)+";")
         if result:
-            u = User_stock_value(result[0]['profit'],result[0]['total_stock_values'])
+            u = User_stock_value(user, result[0]['profit'],result[0]['total_stock_values'])
             return u
