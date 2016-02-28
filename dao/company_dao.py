@@ -7,6 +7,7 @@ sys.path.insert(0, str(LINK_HEADERS.MODELS_LINK))
 from database_class import DB
 from PDO import PDO
 from company_model import Company
+from company_base_model import Company_base
 
 class Company_dao:
 
@@ -66,4 +67,12 @@ class Company_dao:
              return l
 
 
-   
+    def get_all_companies_stock(self):
+        result = self.db.query("select Symbol from company_info;")
+        if result:
+            l = []
+            for i in range(len(result)):
+                c = Company_base()
+                c.set_symbol(result[i]['Symbol'])
+                l.append(c)
+            return l   

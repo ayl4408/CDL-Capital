@@ -11,7 +11,10 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="http://cdl.ddns.net:4098/mycss.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
     <script src="https://code.highcharts.com/highcharts.js"></script>
 </head>
         
@@ -293,6 +296,7 @@
       function start()
       {
           generate_sell_drop_down();
+          get_company_names();
           update_profile_information();
           intervalId = setInterval(update_profile_information, 60000);
       }
@@ -662,11 +666,26 @@
 		$('.volumechange_max_table').append($formrow);
 
 	} 
+	function get_company_names()
+	{
+              var stock_symbol_list_result = $.ajax({
+                         type: 'POST',
+                         url: '${stock_symbol_link}$',
+                         async: false}).responseText;
+              //console.log(stock_symbol_list_result)
+	      var stock_symbol_list_parsed = JSON.parse(stock_symbol_list_result);
+	      //console.log(stock_symbol_list_parsed)
+              $(function() {
+     	          $( "#company_name_buy" ).autocomplete({
+       		  source: function(request, response) {
+        	  var results = $.ui.autocomplete.filter(stock_symbol_list_parsed, request.term);
+        	  response(results.slice(0, 10));
+		}
+	    });
+        });
 
-	
-
+    }
 </script>
-
 <script type="text/javascript">
 
     var flag=true;
