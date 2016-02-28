@@ -64,6 +64,17 @@
 			      
 			    </div>
 			    
+			    <div class="panel panel-danger">
+			      <div class="panel-heading">Update Password</div>
+			      <div id="settings_update_password" class="panel-body">
+				   Old Password: <input id="update_password_old" class="form-control" type="text"/>
+				   New Password  <input id="update_password_new" class="form-control" type="text"/>
+				   Verify Password <input id="update_password_verify" class="form-control" type="text"/>
+				   <br><button class="btn btn-danger" onclick="update_password()">Update</button> 
+			       </div>
+			    
+			    </div>
+			    
 			    
 			  </div>
 
@@ -181,7 +192,7 @@
                                                                     <th>Shares</th>
                                                                     <th>Current Price</th>
                                                                     <th>Total Worth</th>
-                                                                    <th>Profit</th>
+                                                                    <th>Net Gain/Loss</th>
                                                                 </tr>
                                         </thead>
                                                 </table>
@@ -209,8 +220,8 @@
                                                     <th>Transaction Type</th>
                                                     <th>Stock</th>
                                                     <th>Price</th>
-                                                    <th>Volume</th>
-                                                    <th>Total Price</th>
+						    <th>Total Price</th>
+						    <th>Volume</th>
                                                 </tr></thead>
                                                 </table>
 					</div>
@@ -277,7 +288,7 @@
 
       function start()
       {
-          generate_sell_drop_down();
+          //generate_sell_drop_down();
           update_profile_information();
           intervalId = setInterval(update_profile_information, 60000);
       }
@@ -296,10 +307,10 @@
                 table_generate_users(json_obj['users']);
                 table_generate_transactions(json_obj['transactions']);
                 table_generate_owned_stocks(json_obj['owned_stocks']);
-                drawChart();
+                //drawChart();
                 //load_profile_information();
-		most_active_stocks();
-		most_active_stocks_volume();
+		//most_active_stocks();
+		//most_active_stocks_volume();
         }
 
         function table_generate_owned_stocks (json_obj)
@@ -356,7 +367,7 @@
                         var td4 = document.createElement("td");
                         var td5 = document.createElement("td");
                         var td6 = document.createElement("td");
-
+                        
                         var t1 = document.createTextNode(json_obj[i]['trans_date']);
                         td1.appendChild(t1);
                         var t2 = document.createTextNode(json_obj[i]['trans_type']);
@@ -365,18 +376,18 @@
                         td3.appendChild(t3);
                         var t4 = document.createTextNode(json_obj[i]['price']);
                         td4.appendChild(t4);
-                        var t5 = document.createTextNode(json_obj[i]['volume']);
+                        var t5 = document.createTextNode(json_obj[i]['total_price']);
                         td5.appendChild(t5);
-                        var t6 = document.createTextNode(json_obj[i]['total_price']);
+                        var t6 = document.createTextNode(json_obj[i]['volume']);
                         td6.appendChild(t6);
-
+                        
                         tr.appendChild(td1);
                         tr.appendChild(td2);
                         tr.appendChild(td3);
                         tr.appendChild(td4);
                         tr.appendChild(td5);
                         tr.appendChild(td6);
-
+      
                         tb.appendChild(tr);
                 }
 
@@ -459,7 +470,7 @@
 		        //console.log(buy_result)
                     update_profile_information();
                 }
-                generate_sell_drop_down();
+                //generate_sell_drop_down();
                 document.getElementById("buy_form").reset();
         }
       
@@ -484,7 +495,7 @@
                 //generate_sell_drop_down();
                 
       }
-     
+     /*
         function generate_sell_drop_down()
         {
                 var user_name="${username}$";
@@ -507,7 +518,7 @@
                  $('<option value="'+ generate_sell_drop_down_parsed[field]['stock'] +'">' + generate_sell_drop_down_parsed[field]['stock'] + '</option>').appendTo('#company_name_sell');
             }
         }
-
+      */
         /*function load_profile_information()
         {
                 var user_name='<?php echo $user_check; ?>';
@@ -527,7 +538,7 @@
                 drawChart();
         };*/
 
-
+      /*
 	function most_active_stocks()
 	{
 		 var most_active_stocks_result = $.ajax({
@@ -648,7 +659,7 @@
 
 	} 
 
-	
+	*/
 
 </script>
 
@@ -737,6 +748,37 @@
 			       
 			              $("#settings_update_body").html(result);
 			           }});
+			       }
+
+			       function update_password(){
+			           var old_passcode=document.getElementById("update_password_old").value;
+			           var new_passcode=document.getElementById("update_password_new").value;
+			           var verify=document.getElementById("update_password_verify").value;
+
+			           if(verify!==new_passcode){
+			               alert("Password Mismatch");
+			               return;
+			           }
+
+			           $.ajax({
+			               type: "POST",
+			               url: "${update_password_link}$",
+			               data:{"username": "${username}$", "old_passcode":old_passcode, "new_passcode":new_passcode, "verify":verify},
+               			       success: function(result){
+			                   result=JSON.parse(result);
+			                   if(result.status=="Fail"){
+			                        result="<div class='alert alert-danger'>Update Failed</div>";
+			                   }else{
+			                       result="<div class='alert alert-success'>Update Successful!</div> ";
+			                   }
+
+			                  result += "<button class='btn btn-info' onclick='refresh_page()'>Reload</button>";
+
+			                 $("#settings_update_password").html(result); 
+			   
+			              }
+			       });
+			       
 			       }
 
 			       function create_user(){

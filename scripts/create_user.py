@@ -9,6 +9,8 @@ sys.path.insert(0 , str(LINK_HEADERS.DAO_LINK))
 sys.path.insert(0, str(LINK_HEADERS.SERVICE_LINK))
 from login_dao import Login_dao
 from auth_service import Auth
+from user_stock_value_dao import User_stock_value_dao
+from user_portfolio_dao import User_portfolio_dao
 
 print "Content-Type: text/html\r\n\r\n"
 
@@ -30,6 +32,8 @@ try:
     if(Auth().verify(username,passcode)=="False"):
         print json.dumps({"status":"Fail"})
     else:
+        User_portfolio_dao().insert(username,0,0,0)
+        User_stock_value_dao().insert(username,0,0)
         print json.dumps({"status": "Success"})
         
 except:

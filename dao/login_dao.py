@@ -33,7 +33,22 @@ class Login_dao:#{
         username = profile.get_username()
 
         self.db_connection.query(SQL % (first_name, last_name, username));
+
+    def update_passcode(self, profile):
+        SQL="""
+              UPDATE login SET 
+                    passcode='%s',
+                    salt = '%s'
+              WHERE 
+                    username='%s'
+        """
         
+        username = profile.get_username()
+        passcode = profile.get_passcode()
+        salt = profile.get_salt()
+        
+        self.db_connection.query(SQL % (passcode, salt, username))
+    
     def get_salt(self, username):
         SQL="SELECT salt FROM login WHERE username='%s'"
         result=self.db_connection.query(SQL % (username,))
