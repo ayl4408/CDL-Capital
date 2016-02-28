@@ -1,7 +1,9 @@
 #!/usr/bin/python
 
-import cgi, datetime, sys, LINK_HEADERS
+import cgi, sys, LINK_HEADERS
 import simplejson as json
+from datetime import datetime
+from dateutil import tz
 sys.path.insert(0, str(LINK_HEADERS.DAO_LINK))
 from transaction_dao import Transaction_dao
 from user_portfolio_dao import User_portfolio_dao
@@ -42,7 +44,26 @@ if t:
     data['transactions']={}
     for i in range(len(t)):
         data['transactions'][i]={}
-        data['transactions'][i]['trans_date'] = t[i].get_trans_date().strftime('%Y-%m-%d %h:%m:%s')
+	
+	#start date formatting
+	from_zone = tz.tzutc()
+	to_zone = tz.tzlocal()
+
+        date_time = t[i].get_trans_date()
+
+	date_time = date_time.strftime('%Y-%m-%d %H:%M:%S')
+	date_time = datetime.strptime(date_time, '%Y-%m-%d %H:%M:%S')	
+
+	date_time = date_time.replace(tzinfo=from_zone)
+	updated_date_time = date_time.astimezone(to_zone)
+
+	
+	updated_date_time = updated_date_time.strftime('%Y-%m-%d %H:%M:%S')
+	#end date formatting	
+
+        data['transactions'][i]['trans_date'] = updated_date_time
+
+
         data['transactions'][i]['trans_type'] = t[i].get_trans_type()
         data['transactions'][i]['stock'] = t[i].get_stock()
         data['transactions'][i]['price'] = t[i].get_price()
