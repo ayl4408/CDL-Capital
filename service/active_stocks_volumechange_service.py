@@ -2,8 +2,10 @@
 
 import cgi, datetime, sys, LINK_HEADERS
 import simplejson as json
+sys.path.insert(0, str(LINK_HEADERS.DAO_LINK))
 sys.path.insert(0, str(LINK_HEADERS.MODELS_LINK))
-from company_model import Company
+sys.path.insert(0, str(LINK_HEADERS.SCRIPTS_LINK))
+from company_dao import Company_dao
 #import quick_sort_companyinfo
 
 print "Content-Type: text/html\r\n\r\n"
@@ -23,21 +25,21 @@ def percent_differences_volumechange(volume_array, averagedailyvolume_array):
 
 def main():
 	
-    volume_array = cdao.get_all_companies_model()
-    averagedailyvolume_array = cdao.get_all_companies_model()
+    volume_array = cdao.get_all_companies_volume()
+    averagedailyvolume_array = cdao.get_all_companies_averagedailyvolume()
 
     #quick_sort_companyinfo.quick_sort_nofloatconversion(volume_array, 0, len(volume_array)-1, "symbol")
-    volume_array.sort(key=lambda x: x.get_percent_change(), reverse=false)
+    volume_array.sort(key=lambda x: x.get_symbol(), reverse=False)
     #quick_sort_companyinfo.quick_sort_nofloatconversion(averagedailyvolume_array, 0, len(averagedailyvolume_array)-1, "symbol")	
-    averagedailyvolume_array.sort(key=lambda x: x.get_percent_change(), reverse=false)
+    averagedailyvolume_array.sort(key=lambda x: x.get_symbol(), reverse=False)
 
     percent_difference_array = percent_differences_volumechange(volume_array, averagedailyvolume_array)
 
     #quick_sort_companyinfo.quick_sort_nofloatconversion(percent_difference_array, 0, len(percent_difference_array) -1, "volume_change")
-    percent_difference_array.sort(key="volume_change")
+    percent_difference_array.sort(key=lambda x: x["volume_change"])
 
     result = []
-    for i in range(len(percent_difference_array)-1, len(percent_difference_array)-11, -1):
+    for i in range(len(percent_difference_array)-1, -1, -1):
     	 result.append(percent_difference_array[i])
 
     json_result = json.dumps(result)

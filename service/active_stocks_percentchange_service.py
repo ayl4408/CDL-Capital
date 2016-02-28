@@ -16,8 +16,8 @@ cdao = Company_dao()
 
 def main():
 
-    result = cdao.get_all_companies_model()
-    #quick_sort_companyinfo.quick_sort_percentchange(result, 0, len(result)-1, "PercentChange")
+    result = cdao.get_all_companies_percentchange()
+    quick_sort_companyinfo.quick_sort(result, 0, len(result)-1, "PercentChange")
     #result.sort(key=lambda x: x.get_percent_change(), reverse=True)
 
 
