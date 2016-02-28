@@ -328,7 +328,7 @@
                 $('.transaction_table tr td').remove();
                 var tb = document.createElement("tbody");
 		
-		len = Object.keys(json_obj).length		
+		len = Object.keys(json_obj).length;
 
                 for (i=len-1; i>=0; i--)
                 {
