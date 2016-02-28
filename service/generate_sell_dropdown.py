@@ -2,7 +2,6 @@
 
 import cgi, LINK_HEADERS, sys
 import simplejson as json
-sys.path.insert(0, str(LINK_HEADERS.MODELS_LINK))
 sys.path.insert(0, str(LINK_HEADERS.DAO_LINK))
 from transaction_dao import Transaction_dao
 from company_dao import Company_dao
@@ -17,5 +16,5 @@ if form.getvalue("user_name") != None:
 #test
 #username='al356'
 tdao=Transaction_dao()
-owned_stock_list=tdao.get_user_owned_stocks_list(username)
+owned_stock_list=tdao.get_user_stock_list(username)
 print json.dumps(owned_stock_list)
