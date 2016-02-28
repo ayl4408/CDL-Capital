@@ -64,6 +64,17 @@
 			      
 			    </div>
 			    
+			    <div class="panel panel-danger">
+			      <div class="panel-heading">Update Password</div>
+			      <div id="settings_update_password" class="panel-body">
+				   Old Password: <input id="update_password_old" class="form-control" type="password"/>
+				   New Password  <input id="update_password_new" class="form-control" type="password"/>
+				   Verify Password <input id="update_password_verify" class="form-control" type="password"/>
+				   <br><button class="btn btn-danger" onclick="update_password()">Update</button> 
+			       </div>
+			    
+			    </div>
+			    
 			    
 			  </div>
 
@@ -277,7 +288,7 @@
 
       function start()
       {
-          generate_sell_drop_down();
+          //generate_sell_drop_down();
           update_profile_information();
           intervalId = setInterval(update_profile_information, 60000);
       }
@@ -296,7 +307,7 @@
                 table_generate_users(json_obj['users']);
                 table_generate_transactions(json_obj['transactions']);
                 table_generate_owned_stocks(json_obj['owned_stocks']);
-                drawChart();
+                //drawChart();
                 //load_profile_information();
 		//most_active_stocks();
 		//most_active_stocks_volume();
@@ -459,7 +470,7 @@
 		        //console.log(buy_result)
                     update_profile_information();
                 }
-                generate_sell_drop_down();
+                //generate_sell_drop_down();
                 document.getElementById("buy_form").reset();
         }
       
@@ -484,7 +495,7 @@
                 generate_sell_drop_down();
                 
       }
-     
+     /*
         function generate_sell_drop_down()
         {
                 var user_name="${username}$";
@@ -507,7 +518,8 @@
                  $('<option value="'+ generate_sell_drop_down_parsed[field]['stock'] +'">' + generate_sell_drop_down_parsed[field]['stock'] + '</option>').appendTo('#company_name_sell');
             }
         }
-        /*function load_profile_information()
+
+      /*function load_profile_information()
         {
                 var user_name='<?php echo $user_check; ?>';
                 var profile_information="profile_information";
@@ -736,6 +748,37 @@
 			       
 			              $("#settings_update_body").html(result);
 			           }});
+			       }
+
+			       function update_password(){
+			           var old_passcode=document.getElementById("update_password_old").value;
+			           var new_passcode=document.getElementById("update_password_new").value;
+			           var verify=document.getElementById("update_password_verify").value;
+
+			           if(verify!==new_passcode){
+			               alert("Password Mismatch");
+			               return;
+			           }
+
+			           $.ajax({
+			               type: "POST",
+			               url: "${update_password_link}$",
+			               data:{"username": "${username}$", "old_passcode":old_passcode, "new_passcode":new_passcode, "verify":verify},
+               			       success: function(result){
+			                   result=JSON.parse(result);
+			                   if(result.status=="Fail"){
+			                        result="<div class='alert alert-danger'>Update Failed</div>";
+			                   }else{
+			                       result="<div class='alert alert-success'>Update Successful!</div> ";
+			                   }
+
+			                  result += "<button class='btn btn-info' onclick='refresh_page()'>Reload</button>";
+
+			                 $("#settings_update_password").html(result); 
+			   
+			              }
+			       });
+			       
 			       }
 
 			       function create_user(){

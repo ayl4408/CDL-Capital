@@ -5,7 +5,8 @@ from templite import Templite
 sys.path.insert(0 , str(LINK_HEADERS.DATABASE_LINK))
 from database_class import DB
 sys.path.insert(1 , str(LINK_HEADERS.SCRIPTS_LINK))
-from auth_class import Auth
+sys.path.insert(1 , str(LINK_HEADERS.SERVICE_LINK))
+from auth_service import Auth
 
 
 def m(username):
@@ -16,8 +17,7 @@ def m(username):
     print "Content-Type: text/html\r\n\r\n"
 
     t = Templite(html)
-    print t.render(username=username, login_link=LINK_HEADERS.LOGIN_LINK, home_link=LINK_HEADERS.HOME_LINK, transaction_link=LINK_HEADERS.TRANSACTION_LINK, deposit_link=LINK_HEADERS.DEPOSIT_LINK, upload_link=LINK_HEADERS.UPLOAD_LINK, dropdown_link=LINK_HEADERS.DROPDOWN_LINK, portfolio_link=LINK_HEADERS.PORTFOLIO_LINK, active_stocks_percentchange_link=LINK_HEADERS.ACTIVE_STOCKS_PERCENTCHANGE_LINK, create_user_link=LINK_HEADERS.CREATE_USER_LINK, update_user_link=LINK_HEADERS.UPDATE_USER_LINK, active_stocks_volumechange_link=LINK_HEADERS.ACTIVE_STOCKS_VOLUMECHANGE_LINK)
-
+    print t.render(username=username, login_link=LINK_HEADERS.LOGIN_LINK, home_link=LINK_HEADERS.HOME_LINK, transaction_link=LINK_HEADERS.TRANSACTION_LINK, deposit_link=LINK_HEADERS.DEPOSIT_LINK, upload_link=LINK_HEADERS.UPLOAD_LINK, dropdown_link=LINK_HEADERS.DROPDOWN_LINK, portfolio_link=LINK_HEADERS.PORTFOLIO_LINK, active_stocks_percentchange_link=LINK_HEADERS.ACTIVE_STOCKS_PERCENTCHANGE_LINK, create_user_link=LINK_HEADERS.CREATE_USER_LINK, update_user_link=LINK_HEADERS.UPDATE_USER_LINK, active_stocks_volumechange_link=LINK_HEADERS.ACTIVE_STOCKS_VOLUMECHANGE_LINK, update_password_link=LINK_HEADERS.UPDATE_PASSWORD_LINK)
 def check_cookie():
     cookie = Cookie.SimpleCookie()
     cookie_string = Cookie.SimpleCookie(os.environ.get('HTTP_COOKIE'))
