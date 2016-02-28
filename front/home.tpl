@@ -23,10 +23,10 @@
                         <div class="jumbotron">
                         <h1>CDL Capital</h1>
                         <h5>Welcome to your profile, ${ username }$</h5>
-</br>
+</br></br>
                                 <ul class="nav nav-pills">
                                 <li class="active"><a href=${home_link}$>My Profile</a></li>
-                                <li><a href=${home_link}$>Analysis</a></li>
+                              <!--  <li><a href=${home_link}$>Analysis</a></li>-->
                                 <li><a href="javascript:logout();">Logout</a></li>
                                 </ul>
                         </div>
@@ -38,9 +38,9 @@
 			    <li><a data-toggle="tab" href="#settings_menu">Settings</a></li>
 
                         </ul>
-
+			<br>
                         <div class="tab-content" >
-			  <br><br>
+			 
 			  <div id="settings_menu" class="tab-pane fade">
 			    <div class="panel panel-info" style="width:60%; margin-left:15%; margin-right:15%;">
 			      <div class="panel-heading">Update Information</div>
@@ -128,11 +128,7 @@
 
 
 
-</br>
-</br>
                                 </div>
-<br/>
-<br/>
                                 <div id="home" class="tab-pane fade in active">
                                         <div class="row">
                                         <div class="col-sm-4" sidenav>
@@ -277,7 +273,7 @@
                         async: false}).responseText;
 
       		var json_obj=JSON.parse(update_profile_result);
-      		console.log(json_obj);
+      //		console.log(json_obj);
                 table_generate_users(json_obj['users']);
                 table_generate_transactions(json_obj['transactions']);
                 table_generate_owned_stocks(json_obj['owned_stocks']);
@@ -524,7 +520,7 @@
                  	data: 'user_name='+ '${username}$',
                  	async: false}).responseText;
 		var most_active_stocks_result_parsed = JSON.parse(most_active_stocks_result);
-		console.log(most_active_stocks_result_parsed);
+	//	console.log(most_active_stocks_result_parsed);
 				
 		table_generate_active_stocks_percentchange (most_active_stocks_result_parsed);
 	
@@ -678,10 +674,10 @@
                         data: 'user_name='+ user_name + '&portfolio_distribution='+ portfolio_distribution,
                         dataType: "json",
                         async: false}).responseText;
-            console.log(portfolio_distribution)
+          //  console.log(portfolio_distribution)
         //if (typeof portfolio_distribution !== "") {
             portfolio_distribution_parsed=JSON.parse(portfolio_distribution);
-            console.log(portfolio_distribution_parsed)
+            //console.log(portfolio_distribution_parsed)
             $(function () {
                 $('#piechart').highcharts({
                 chart: {
