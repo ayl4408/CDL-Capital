@@ -6,10 +6,7 @@ sys.path.insert(0, str(LINK_HEADERS.DATABASE_LINK))
 sys.path.insert(0, str(LINK_HEADERS.MODELS_LINK))
 from database_class import DB
 from PDO import PDO
-<<<<<<< HEAD
-=======
 from company_model import Company
->>>>>>> 851b3ff25c45a29ca5a23fd1e47252a2cb57c006
 from company_base_model import Company_base
 
 class Company_dao:
