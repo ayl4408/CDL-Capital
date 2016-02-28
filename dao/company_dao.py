@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-import sys, LINK_HEADERS
+import cgi, sys, LINK_HEADERS
 from decimal import *
 sys.path.insert(0, str(LINK_HEADERS.DATABASE_LINK))
 sys.path.insert(0, str(LINK_HEADERS.MODELS_LINK))
@@ -27,17 +27,43 @@ class Company_dao:
             c.set_volume(result[0]['Volume'])
             return c
 
-    def get_all_companies_model(self):
-	result = self.db.query("select * from company_info;")
+    def get_all_companies_percentchange(self):
+	result = self.db.query("select symbol, PercentChange from company_info  WHERE PercentChange IS NOT NULL AND PercentChange!='None';")
 	if result:
 	    l = []
 	    for i in range(len(result)):
 		c = Company()
-		c.set_symbol(result[i]['Symbol'])
-		c.set_percent_change(result[i]['PercentChange'].translate(None, '+%')
-		c.set_volume(result[i]['Volume'])
-		c.set_avg_daily_volume(result[i]['AverageDailyVolume'])
+		c.set_symbol(result[i]['symbol'])
+		#r = result[i]['PercentChange'].translate(None, '+%')
+		#c.set_percent_change(r)
+		c.set_percent_change(result[i]['PercentChange'])#.translate(None, '+%'))
+		#c.set_volume(result[i]['Volume'])
+		#c.set_avg_daily_volume(result[i]['AverageDailyVolume'])
 		l.append(c)
 	    return l
 	
+    def get_all_companies_volume(self):
+	result = self.db.query("select symbol, Volume from company_info;")
+	if result:
+	    l = []
+	    for i in range(len(result)):
+		c = Company()
+		c.set_symbol(result[i]['symbol'])
+		c.set_volume(result[i]['Volume'])
+		l.append(c)
+	    return l
+
+    
+    def get_all_companies_averagedailyvolume(self): #NOT TO SELF: fix the averagedailyvolume and avg_daily_volume difference
+         result = self.db.query("select symbol, AverageDailyVolume from company_info;")
+         if result:
+             l = []
+             for i in range(len(result)):
+                 c = Company()
+                 c.set_symbol(result[i]['symbol'])
+                 c.set_avg_daily_volume(result[i]['AverageDailyVolume'])
+                 l.append(c)
+             return l
+
+
    

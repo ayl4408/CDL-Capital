@@ -253,7 +253,7 @@
 					<h4>Percent Change in Average Daily Volume Traded</h4>
 					<div></div>					
 
-						<div style="overflow;auto; height:500px">
+						<div style="overflow:auto; height:500px">
 						<table class="table table-hover volumechange_max_table">
 						<thead><tr>
 							<th>Stock</th>
@@ -281,7 +281,7 @@
 
       function start()
       {
-          //generate_sell_drop_down();
+          generate_sell_drop_down();
           update_profile_information();
           intervalId = setInterval(update_profile_information, 60000);
       }
@@ -302,8 +302,8 @@
                 table_generate_owned_stocks(json_obj['owned_stocks']);
                 //drawChart();
                 //load_profile_information();
-		//most_active_stocks();
-		//most_active_stocks_volume();
+		most_active_stocks();
+		most_active_stocks_volume();
         }
 
         function table_generate_owned_stocks (json_obj)
@@ -463,7 +463,7 @@
 		        //console.log(buy_result)
                     update_profile_information();
                 }
-                //generate_sell_drop_down();
+                generate_sell_drop_down();
                 document.getElementById("buy_form").reset();
         }
       
@@ -488,7 +488,7 @@
                 generate_sell_drop_down();
                 
       }
-     /*
+     
         function generate_sell_drop_down()
         {
                 var user_name="${username}$";
@@ -511,7 +511,7 @@
                  $('<option value="'+ generate_sell_drop_down_parsed[field]['stock'] +'">' + generate_sell_drop_down_parsed[field]['stock'] + '</option>').appendTo('#company_name_sell');
             }
         }
-      */
+      
         /*function load_profile_information()
         {
                 var user_name='<?php echo $user_check; ?>';
@@ -652,7 +652,6 @@
 
 	} 
 
-	*/
 
 </script>
 
