@@ -67,9 +67,9 @@
 			    <div class="panel panel-danger">
 			      <div class="panel-heading">Update Password</div>
 			      <div id="settings_update_password" class="panel-body">
-				   Old Password: <input id="update_password_old" class="form-control" type="text"/>
-				   New Password  <input id="update_password_new" class="form-control" type="text"/>
-				   Verify Password <input id="update_password_verify" class="form-control" type="text"/>
+				   Old Password: <input id="update_password_old" class="form-control" type="password"/>
+				   New Password  <input id="update_password_new" class="form-control" type="password"/>
+				   Verify Password <input id="update_password_verify" class="form-control" type="password"/>
 				   <br><button class="btn btn-danger" onclick="update_password()">Update</button> 
 			       </div>
 			    
