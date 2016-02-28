@@ -40,9 +40,9 @@
                         </ul>
 
                         <div class="tab-content" >
-
+			  <br><br>
 			  <div id="settings_menu" class="tab-pane fade">
-			    <div class="panel panel-info">
+			    <div class="panel panel-info" style="width:60%; margin-left:15%; margin-right:15%;">
 			      <div class="panel-heading">Update Information</div>
 
 			      <div id="settings_update_body" class="panel-body" id="update_info">
@@ -53,7 +53,7 @@
 			      </div>			      
 			    </div>
 
-			    <div class="panel panel-info">
+			    <div class="panel panel-info" style="width:60%; margin-left:15%; margin-right:15%;">
 			      <div class="panel-heading">Create New User</div>
 			      <div id="settings_create_user" class="panel-body">
 				Username : <input id="create_user_username" class="form-control" type="text"/>
@@ -67,7 +67,7 @@
 			      
 			    </div>
 			    
-			    <div class="panel panel-danger">
+			    <div class="panel panel-danger" style="width:60%; margin-left:15%; margin-right:15%;">
 			      <div class="panel-heading">Update Password</div>
 			      <div id="settings_update_password" class="panel-body">
 				   Old Password: <input id="update_password_old" class="form-control" type="password"/>
@@ -81,86 +81,53 @@
 			    
 			  </div>
 
+
 			  <div id="menu1" class="tab-pane fade">
 </br>
-</br>
-                                        <div class="row">
-                                                <form id="deposit_form" class="form-horizontal" role="form">
-                                                        <div class="form-group">
-                                                                <div class="col-sm-offset-1 col-sm-1">
-                                                                        <h3>Deposit</h3>
-                                                                </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label class="control-label col-sm-1" for="amount">Amount:</label>
-                                        <div class="col-sm-3">
-                                                                    <input class="form-control" type="number" min="0" id="amount" type="text" name="amount" />
-                                                                </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                                <div class="col-sm-offset-1 col-sm-1">
-                                                                    <input class="form-control" id="deposit" type="button" value="Submit" onclick="Deposit();"/>
-                                                                </div>
-                                                        </div>
-                                                </form>
-                                                <div id="deposit_status"></div>
-                                        </div>
 
-                                        <div class="row">
-                                                <form id="buy_form" class="form-horizontal" role="form">
-                                                        <div class="form-group">
-                                                                <div class="col-sm-offset-1 col-sm-1">
-                                                                        <h3>Buy</h3>
-                                                                </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                                <label class="control-label col-sm-1" for="company_name_buy">Company</label>
-                                                                <div class="col-sm-3">
-                                                                        <input class="form-control"  id="company_name_buy" type="text" name="company_name" />
-                                                                </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                                <label class="control-label col-sm-1" for="volume_buy">Volume:</label>
-                                                                <div class="col-sm-3">
-                                                                        <input class="form-control"  type="number" min="0" id="volume_buy" type="number" name="volume_buy" />
-                                                                </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                                <div class="col-sm-offset-1 col-sm-1">
-                                                                        <input class="form-control" id="Buy" type="button" value="Submit" onclick="buy();"/>
-                                                                </div>
-                                                        </div>
-                                                </form>
-                                                <div id="outputbox"><p id="outputcontent"></p></div>
-                                                <div id="buy_status"></div>
-                                        </div>
 
-                                        <div class="row">
-                                                <form class="sell_form form-horizontal" id="sell_form" role="form">
-                                                        <div class="form-group">
-                                                                <div class="col-sm-offset-1 col-sm-1">
-                                                                        <h3>Sell</h3>
-                                                                </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                                <div class="col-sm-offset-1 col-sm-1">
-                                                                <select id="company_name_sell" name="company_name_sell"></select>
-                                                        </div>
-                                                </div>
-                                                <div class="form-group">
-                                                        <label class="control-label col-sm-1" for="volume_sell">Volume:</label>
-                                                        <div class="col-sm-3">
-                                                                <input class="form-control" type="number" min="0" id="volume_sell" type="number" name="volume_sell" />
-                                                        </div>
-                                                </div>
-                                                <div class="form-group">
-                                                        <div class="col-sm-offset-1 col-sm-1">
-                                                                        <input class="form-control" id="Sell" type="button" value="Submit" onclick="sell();"/>
-                                                                </div>
-                                                        </div>
-                                        </form>
-                                        </div>
-</br>
+
+
+
+			  <form id="deposit_form" role="form">
+			    <div class="panel panel-info" style="width:60%; margin-left:15%; margin-right:15%;">
+			      <div class="panel-heading">Deposits</div>
+			      <div id="deposits" class="panel-body">
+				Amount: <input id="amount" class="form-control" type="text"/><br>
+				<button class="btn btn-info" onclick="Deposit()">Deposit</button>
+			      </div>
+			    </div>
+			    </form>
+
+			  <form id="buy_form" role="form" rol="form">
+			    <div class="panel panel-success" style="width:60%; margin-left:15%; margin-right:15%;">
+			      <div class="panel-heading">Buy</div>
+			      <div id="deposits" class="panel-body">
+				Company: <input id="company_name_buy" type="text" class="form-control" name="company_name" /><br>
+				Volume: <input id="volume_buy" class="form-control" type="number" min="0" name="volume_buy" /><br>
+				<button class="btn btn-success" id="Buy" onclick="buy()">Buy</button>
+			      </div>
+			    </div>
+			  </form>
+
+
+
+			  <form id="sell_form" role="form" rol="form">
+			    <div class="panel panel-warning" style="width:60%; margin-left:15%; margin-right:15%;">
+			      <div class="panel-heading">Sell</div>
+			      <div id="sells" class="panel-body">
+				Company: <select id="company_name_sell" class="form-control"  name="company_name_sell"></select>
+				Volume: <input id="volume_sell" class="form-control" type="number" min="0" name="volume_sell" /><br>
+				<button class="btn btn-warning" id="Sell" onclick="sell()">Sell</button>
+			      </div>
+			    </div>
+			    </form>
+
+
+
+
+
+
 </br>
 </br>
                                 </div>
@@ -169,7 +136,7 @@
                                 <div id="home" class="tab-pane fade in active">
                                         <div class="row">
                                         <div class="col-sm-4" sidenav>
-                                                <h4>Portfolio Information</h4>
+                                                <h2><b><u>Portfolio Information</u></b></h2>
                                                 <table class="table table-hover user_table">
                                         <thead>
                                                                 <tr>
@@ -185,7 +152,7 @@
 <br>
                                                 <div id="user_information"></div>
 
-                                                <h4>Owned Stocks</h4>
+                                                <h2><b><u>Owned Stocks</u></b></h2>
 						<div class="col-sm-12">
 						<div style= "overflow:auto; height:350px;">
                                                 <table class="table table-hover owned_stocks_table">
@@ -210,11 +177,10 @@
                                                 </div>
                                 </div>
 				
-<br>
-<br>
+
                                 <div class="row" >
 					<div class="col-sm-6">
-					<h4>Recent Transactions</h4>
+					<h2><b><u>Recent Transactions</u></b></h4>
 				
 					<div style= "overflow:auto; height:500px;">
                                                 <table class="table table-hover transaction_table" >
