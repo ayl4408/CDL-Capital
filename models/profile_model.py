@@ -30,6 +30,8 @@ class Profile:#{
     def get_last_name(self):
         return self.last_name
 
+    def get_salt(self):
+        return self.salt
     #-------------------------
 
     def set_username(self, username):
@@ -44,6 +46,9 @@ class Profile:#{
     def set_last_name(self, last_name):
         self.last_name = last_name
 
+    def set_salt(self, salt):
+        self.salt=salt
+        
     #-------------------------
         
     def generate_salt(self):

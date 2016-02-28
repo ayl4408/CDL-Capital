@@ -64,6 +64,17 @@
 			      
 			    </div>
 			    
+			    <div class="panel panel-danger">
+			      <div class="panel-heading">Update Password</div>
+			      <div id="settings_update_password" class="panel-body">
+				   Old Password: <input id="update_password_old" class="form-control" type="password"/>
+				   New Password  <input id="update_password_new" class="form-control" type="password"/>
+				   Verify Password <input id="update_password_verify" class="form-control" type="password"/>
+				   <br><button class="btn btn-danger" onclick="update_password()">Update</button> 
+			       </div>
+			    
+			    </div>
+			    
 			    
 			  </div>
 
@@ -275,7 +286,7 @@
         </div>
 
     <script type="text/javascript">
-
+      //what
       var intervalId = null;
       window.onload = start;
 
@@ -488,7 +499,7 @@
                 generate_sell_drop_down();
                 
       }
-     
+   
         function generate_sell_drop_down()
         {
                 var user_name="${username}$";
@@ -501,18 +512,18 @@
                         data: 'user_name='+ user_name + '&sell_companies_list='+ generate_sell_drop_down,
                         dataType: "json",
                         async: false}).responseText;
-
-                //console.log(generate_sell_drop_down_result);
-                generate_sell_drop_down_parsed=JSON.parse(generate_sell_drop_down_result);
-                //console.log(generate_sell_drop_down_parsed);
-                $('#company_name_sell').empty();
-                $('<option value="Companies"> Companies </option>').appendTo('#company_name_sell');
-            for(var field in generate_sell_drop_down_parsed) {
-                 $('<option value="'+ generate_sell_drop_down_parsed[field]['stock'] +'">' + generate_sell_drop_down_parsed[field]['stock'] + '</option>').appendTo('#company_name_sell');
-            }
+                    //console.log(generate_sell_drop_down_result);
+                    generate_sell_drop_down_parsed=JSON.parse(generate_sell_drop_down_result);
+                    //console.log(generate_sell_drop_down_parsed);
+                    $('#company_name_sell').empty();
+                    $('<option value="Companies"> Companies </option>').appendTo('#company_name_sell');
+                    for(var field in generate_sell_drop_down_parsed) {
+                        $('<option value="'+ generate_sell_drop_down_parsed[field] + '">' + generate_sell_drop_down_parsed[field] + '</option>').appendTo('#company_name_sell');
+	    }
         }
       
-        /*function load_profile_information()
+
+      /*function load_profile_information()
         {
                 var user_name='<?php echo $user_check; ?>';
                 var profile_information="profile_information";
@@ -652,6 +663,10 @@
 
 	} 
 
+<<<<<<< HEAD
+=======
+	
+>>>>>>> upstream/master
 
 </script>
 
@@ -677,10 +692,11 @@
                         data: 'user_name='+ user_name + '&portfolio_distribution='+ portfolio_distribution,
                         dataType: "json",
                         async: false}).responseText;
-		//console.log(portfolio_distribution)
-                portfolio_distribution_parsed=JSON.parse(portfolio_distribution);
-		//console.log(portfolio_distribution_parsed)
-        $(function () {
+            console.log(portfolio_distribution)
+        //if (typeof portfolio_distribution !== "") {
+            portfolio_distribution_parsed=JSON.parse(portfolio_distribution);
+            console.log(portfolio_distribution_parsed)
+            $(function () {
                 $('#piechart').highcharts({
                 chart: {
                     plotBackgroundColor: null,
@@ -712,9 +728,9 @@
                 }]
             });
         });
-    }
-
-
+   // }
+  
+}
       function logout(){
         document.cookie="login=False";
         window.location="${login_link}$"
@@ -740,6 +756,37 @@
 			       
 			              $("#settings_update_body").html(result);
 			           }});
+			       }
+
+			       function update_password(){
+			           var old_passcode=document.getElementById("update_password_old").value;
+			           var new_passcode=document.getElementById("update_password_new").value;
+			           var verify=document.getElementById("update_password_verify").value;
+
+			           if(verify!==new_passcode){
+			               alert("Password Mismatch");
+			               return;
+			           }
+
+			           $.ajax({
+			               type: "POST",
+			               url: "${update_password_link}$",
+			               data:{"username": "${username}$", "old_passcode":old_passcode, "new_passcode":new_passcode, "verify":verify},
+               			       success: function(result){
+			                   result=JSON.parse(result);
+			                   if(result.status=="Fail"){
+			                        result="<div class='alert alert-danger'>Update Failed</div>";
+			                   }else{
+			                       result="<div class='alert alert-success'>Update Successful!</div> ";
+			                   }
+
+			                  result += "<button class='btn btn-info' onclick='refresh_page()'>Reload</button>";
+
+			                 $("#settings_update_password").html(result); 
+			   
+			              }
+			       });
+			       
 			       }
 
 			       function create_user(){

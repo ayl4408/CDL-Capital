@@ -1,5 +1,4 @@
 #!/usr/bin/python
-
 import cgi,LINK_HEADERS, sys, json
 sys.path.insert(0 , str(LINK_HEADERS.DATABASE_LINK))
 from database_class import DB
@@ -14,16 +13,23 @@ print "Content-Type: text/html\r\n\r\n"
 
 form = cgi.FieldStorage()
 username = str(form.getvalue("username"))
-passcode = str(form.getvalue("passcode"))
-first_name = str(form.getvalue("first_name"))
-last_name = str(form.getvalue("last_name"))
+old_passcode = str(form.getvalue("old_passcode"))
+new_passcode = str(form.getvalue("new_passcode"))
+verify_passcode = str(form.getvalue("verify_passcode"))
 
-profile = Profile(username, passcode, first_name, last_name);
+profile = Profile(username, new_passcode, "", "");
+profile.prepare()
 
-if(Auth().verify(username,passcode)=="False"):
-    #If authorization failed, we do not update the user info
+
+if(Auth().verify(username, old_passcode)=="False"):
     print json.dumps({"status":"Fail"})
 else:
-    #update information
-    Login_dao().update_user(profile)
+    Login_dao().update_passcode(profile)
     print json.dumps({"status":"Success"})
+
+
+
+
+
+
+        
