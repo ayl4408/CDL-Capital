@@ -26,3 +26,10 @@ class Company_dao:
             c.set_avg_daily_volume(result[0]['AverageDailyVolume'])
             c.set_volume(result[0]['Volume'])
             return c
+   
+    #def get_company_model_Ask(self, symbol):
+    #   result=self.db.query("select Ask from company_info where symbol = ('%s')"%(symbol)+";")
+    #   if result:
+    #        c = Company()
+    #        c.set_Ask(result[0]['Ask'])
+    #        return c

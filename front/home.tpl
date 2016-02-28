@@ -492,7 +492,7 @@
                 }
                 //console.log(sell_result);
                 document.getElementById("sell_form").reset();
-                //generate_sell_drop_down();
+                generate_sell_drop_down();
                 
       }
      /*
@@ -518,8 +518,8 @@
                  $('<option value="'+ generate_sell_drop_down_parsed[field]['stock'] +'">' + generate_sell_drop_down_parsed[field]['stock'] + '</option>').appendTo('#company_name_sell');
             }
         }
-      */
-        /*function load_profile_information()
+
+      /*function load_profile_information()
         {
                 var user_name='<?php echo $user_check; ?>';
                 var profile_information="profile_information";
