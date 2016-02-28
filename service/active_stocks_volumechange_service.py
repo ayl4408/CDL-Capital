@@ -39,7 +39,7 @@ def main():
     percent_difference_array.sort(key=lambda x: x["volume_change"])
 
     result = []
-    for i in range(len(percent_difference_array)-1, -1, -1):
+    for i in range(len(percent_difference_array)-1, len(percent_difference_array)-26, -1):
     	 result.append(percent_difference_array[i])
 
     json_result = json.dumps(result)

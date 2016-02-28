@@ -311,7 +311,7 @@
                 table_generate_users(json_obj['users']);
                 table_generate_transactions(json_obj['transactions']);
                 table_generate_owned_stocks(json_obj['owned_stocks']);
-                //drawChart();
+                drawChart();
                 //load_profile_information();
 		most_active_stocks();
 		most_active_stocks_volume();
@@ -551,7 +551,7 @@
                  	data: 'user_name='+ '${username}$',
                  	async: false}).responseText;
 		var most_active_stocks_result_parsed = JSON.parse(most_active_stocks_result);
-		console.log(most_active_stocks_result_parsed);
+		//console.log(most_active_stocks_result_parsed);
 				
 		table_generate_active_stocks_percentchange (most_active_stocks_result_parsed);
 	
@@ -630,7 +630,7 @@
 			data: 'user_name='+ '${username}$',
 			async: false}).responseText;
 		var most_active_stocks_volume_result_parsed = JSON.parse(most_active_stocks_volume_result);
-		console.log(most_active_stocks_volume_result_parsed);
+		//console.log(most_active_stocks_volume_result_parsed);
 
 		table_generate_active_stocks_volumechange(most_active_stocks_volume_result_parsed);
 	}
