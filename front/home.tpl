@@ -566,7 +566,7 @@
 				
 					
 		// Doing the negative changes
-                for (i=0; i <= 4; i++)
+                for (i=0; i <= 24; i++)
                 {
 			
                         var tr = document.createElement("tr");
@@ -597,7 +597,7 @@
                 var tb = document.createElement("tbody");
 
 		// Doing the positive changes
-                for (i=5; i <= 9; i++)
+                for (i=25; i <= 49; i++)
                 { 
 					
                         var tr = document.createElement("tr");
@@ -606,7 +606,7 @@
 			
 			td2.style.color = "green";
 			
-                        var t1 = document.createTextNode(i-4 + ". " + json_obj[i]['symbol']);
+                        var t1 = document.createTextNode(i-24 + ". " + json_obj[i]['symbol']);
                         td1.appendChild(t1);
                         var t2 = document.createTextNode("+" + json_obj[i]['PercentChange'] + " %"); // Add the + sign for display
                         td2.appendChild(t2);
