@@ -40,8 +40,8 @@
                         </ul>
 			<br>
                         <div class="tab-content" >
-			 
 			  <div id="settings_menu" class="tab-pane fade">
+			    <br>
 			    <div class="panel panel-info" style="width:60%; margin-left:15%; margin-right:15%;">
 			      <div class="panel-heading">Update Information</div>
 
@@ -130,106 +130,112 @@
 
                                 </div>
                                 <div id="home" class="tab-pane fade in active">
-                                        <div class="row">
-                                        <div class="col-sm-4" sidenav>
-                                                <h2><b><u>Portfolio Information</u></b></h2>
-                                                <table class="table table-hover user_table">
+                                  <div class="row">
+                                    <div class="col-sm-6" sidenav>
+                                      <h2><b><u>Portfolio Information</u></b></h2>
+                                      <table class="table table-hover user_table">
                                         <thead>
-                                                                <tr>
-                                                                    <th>Total Portfolio</th>
-                                                                    <th>Available Funds</th>
-                                                                    <th>Total Stock Values</th>
-                                                                    <th>Total Profit</th>
-                                                                    <th>Total Deposited</th>
-                                                                </tr>
+                                          <tr>
+                                            <th>Total Portfolio</th>
+                                            <th>Available Funds</th>
+                                            <th>Total Stock Values</th>
+                                            <th>Total Gain/Loss</th>
+                                            <th>Total Deposited</th>
+                                          </tr>
                                         </thead>
-                                                    </table>
+                                      </table>
 <br>
-<br>
-                                                <div id="user_information"></div>
+                                      <div id="user_information"></div>
+                                        <h2><b><u>Owned Stocks</u></b></h2>
+                         		  <!--<div class="col-sm-12">-->
+					  <div style= "overflow:auto; height:300px;">
+                                            <table class="table table-hover owned_stocks_table">
+                                              <thead>
+                                                <tr>
+                                                  <th>Stock</th>
+                                                  <th>Shares</th>
+                                                  <th>Current Price</th>
+                                                  <th>Total Worth</th>
+                                                  <th>Gain/Loss</th>
+                                                </tr>
+                                              </thead>
+                                            </table>
+				            <!--</div>-->
+					  </div>
+                                          <div id="owned_stocks_information"></div>
+                                      </div>
 
-                                                <h2><b><u>Owned Stocks</u></b></h2>
-						<div class="col-sm-12">
-						<div style= "overflow:auto; height:350px;">
-                                                <table class="table table-hover owned_stocks_table">
-                                                                <thead>
-                                            <tr>
-                                                                    <th>Stock</th>
-                                                                    <th>Shares</th>
-                                                                    <th>Current Price</th>
-                                                                    <th>Total Worth</th>
-                                                                    <th>Net Gain/Loss</th>
-                                                                </tr>
-                                        </thead>
-                                                </table>
-						</div>
-						</div>
+				    <div class="col-sm-6">
+<br>
+				      <div id="piechart" style="width: 500px; height: 500px; float:right;"></div>
+                                    </div>
+                                  </div>
 <br>
 <br>
-                                                <div id="owned_stocks_information"></div>
-                                        </div>
-                                        <div class="col-sm-8">
-                                                        <div id="piechart" style="width: 900px; height: 500px;"></div>
-                                                </div>
-                                </div>
-				
+                                <div class="row">
+				  <div class="col-sm-6">
+				    <h2><b><u>Transaction History</u></b></h4>
+                                      <div style="overflow:auto; height:500px;">
+                                        <table class="table table-hover transaction_table" >
+                                          <thead>
+					    <tr>
+                                              <th>Transaction Date </th>
+                                              <th>Transaction Type</th>
+                                              <th>Stock</th>
+                                              <th>Price</th>
+					      <th>Total Price</th>
+					      <th>Volume</th>
+                                            </tr>
+					  </thead>
+                                        </table>
+				      </div>
+                                    </div>
+                                    <div class="col-sm-6"<!-- PUT ANOTHER GRAPH HERE -->></div>
+                                  </div>
+<br><br>
+</div>
 
-                                <div class="row" >
-					<div class="col-sm-6">
-					<h2><b><u>Recent Transactions</u></b></h4>
-				
-					<div style= "overflow:auto; height:500px;">
-                                                <table class="table table-hover transaction_table" >
-                                                <thead><tr>
-                                                    <th>Transaction Date </th>
-                                                    <th>Transaction Type</th>
-                                                    <th>Stock</th>
-                                                    <th>Price</th>
-						    <th>Total Price</th>
-						    <th>Volume</th>
-                                                </tr></thead>
-                                                </table>
-					</div>
-					</div>
-				</div>
-			</div>
 					
                                 <div id="menu2" class="tab-pane fade">	
-					<div class="col-sm-6">
-					<h4>Percent Change In Price</h4>
+				  <div class="row">
+				    <div class="col-sm-6">
+				      <h2><b><u>Percent Change In Price</u></b></h2>				
+				      <div>
+					<br>
+					  <h4>Top 25 Positive Changes</h4>
+					    <div style= "overflow:auto; height:350px;">
+					      <table class="table table-hover percentchange_max_table" >
+					        <thead>
+						  <tr>
+						    <th>Stock</th>
+						    <th>Percent Change</th>
+						  </tr>
+						</thead>
+					      </table>
+					    </div>
+					 </div>
 
-										
 					<div>
-						<h6>Best Changes</h6>
-						<div style= "overflow:auto; height:250px;">
-						<table class="table table-hover percentchange_max_table" >
-						<thead><tr>
-							<th>Stock</th>
-							<th>Percent Change</th>
-						</tr></thead>
-						</table>
-						</div>
-					</div>
-
-					<div>
-                                                <h6>Worst Changes</h6>
-						<div style="overflow:auto; height:250px">
-                                                <table class="table table-hover percentchange_min_table" >
-                                                <thead><tr>                                                      
-                                                         <th>Stock</th>
-						         <th>Percent Change</th>
-                                                </tr></thead>
-                                                </table>
-						</div>
+					  <br>
+                                          <h4>Top 25 Negative Changes</h4>
+					    <div style="overflow:auto; height:350px">
+                                              <table class="table table-hover percentchange_min_table" >
+                                                <thead>
+						  <tr>                                                      
+                                                    <th>Stock</th>
+						    <th>Percent Change</th>
+                                                  </tr>
+						</thead>
+                                              </table>
+					    </div>
                                          </div>
+				      </div>
 
-					</div>
-
-					<div class="col-sm-6">
-					<h4>Percent Change in Average Daily Volume Traded</h4>
-					<div></div>					
-
-						<div style="overflow:auto; height:500px">
+				      <div class="col-sm-6">
+					<h2><b><u>Percent Change in Daily Volume</u></b></h2>
+					<br>
+					<h4>Top 25 Percent Change</h4>
+					<div style="overflow:auto; height:800px">
 						<table class="table table-hover volumechange_max_table">
 						<thead><tr>
 							<th>Stock</th>
@@ -239,6 +245,7 @@
 						</div>
 					
 					</div>
+				</div>
 
 
 <br>
@@ -687,7 +694,7 @@
                     type: 'pie'
                 },
                 title: {
-                    text: 'Portfolio Distribution'
+                    text: ' '
                 },
                 tooltip: {
                     pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
