@@ -551,7 +551,7 @@
                  	data: 'user_name='+ '${username}$',
                  	async: false}).responseText;
 		var most_active_stocks_result_parsed = JSON.parse(most_active_stocks_result);
-		//console.log(most_active_stocks_result_parsed);
+		console.log(most_active_stocks_result_parsed);
 				
 		table_generate_active_stocks_percentchange (most_active_stocks_result_parsed);
 	
@@ -563,10 +563,11 @@
                 $('.percentchange_min_table tr td').remove();
                 var tb = document.createElement("tbody");
 
-				
-					
+		var worst_changes = json_obj[0];	
+		var best_changes = json_obj[1];	
+		//console.log(worst_changes[0]["symbol"]);					
 		// Doing the negative changes
-                for (i=0; i <= 24; i++)
+                for (i=0; i < worst_changes.length; i++)
                 {
 			
                         var tr = document.createElement("tr");
@@ -574,9 +575,9 @@
                         var td2 = document.createElement("td");
 			td2.style.color = "red";
 
-                        var t1 = document.createTextNode(i+1 + ". " + json_obj[i]['symbol']);
+                        var t1 = document.createTextNode(i+1 + ". " + worst_changes[i]['symbol']);
                         td1.appendChild(t1);
-                        var t2 = document.createTextNode(json_obj[i]['PercentChange'] + " %");
+                        var t2 = document.createTextNode(worst_changes[i]['PercentChange'] + " %");
                         td2.appendChild(t2);
 
 
@@ -597,7 +598,7 @@
                 var tb = document.createElement("tbody");
 
 		// Doing the positive changes
-                for (i=25; i <= 49; i++)
+                for (i=0; i < best_changes.length; i++)
                 { 
 					
                         var tr = document.createElement("tr");
@@ -606,9 +607,9 @@
 			
 			td2.style.color = "green";
 			
-                        var t1 = document.createTextNode(i-24 + ". " + json_obj[i]['symbol']);
+                        var t1 = document.createTextNode(i+1 + ". " + best_changes[i]['symbol']);
                         td1.appendChild(t1);
-                        var t2 = document.createTextNode("+" + json_obj[i]['PercentChange'] + " %"); // Add the + sign for display
+                        var t2 = document.createTextNode("+" + best_changes[i]['PercentChange'] + " %"); // Add the + sign for display
                         td2.appendChild(t2);
 
                         tr.appendChild(td1);

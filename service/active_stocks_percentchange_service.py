@@ -23,11 +23,16 @@ def main():
 
     json_object=[]
 	
-    for i in range(0, 25): #gets top 5 best changes
-	json_object.append({"symbol": result[i].get_symbol(), "PercentChange" : result[i].get_percent_change()})
+    worst_changes=[]
+    for i in range(0, 25): #gets top 5 worst changes
+	worst_changes.append({"symbol": result[i].get_symbol(), "PercentChange" : result[i].get_percent_change()})
+    json_object.append(worst_changes)
 
-    for i in range(len(result)-1, len(result)-26, -1): #gets top 5 worst changes
-	json_object.append({"symbol": result[i].get_symbol(), "PercentChange" : result[i].get_percent_change()})
+
+    best_changes=[]
+    for i in range(len(result)-1, len(result)-26, -1): #gets top 5 best changes
+	best_changes.append({"symbol": result[i].get_symbol(), "PercentChange" : result[i].get_percent_change()})
+    json_object.append(best_changes)
 
     json_object.append(len(result))
     json_result = json.dumps(json_object)
