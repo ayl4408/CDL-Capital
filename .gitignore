@@ -3,8 +3,10 @@
 
 
 back/LINK_HEADERS.py
+dao/LINK_HEADERS.py
 front/LINK_HEADERS.py
 models/LINK_HEADERS.py
+service/LINK_HEADERS.py
 scripts/LINK_HEADERS.py
 yql/LINK_HEADERS.py
 

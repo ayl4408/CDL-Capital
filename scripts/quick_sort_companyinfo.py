@@ -19,27 +19,27 @@ def quick_sort(array, left, right, field):
     k = randint(left, right)
     swap(array, left, k)
     
-    array[left][field] = array[left][field].translate(None, '+%') # Do this because float() won't read "+'s & %'s but it will read -'s, need to strip them
-    pivot = float(array[left][field])
+    array[left].set_percent_change(array[left].get_percent_change().translate(None, '+%')) # Do this because float() won't read "+'s & %'s but it will read -'s, need to strip them
+    pivot = float(array[left].get_percent_change())
    
     l = left + 1
     r = right
 
     while(l<= r):
         
-        array[l][field] = array[l][field].translate(None, '+%')
-	while(l<=r and float(array[l][field]) <= pivot):
+        array[l].set_percent_change(array[l].get_percent_change().translate(None, '+%'))
+	while(l<=r and float(array[l].get_percent_change()) <= pivot):
 	    l += 1
 	    if(l>r):
 		break;
-            array[l][field] = array[l][field].translate(None, '+%')
+            array[l].set_percent_change(array[l].get_percent_change().translate(None, '+%'))
 
-        array[r][field] = array[r][field].translate(None, '+%')
-	while(l<=r and float(array[r][field]) >= pivot):
+        array[r].set_percent_change(array[r].get_percent_change().translate(None, '+%'))
+	while(l<=r and float(array[r].get_percent_change()) >= pivot):
 	    r -= 1
 	    if(l>r):
 		break;
-            array[r][field] = array[r][field].translate(None, '+%')
+            array[r].set_percent_change(array[r].get_percent_change().translate(None, '+%'))
 
 	if(l<r):
 	    swap(array, l, r)
