@@ -663,10 +663,7 @@
 
 	} 
 
-<<<<<<< HEAD
-=======
 	
->>>>>>> upstream/master
 
 </script>
 
