@@ -321,7 +321,8 @@
         {
                 $('.owned_stocks_table tr td').remove();
                 var tb = document.createElement("tbody");		
-		                
+		       
+ 
 		for (i in json_obj)
                 {
                         var tr = document.createElement("tr");
@@ -360,8 +361,10 @@
         {
                 $('.transaction_table tr td').remove();
                 var tb = document.createElement("tbody");
+		
+		len = Object.keys(json_obj).length		
 
-                for (i in json_obj)
+                for (i=len-1; i>=0; i--)
                 {
 
                         var tr = document.createElement("tr");
