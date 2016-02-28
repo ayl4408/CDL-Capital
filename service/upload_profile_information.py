@@ -69,7 +69,16 @@ if t:
         data['transactions'][i]['price'] = t[i].get_price()
         data['transactions'][i]['total_price'] = t[i].get_total_price()
         data['transactions'][i]['volume'] = t[i].get_volume()
-
+else:
+    data['transactions']={}
+    data['transactions'][0]={}
+    data['transactions'][0]['trans_date'] = ""
+    data['transactions'][0]['trans_type'] = ""
+    data['transactions'][0]['stock'] = ""
+    data['transactions'][0]['price'] = ""
+    data['transactions'][0]['total_price'] = ""
+    data['transactions'][0]['volume'] = ""
+    
 l = tdao.get_user_stock_list(username)
         
 if l:
@@ -83,7 +92,15 @@ if l:
         data['owned_stocks'][i]['current_price'] = c.get_ask()
         data['owned_stocks'][i]['total_worth'] = o.get_total_worth()
         data['owned_stocks'][i]['profit'] = o.get_profit()
-
+else:
+    data['owned_stocks']={}
+    data['owned_stocks'][0]={}
+    data['owned_stocks'][0]['stock'] = ""
+    data['owned_stocks'][0]['current_shares'] = ""
+    data['owned_stocks'][0]['current_price'] = ""
+    data['owned_stocks'][0]['total_worth'] = ""
+    data['owned_stocks'][0]['profit'] = ""
+    
 json_result = json.dumps(data)
 print json_result
 

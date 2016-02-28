@@ -7,6 +7,7 @@ sys.path.insert(0, str(LINK_HEADERS.MODELS_LINK))
 from database_class import DB
 from PDO import PDO
 from company_model import Company
+from company_base_model import Company_base
 
 class Company_dao:
 
@@ -15,6 +16,19 @@ class Company_dao:
     def __init__(self):
         self.db =  PDO().get_connection(LINK_HEADERS.DB_HOST, LINK_HEADERS.DB_USER, LINK_HEADERS.DB_PASSWORD, LINK_HEADERS.DB_NAME)
                            
+    def get_all_ask(self):
+        result = self.db.query("select Symbol, Name, Ask from company_info;")
+        if result:
+            l=[]
+            for i in range(len(result)):
+                if result[i]['Ask'] != None:
+                    c = Company_base()
+                    c.set_name(result[i]['Name'])
+                    c.set_ask(result[i]['Ask'])
+                    c.set_symbol(result[i]['Symbol'])
+                    l.append(c)
+            return l
+                
     def get_company_model(self, symbol):
         result = self.db.query("select * from company_info where symbol = ('%s')"%(symbol)+";")
         if result:
@@ -66,4 +80,12 @@ class Company_dao:
              return l
 
 
-   
+    def get_all_companies_stock(self):
+        result = self.db.query("select Symbol from company_info;")
+        if result:
+            l = []
+            for i in range(len(result)):
+                c = Company_base()
+                c.set_symbol(result[i]['Symbol'])
+                l.append(c)
+            return l   

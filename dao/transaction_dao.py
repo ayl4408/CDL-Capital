@@ -16,6 +16,18 @@ class Transaction_dao:
 
      def __init__(self):
           self.db =  PDO().get_connection(LINK_HEADERS.DB_HOST, LINK_HEADERS.DB_USER, LINK_HEADERS.DB_PASSWORD, LINK_HEADERS.DB_NAME)
+
+     def select(self):
+          result = self.db.query("select * from transactions;")
+          if result:
+               l = []
+               for i in range(len(result)):
+                    t = Transaction(result[i]['user'],result[i]['trans_date'],result[i]['stock'],result[i]['price'],result[i]['sold'],result[i]['order_id'],result[i]['profit'])
+                    l.append(t)
+               return l
+
+     def update_profit(self, user, trans_date, order_id, profit):
+          self.db.query("update transactions set profit=('%s') where user=('%s') and trans_date=('%s') and order_id=('%s')"%(profit, user, trans_date, order_id)+";")
           
      def select_all(self, user):
           result = self.db.query("select * from transactions where user=('%s')"%(user)+";")
