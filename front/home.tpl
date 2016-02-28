@@ -487,15 +487,14 @@
                         data: 'user_name='+ user_name + '&sell_companies_list='+ generate_sell_drop_down,
                         dataType: "json",
                         async: false}).responseText;
-
-                //console.log(generate_sell_drop_down_result);
-                generate_sell_drop_down_parsed=JSON.parse(generate_sell_drop_down_result);
-                //console.log(generate_sell_drop_down_parsed);
-                $('#company_name_sell').empty();
-                $('<option value="Companies"> Companies </option>').appendTo('#company_name_sell');
-            for(var field in generate_sell_drop_down_parsed) {
-                 $('<option value="'+ generate_sell_drop_down_parsed[field]['stock'] +'">' + generate_sell_drop_down_parsed[field]['stock'] + '</option>').appendTo('#company_name_sell');
-            }
+                    //console.log(generate_sell_drop_down_result);
+                    generate_sell_drop_down_parsed=JSON.parse(generate_sell_drop_down_result);
+                    //console.log(generate_sell_drop_down_parsed);
+                    $('#company_name_sell').empty();
+                    $('<option value="Companies"> Companies </option>').appendTo('#company_name_sell');
+                    for(var field in generate_sell_drop_down_parsed) {
+                        $('<option value="'+ generate_sell_drop_down_parsed[field] + '">' + generate_sell_drop_down_parsed[field] + '</option>').appendTo('#company_name_sell');
+	    }
         }
         /*function load_profile_information()
         {
@@ -663,10 +662,11 @@
                         data: 'user_name='+ user_name + '&portfolio_distribution='+ portfolio_distribution,
                         dataType: "json",
                         async: false}).responseText;
-		//console.log(portfolio_distribution)
-                portfolio_distribution_parsed=JSON.parse(portfolio_distribution);
-		//console.log(portfolio_distribution_parsed)
-        $(function () {
+            console.log(portfolio_distribution)
+        //if (typeof portfolio_distribution !== "") {
+            portfolio_distribution_parsed=JSON.parse(portfolio_distribution);
+            console.log(portfolio_distribution_parsed)
+            $(function () {
                 $('#piechart').highcharts({
                 chart: {
                     plotBackgroundColor: null,
@@ -698,9 +698,9 @@
                 }]
             });
         });
-    }
-
-
+   // }
+  
+}
       function logout(){
         document.cookie="login=False";
         window.location="${login_link}$"

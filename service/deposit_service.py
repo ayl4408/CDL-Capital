@@ -17,8 +17,8 @@ if form.getvalue("username") != None:
 if form.getvalue("amount") != None:
     amount = form.getvalue("amount")
 
-username='al356'
-amount='1000000'
+#username='al356'
+#amount='1000000'
     
 udao = User_portfolio_dao()
 u = udao.get_user_portfolio_model(username)

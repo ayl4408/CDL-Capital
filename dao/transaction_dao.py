@@ -61,16 +61,20 @@ class Transaction_dao:
                          self.db.query("update transactions set sold='1', profit=('%s'), trans_date=('%s') where user=('%s') and stock=('%s') and trans_date=('%s') and order_id=(%d)"%(Decimal(profit), str(time), user, stock, result[i]['trans_date'], result[i]['order_id'])+";")
 
      def get_user_stock_list(self, user):
-          result = self.db.query("select distinct stock from transactions where user=('%s')"%(user)+";")
+          result = self.db.query("select distinct stock from transactions where user=('%s') and sold='0'"%(user)+";")
           if result:
-               l=[]
-               for i in range(len(result)):
-                    l.append(result[i]['stock'])
-               return l
+              l=[]
+              for i in range(len(result)):
+                   l.append(result[i]['stock'])
+              return l
      
-     def get_user_owned_stocks_list(self, user):
-          result=self.db.query("select distinct stock from transactions where user=('%s') and sold='0'"%(user) + ";")
-          return result
+     #def get_user_owned_stocks_list(self, user):
+     #     result=self.db.query("select distinct stock from transactions where user=('%s') and sold='0'"%(user) + ";")
+     #     if result:
+     #         l=[]
+     #         for i in range(len(result)):
+     #             l.append(result[i]['stock'])
+     #         return l
 
      def get_owned_stock_model(self, user, stock, price):
           volume_result= self.db.query("select count(*) from transactions where user=('%s') and stock=('%s') and sold='0'"%(user, stock)+";")
@@ -85,7 +89,6 @@ class Transaction_dao:
      def get_user_stock_value_model(self, user):
           result1 = self.db.query("select sum(profit) from transactions where user=('%s') and sold='1'"%(user)+";")
           result2 = self.db.query("select sum(price) from transactions where user=('%s') and sold='0'"%(user)+";")
-
           if result1[0]['sum(profit)'] != None:
                profit = Decimal(result1[0]['sum(profit)'])
           else:
