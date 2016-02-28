@@ -190,7 +190,7 @@
                                         </table>
 				      </div>
                                     </div>
-                                    <div class="col-sm-6"<!-- PUT ANOTHER GRAPH HERE -->></div>
+                                    <div class="col-sm-6"></div>
                                   </div>
 <br><br>
 </div>
