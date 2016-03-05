@@ -2,7 +2,9 @@
 
 import sys, LINK_HEADERS
 sys.path.insert(0,str(LINK_HEADERS.DATABASE_LINK))
+sys.path.insert(0,str(LINK_HEADERS.MODELS_LINK))
 from database_class import DB
+from login_model import Login
 from PDO import PDO
 
 class Login_dao:#{
@@ -62,6 +64,15 @@ class Login_dao:#{
 
         if(result): return True
         return False
-    
+
+    def get_user_list(self):
+        result = self.db_connection.query("select username from login;")
+        if result:
+            l = []
+            for i in range(len(result)):
+                lo = Login(result[i]['username'])
+                l.append(lo)
+            return l
+        else:
+            return False
 #}
-    

@@ -23,10 +23,10 @@
                         <div class="jumbotron">
                         <h1>CDL Capital</h1>
                         <h5>Welcome to your profile, ${ username }$</h5>
-</br>
+</br></br>
                                 <ul class="nav nav-pills">
                                 <li class="active"><a href=${home_link}$>My Profile</a></li>
-                                <li><a href=${home_link}$>Analysis</a></li>
+                              <!--  <li><a href=${home_link}$>Analysis</a></li>-->
                                 <li><a href="javascript:logout();">Logout</a></li>
                                 </ul>
                         </div>
@@ -38,11 +38,11 @@
 			    <li><a data-toggle="tab" href="#settings_menu">Settings</a></li>
 
                         </ul>
-
+			<br>
                         <div class="tab-content" >
-
 			  <div id="settings_menu" class="tab-pane fade">
-			    <div class="panel panel-info">
+			    <br>
+			    <div class="panel panel-info" style="width:60%; margin-left:15%; margin-right:15%;">
 			      <div class="panel-heading">Update Information</div>
 
 			      <div id="settings_update_body" class="panel-body" id="update_info">
@@ -53,7 +53,7 @@
 			      </div>			      
 			    </div>
 
-			    <div class="panel panel-info">
+			    <div class="panel panel-info" style="width:60%; margin-left:15%; margin-right:15%;">
 			      <div class="panel-heading">Create New User</div>
 			      <div id="settings_create_user" class="panel-body">
 				Username : <input id="create_user_username" class="form-control" type="text"/>
@@ -67,7 +67,7 @@
 			      
 			    </div>
 			    
-			    <div class="panel panel-danger">
+			    <div class="panel panel-danger" style="width:60%; margin-left:15%; margin-right:15%;">
 			      <div class="panel-heading">Update Password</div>
 			      <div id="settings_update_password" class="panel-body">
 				   Old Password: <input id="update_password_old" class="form-control" type="password"/>
@@ -81,193 +81,161 @@
 			    
 			  </div>
 
+
 			  <div id="menu1" class="tab-pane fade">
 </br>
-</br>
-                                        <div class="row">
-                                                <form id="deposit_form" class="form-horizontal" role="form">
-                                                        <div class="form-group">
-                                                                <div class="col-sm-offset-1 col-sm-1">
-                                                                        <h3>Deposit</h3>
-                                                                </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label class="control-label col-sm-1" for="amount">Amount:</label>
-                                        <div class="col-sm-3">
-                                                                    <input class="form-control" type="number" min="0" id="amount" type="text" name="amount" />
-                                                                </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                                <div class="col-sm-offset-1 col-sm-1">
-                                                                    <input class="form-control" id="deposit" type="button" value="Submit" onclick="Deposit();"/>
-                                                                </div>
-                                                        </div>
-                                                </form>
-                                                <div id="deposit_status"></div>
-                                        </div>
 
-                                        <div class="row">
-                                                <form id="buy_form" class="form-horizontal" role="form">
-                                                        <div class="form-group">
-                                                                <div class="col-sm-offset-1 col-sm-1">
-                                                                        <h3>Buy</h3>
-                                                                </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                                <label class="control-label col-sm-1" for="company_name_buy">Company</label>
-                                                                <div class="col-sm-3">
-                                                                        <input class="form-control"  id="company_name_buy" type="text" name="company_name" />
-                                                                </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                                <label class="control-label col-sm-1" for="volume_buy">Volume:</label>
-                                                                <div class="col-sm-3">
-                                                                        <input class="form-control"  type="number" min="0" id="volume_buy" type="number" name="volume_buy" />
-                                                                </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                                <div class="col-sm-offset-1 col-sm-1">
-                                                                        <input class="form-control" id="Buy" type="button" value="Submit" onclick="buy();"/>
-                                                                </div>
-                                                        </div>
-                                                </form>
-                                                <div id="outputbox"><p id="outputcontent"></p></div>
-                                                <div id="buy_status"></div>
-                                        </div>
 
-                                        <div class="row">
-                                                <form class="sell_form form-horizontal" id="sell_form" role="form">
-                                                        <div class="form-group">
-                                                                <div class="col-sm-offset-1 col-sm-1">
-                                                                        <h3>Sell</h3>
-                                                                </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                                <div class="col-sm-offset-1 col-sm-1">
-                                                                <select id="company_name_sell" name="company_name_sell"></select>
-                                                        </div>
-                                                </div>
-                                                <div class="form-group">
-                                                        <label class="control-label col-sm-1" for="volume_sell">Volume:</label>
-                                                        <div class="col-sm-3">
-                                                                <input class="form-control" type="number" min="0" id="volume_sell" type="number" name="volume_sell" />
-                                                        </div>
-                                                </div>
-                                                <div class="form-group">
-                                                        <div class="col-sm-offset-1 col-sm-1">
-                                                                        <input class="form-control" id="Sell" type="button" value="Submit" onclick="sell();"/>
-                                                                </div>
-                                                        </div>
-                                        </form>
-                                        </div>
-</br>
-</br>
-</br>
+
+
+
+			  <form id="deposit_form" role="form">
+			    <div class="panel panel-info" style="width:60%; margin-left:15%; margin-right:15%;">
+			      <div class="panel-heading">Deposits</div>
+			      <div id="deposits" class="panel-body">
+				Amount: <input id="amount" class="form-control" type="text"/><br>
+				<button class="btn btn-info" onclick="Deposit()">Deposit</button>
+			      </div>
+			    </div>
+			    </form>
+
+			  <form id="buy_form" role="form" rol="form">
+			    <div class="panel panel-success" style="width:60%; margin-left:15%; margin-right:15%;">
+			      <div class="panel-heading">Buy</div>
+			      <div id="deposits" class="panel-body">
+				Company: <input id="company_name_buy" type="text" class="form-control" name="company_name" /><br>
+				Volume: <input id="volume_buy" class="form-control" type="number" min="0" name="volume_buy" /><br>
+				<button class="btn btn-success" id="Buy" onclick="buy()">Buy</button>
+			      </div>
+			    </div>
+			  </form>
+
+
+
+			  <form id="sell_form" role="form" rol="form">
+			    <div class="panel panel-warning" style="width:60%; margin-left:15%; margin-right:15%;">
+			      <div class="panel-heading">Sell</div>
+			      <div id="sells" class="panel-body">
+				Company: <select id="company_name_sell" class="form-control"  name="company_name_sell"></select>
+				Volume: <input id="volume_sell" class="form-control" type="number" min="0" name="volume_sell" /><br>
+				<button class="btn btn-warning" id="Sell" onclick="sell()">Sell</button>
+			      </div>
+			    </div>
+			    </form>
+
+
+
+
+
+
                                 </div>
-<br/>
-<br/>
                                 <div id="home" class="tab-pane fade in active">
-                                        <div class="row">
-                                        <div class="col-sm-4" sidenav>
-                                                <h4>Portfolio Information</h4>
-                                                <table class="table table-hover user_table">
+                                  <div class="row">
+                                    <div class="col-sm-6" sidenav>
+                                      <h2><b><u>Portfolio Information</u></b></h2>
+                                      <table class="table table-hover user_table">
                                         <thead>
-                                                                <tr>
-                                                                    <th>Total Portfolio</th>
-                                                                    <th>Available Funds</th>
-                                                                    <th>Total Stock Values</th>
-                                                                    <th>Total Profit</th>
-                                                                    <th>Total Deposited</th>
-                                                                </tr>
+                                          <tr>
+                                            <th>Total Portfolio</th>
+                                            <th>Available Funds</th>
+                                            <th>Total Stock Values</th>
+                                            <th>Total Gain/Loss</th>
+                                            <th>Total Deposited</th>
+                                          </tr>
                                         </thead>
-                                                    </table>
+                                      </table>
 <br>
-<br>
-                                                <div id="user_information"></div>
+                                      <div id="user_information"></div>
+                                        <h2><b><u>Owned Stocks</u></b></h2>
+                         		  <!--<div class="col-sm-12">-->
+					  <div style= "overflow:auto; height:300px;">
+                                            <table class="table table-hover owned_stocks_table">
+                                              <thead>
+                                                <tr>
+                                                  <th>Stock</th>
+                                                  <th>Shares</th>
+                                                  <th>Current Price</th>
+                                                  <th>Total Worth</th>
+                                                  <th>Gain/Loss</th>
+                                                </tr>
+                                              </thead>
+                                            </table>
+				            <!--</div>-->
+					  </div>
+                                          <div id="owned_stocks_information"></div>
+                                      </div>
 
-                                                <h4>Owned Stocks</h4>
-						<div class="col-sm-12">
-						<div style= "overflow:auto; height:350px;">
-                                                <table class="table table-hover owned_stocks_table">
-                                                                <thead>
-                                            <tr>
-                                                                    <th>Stock</th>
-                                                                    <th>Shares</th>
-                                                                    <th>Current Price</th>
-                                                                    <th>Total Worth</th>
-                                                                    <th>Net Gain/Loss</th>
-                                                                </tr>
-                                        </thead>
-                                                </table>
-						</div>
-						</div>
+				    <div class="col-sm-6">
+<br>
+				      <div id="piechart" style="width: 500px; height: 500px; float:right;"></div>
+                                    </div>
+                                  </div>
 <br>
 <br>
-                                                <div id="owned_stocks_information"></div>
-                                        </div>
-                                        <div class="col-sm-8">
-                                                        <div id="piechart" style="width: 900px; height: 500px;"></div>
-                                                </div>
-                                </div>
-				
-<br>
-<br>
-                                <div class="row" >
-					<div class="col-sm-6">
-					<h4>Recent Transactions</h4>
-				
-					<div style= "overflow:auto; height:500px;">
-                                                <table class="table table-hover transaction_table" >
-                                                <thead><tr>
-                                                    <th>Transaction Date </th>
-                                                    <th>Transaction Type</th>
-                                                    <th>Stock</th>
-                                                    <th>Price</th>
-						    <th>Total Price</th>
-						    <th>Volume</th>
-                                                </tr></thead>
-                                                </table>
-					</div>
-					</div>
-				</div>
-			</div>
+                                <div class="row">
+				  <div class="col-sm-6">
+				    <h2><b><u>Transaction History</u></b></h4>
+                                      <div style="overflow:auto; height:500px;">
+                                        <table class="table table-hover transaction_table" >
+                                          <thead>
+					    <tr>
+                                              <th>Transaction Date </th>
+                                              <th>Transaction Type</th>
+                                              <th>Stock</th>
+                                              <th>Price</th>
+					      <th>Total Price</th>
+					      <th>Volume</th>
+                                            </tr>
+					  </thead>
+                                        </table>
+				      </div>
+                                    </div>
+                                    <div class="col-sm-6"></div>
+                                  </div>
+<br><br>
+</div>
+
 					
                                 <div id="menu2" class="tab-pane fade">	
-					<div class="col-sm-6">
-					<h4>Percent Change In Price</h4>
+				  <div class="row">
+				    <div class="col-sm-6">
+				      <h2><b><u>Percent Change In Price</u></b></h2>				
+				      <div>
+					<br>
+					  <h4>Top 25 Positive Changes</h4>
+					    <div style= "overflow:auto; height:350px;">
+					      <table class="table table-hover percentchange_max_table" >
+					        <thead>
+						  <tr>
+						    <th>Stock</th>
+						    <th>Percent Change</th>
+						  </tr>
+						</thead>
+					      </table>
+					    </div>
+					 </div>
 
-										
 					<div>
-						<h6>Best Changes</h6>
-						<div style= "overflow:auto; height:250px;">
-						<table class="table table-hover percentchange_max_table" >
-						<thead><tr>
-							<th>Stock</th>
-							<th>Percent Change</th>
-						</tr></thead>
-						</table>
-						</div>
-					</div>
-
-					<div>
-                                                <h6>Worst Changes</h6>
-						<div style="overflow:auto; height:250px">
-                                                <table class="table table-hover percentchange_min_table" >
-                                                <thead><tr>                                                      
-                                                         <th>Stock</th>
-						         <th>Percent Change</th>
-                                                </tr></thead>
-                                                </table>
-						</div>
+					  <br>
+                                          <h4>Top 25 Negative Changes</h4>
+					    <div style="overflow:auto; height:350px">
+                                              <table class="table table-hover percentchange_min_table" >
+                                                <thead>
+						  <tr>                                                      
+                                                    <th>Stock</th>
+						    <th>Percent Change</th>
+                                                  </tr>
+						</thead>
+                                              </table>
+					    </div>
                                          </div>
+				      </div>
 
-					</div>
-
-					<div class="col-sm-6">
-					<h4>Percent Change in Average Daily Volume Traded</h4>
-					<div></div>					
-
-						<div style="overflow:auto; height:500px">
+				      <div class="col-sm-6">
+					<h2><b><u>Percent Change in Daily Volume</u></b></h2>
+					<br>
+					<h4>Top 25 Percent Change</h4>
+					<div style="overflow:auto; height:800px">
 						<table class="table table-hover volumechange_max_table">
 						<thead><tr>
 							<th>Stock</th>
@@ -277,6 +245,7 @@
 						</div>
 					
 					</div>
+				</div>
 
 
 <br>
@@ -311,7 +280,7 @@
                         async: false}).responseText;
 
       		var json_obj=JSON.parse(update_profile_result);
-      		console.log(json_obj);
+      //		console.log(json_obj);
                 table_generate_users(json_obj['users']);
                 table_generate_transactions(json_obj['transactions']);
                 table_generate_owned_stocks(json_obj['owned_stocks']);
@@ -366,7 +335,7 @@
                 $('.transaction_table tr td').remove();
                 var tb = document.createElement("tbody");
 		
-		len = Object.keys(json_obj).length		
+		len = Object.keys(json_obj).length;
 
                 for (i=len-1; i>=0; i--)
                 {
@@ -558,7 +527,7 @@
                  	data: 'user_name='+ '${username}$',
                  	async: false}).responseText;
 		var most_active_stocks_result_parsed = JSON.parse(most_active_stocks_result);
-		console.log(most_active_stocks_result_parsed);
+	//	console.log(most_active_stocks_result_parsed);
 				
 		table_generate_active_stocks_percentchange (most_active_stocks_result_parsed);
 	
@@ -712,10 +681,10 @@
                         data: 'user_name='+ user_name + '&portfolio_distribution='+ portfolio_distribution,
                         dataType: "json",
                         async: false}).responseText;
-            console.log(portfolio_distribution)
+          //  console.log(portfolio_distribution)
         //if (typeof portfolio_distribution !== "") {
             portfolio_distribution_parsed=JSON.parse(portfolio_distribution);
-            console.log(portfolio_distribution_parsed)
+            //console.log(portfolio_distribution_parsed)
             $(function () {
                 $('#piechart').highcharts({
                 chart: {
@@ -725,7 +694,7 @@
                     type: 'pie'
                 },
                 title: {
-                    text: 'Portfolio Distribution'
+                    text: ' '
                 },
                 tooltip: {
                     pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
