@@ -5,6 +5,11 @@ from yahoo_finance_class import YQLQuery
 sys.path.insert(0, str(LINK_HEADERS.DATABASE_LINK))
 from database_class import DB
 
+###global variables
+column_query_result= None
+column_names = None
+num_columns = None
+
 ###Sanitizes result of db query to retrieve ticker symbols from database and puts into list 
 ## @param result=all sticker symbols from db
 def create_result_list(result):
@@ -20,7 +25,7 @@ def create_result_list(result):
 ## @param l = list of ticker symbols
 ## @param yql = YQLQuery object 
 def request_yql(l,yql,db):
-    START_YQL = "select * from yahoo.finance.quotes where symbol in ('"
+    START_YQL = "select " + column_names +  " from yahoo.finance.quotes where symbol in ('"
     END_YQL = "');"    
     result_string=""
     final=0
@@ -36,8 +41,10 @@ def request_yql(l,yql,db):
 
             while True:
                 yql_result=yql.execute(yql_query)
+		#for key, value in yql_result['query']['results']['quote'][0].iteritems():
+                     #print key
                 if "query" in yql_result.keys():
-                    break
+		    break
                 else:
                     time.sleep(1)
                     
@@ -51,10 +58,6 @@ def request_yql(l,yql,db):
 ## @param yql_result = yql query result with stock data for all stock symbols in database 
 ## @param db = db object
 def update_company_info(yql_result,db):
-    column_query_result=db.get_column_names()
-    num_columns=len(column_query_result)
-    column_names=str(column_query_result).strip("[]")
-    column_names=column_names.replace("'","")
     START_SQL="INSERT INTO company_info(" + column_names + ")" + "VALUES"
     END_SQL= ""
     VALUES_LIST=[]
@@ -79,10 +82,15 @@ def update_company_info(yql_result,db):
         print str(e) 
 
 def main(): 
+    global column_query_result, num_columns, column_names
     yql = YQLQuery()
     db = DB("localhost","root","mmGr2016","cdlcapital")
     result = db.get_stock_symbols()
     l = create_result_list(result)
+    column_query_result=db.get_column_names()
+    num_columns=len(column_query_result)
+    column_names=str(column_query_result).strip("[]")
+    column_names=column_names.replace("'","")
 
     opening_time = "14:30:00"
     closing_time = "21:30:00"
@@ -93,8 +101,8 @@ def main():
             print "request: " + str(current_time)
             request_yql(l,yql,db)
             runtime=time.time()-start
-            if runtime < 4.2:
-                sleeptime=4.2-runtime
+            if runtime < 252:
+                sleeptime=252 - runtime
                 time.sleep(sleeptime)
         else:
             print "NO request: " + str(current_time)
