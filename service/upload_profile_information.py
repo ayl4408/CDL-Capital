@@ -66,6 +66,21 @@ else:
     
 l = tdao.get_user_stock_list(username)
 
+def update_profit_in_transaction(company_stock):
+    user_stock = tdao.select()
+    for c in company_stock:
+        for cu in user_stock:
+            if c.get_symbol() == cu.get_stock():
+                current_price = c.get_ask()
+                purchase_price = cu.get_price()
+                profit = Decimal(current_price) - Decimal(purchase_price)
+                if cu.get_sold() == 0:
+                    tdao.update_profit(cu.get_user(), cu.get_trans_date(), cu.get_order_id(), profit)
+                    
+lis = cdao.get_all_ask()
+
+update_profit_in_transaction(lis)
+
 if l:
     data['owned_stocks']={}
     total_stock_value = 0
