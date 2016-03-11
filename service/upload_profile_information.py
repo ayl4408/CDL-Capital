@@ -19,7 +19,7 @@ form = cgi.FieldStorage()
 if form.getvalue("username") != None:
     username = form.getvalue("username")
 
-username='al356'
+#username='al356'
     
 tdao = Transaction_dao()
 u2 = User_stock_value_dao()
