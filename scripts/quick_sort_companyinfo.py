@@ -13,9 +13,31 @@ def swap(array, i, j):
     array[j] = temp
 
 
-def quick_sort(array, left, right, field):
+def iterative(array, left, right, field):
+    temp_list = []
+    temp_list.append((left, right))
+    
+    while temp_list:
+	position = temp_list.pop()
+	left, right = position[0], position[1]
+	r = partition(array, left, right, field)
+	
+	if r-1 > left:
+	    temp_list.append((left, r-1))
+
+	if r+1 < right:
+	    temp_list.append((r+1, right))
+
+def recursive(array, left, right, field):
     if left >= right:
-        return
+        return    
+    r = partition(array, left, right, field)
+    recursive(array, left, r-1, field)
+    recursive(array, r+1, right, field)
+
+
+
+def partition(array, left, right, field):
     k = randint(left, right)
     swap(array, left, k)
     
@@ -46,9 +68,9 @@ def quick_sort(array, left, right, field):
 	    l+=1
 	    r-=1
     swap(array, left, r)
-    quick_sort(array, left, r-1, field)
-    quick_sort(array, r+1, right, field)
+    return r
 
+'''
 def quick_sort_nofloatconversion(array, left, right, field):
     if left >= right:
         return
@@ -80,4 +102,4 @@ def quick_sort_nofloatconversion(array, left, right, field):
     swap(array, left, r)
     quick_sort_nofloatconversion(array, left, r-1, field)
     quick_sort_nofloatconversion(array, r+1, right, field)
-
+'''
