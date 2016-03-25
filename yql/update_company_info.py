@@ -75,7 +75,7 @@ def update_company_info(yql_result,db):
     try:
         db.query(SQL_QUERY)
     except Exception, e :
-        error_log = open('error_log.txt','a')
+        error_log = open('/usr/lib/cgi-bin/kchang_cdlcapital/logs/update_company_log.txt','a')
         error_log.write(str(e))
         print str(e) 
         error_log.close()

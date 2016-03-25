@@ -41,7 +41,7 @@ class YQLQuery(object):
             try:
                 return simplejson.loads(self.connection.getresponse().read())
             except Exception, e:
-		error_log = open('error_log.txt', 'a')
+		error_log = open('/usr/lib/cgi-bin/kchang_cdlcapital/logs/yql_log.txt', 'a')
                 error_log.write(str(e))
 	        print str(e)
 		error_log.close()
