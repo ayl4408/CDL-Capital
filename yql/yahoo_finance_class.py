@@ -21,7 +21,10 @@ END_YQL = "');"
 class YQLQuery(object):
 
     connection = None
-    
+
+    def __enter__(self):
+        self.connection = None
+
     def __init__(self):
 
         while True:
@@ -37,11 +40,18 @@ class YQLQuery(object):
             self.connection.request('GET', PUBLIC_API_URL + '?' + urlencode({ 'q': yql, 'format': 'json', 'env': DATATABLES_URL }))
             try:
                 return simplejson.loads(self.connection.getresponse().read())
-            except ValueError:
-                print "No JSON, execute failed"
+            except Exception, e:
+		error_log = open('error_log.txt', 'a')
+                error_log.write(str(e))
+	        print str(e)
+		error_log.close()
                 time.sleep(1)
-                
+
     def __del__(self):
+        self.connection.close()
+                
+    def __exit__(self,type_, value, traceback):
+        print "closing connection"
         self.connection.close()
 
     def get_ask_price(self, company):
