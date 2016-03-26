@@ -1,6 +1,6 @@
 *.pyc
 *.swp
-
+*.py~
 
 back/LINK_HEADERS.py
 dao/LINK_HEADERS.py

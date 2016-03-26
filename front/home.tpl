@@ -444,7 +444,7 @@
                         var buy_result = $.ajax({
                                 type: 'POST',
                                 url: '${transaction_link}$',
-                                data: 'username='+ '${username}$' + '&company='+ company_name.value + '&volume='+ volume.value + '&trans_type=buy',
+                                data: 'username='+ '${username}$' + '&company='+ company_name.value + '&volume='+ volume.value + '&trans_type=buy' + '&algo_id=0',
                                 dataType: "json",
                                 async: false}).responseText;
 		        //console.log(buy_result)
@@ -464,7 +464,7 @@
                         var sell_result = $.ajax({
                                 type: 'POST',
                                 url: '${transaction_link}$',
-                                data: 'username='+ '${username}$' + '&company='+ company_name + '&volume='+ volume.value + '&trans_type=sell',
+                                data: 'username='+ '${username}$' + '&company='+ company_name + '&volume='+ volume.value + '&trans_type=sell' + '&algo_id=0',
                                 dataType: "json",
                                 async: false}).responseText;
 
