@@ -1,6 +1,6 @@
 #!/usr/bin/python
 from datetime import datetime
-import sys,simplejson,re,time,LINK_HEADERS
+import sys,simplejson,re,time,LINK_HEADERS, update
 from yahoo_finance_class import YQLQuery
 sys.path.insert(0, str(LINK_HEADERS.DATABASE_LINK))
 from database_class import DB
@@ -98,6 +98,7 @@ def main():
             yql= YQLQuery()
             print "request: " + str(current_time)
             request_yql(l,yql,db)
+            update.main()
             runtime=time.time()-start
             if runtime < 252:
                 sleeptime=252 - runtime
