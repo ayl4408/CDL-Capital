@@ -11,47 +11,29 @@ from user_stock_value_dao import User_stock_value_dao
 from company_dao import Company_dao
 from history_dao import History_dao
 
-print "Content-Type: text/html\r\n\r\n"
 
-form = cgi.FieldStorage()
-
-if form.getvalue("username") != None:
-    username = form.getvalue("username")
-if form.getvalue("volume") != None:
-    volume = int(form.getvalue("volume"))
-if form.getvalue("company") != None:
-    company = form.getvalue("company")
-if form.getvalue("trans_type") != None:
-    trans_type = form.getvalue("trans_type")
-    
-#test variables
-
-#username="al356"
-#company='tsla'
-#volume=10
-#trans_type='buy'
-#trans_type='sell'
-
-udao1 = User_stock_value_dao()
-udao2 = User_portfolio_dao()
-cdao = Company_dao()
-tdao = Transaction_dao()
-hdao = History_dao()
-
-c = cdao.get_company_model(company)
-
-ask = Decimal(c.get_ask())
-time = datetime.datetime.utcnow()
-
-def calculate_price():
+def calculate_price(ask, volume):
     return Decimal(ask) * int(volume)
 
-def main():
-    final = calculate_price()
+def transaction(username, volume, company, trans_type, algo_id):
+    
+    udao1 = User_stock_value_dao()
+    udao2 = User_portfolio_dao()
+    cdao = Company_dao()
+    tdao = Transaction_dao()
+    hdao = History_dao()
+
+    c = cdao.get_company_model(company)
+
+    ask = Decimal(c.get_ask())
+    time = datetime.datetime.utcnow()
+
+    final = calculate_price(ask, volume)
+
     if trans_type == 'buy':
         u = udao2.get_user_portfolio_model(username)
         if final <= u.get_available_funds():
-            tdao.buy(username, time, company, volume, ask)
+            tdao.buy(username, time, company, volume, ask, algo_id)
             hdao.insert(username, time, 'buy', company, ask, final, volume)
             
             o = tdao.get_user_stock_value_model(username)
@@ -70,7 +52,7 @@ def main():
         o = tdao.get_owned_stock_model(username, company, ask)
         
         if o.get_volume() >= volume:
-            tdao.sell(username, company, volume, ask)
+            tdao.sell(username, company, volume, ask, algo_id)
             hdao.insert(username, time, 'sell', company, ask, final, volume)
 
             u = tdao.get_user_stock_value_model(username)    
@@ -82,4 +64,3 @@ def main():
             udao2.update_total_portfolio(username, Decimal(final) + Decimal(portfolio.get_available_funds()) + Decimal(u.get_total_stock_values()))
             
             
-main()

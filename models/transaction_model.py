@@ -1,15 +1,8 @@
 #!/usr/bin/python
 
 class Transaction:
-    user = None
-    trans_date  = None
-    stock = None
-    price = None
-    sold = None
-    order_id = None
-    profit = None
     
-    def __init__(self, user, trans_date, stock, price, sold, order_id, profit):
+    def __init__(self, user, trans_date, stock, price, sold, order_id, profit, algo_id):
         self.user = user
         self.trans_date  = trans_date
         self.stock = stock
@@ -17,6 +10,7 @@ class Transaction:
         self.sold = sold
         self.order_id = order_id
         self.profit = profit
+	self.algo_id = algo_id
         
     def get_user(self):
         return self.user
@@ -59,3 +53,9 @@ class Transaction:
         
     def set_profit(self,x):
         self.profit = x
+
+    def get_algo_id(self):
+	return self.algo_id
+
+    def set_algo_id(self, x):
+	self.algo_id = x
