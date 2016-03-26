@@ -1,0 +1,2 @@
+DATABASE_LINK="/usr/lib/cgi-bin/alee_cdlcapital/back"
+MODELS_LINK="/usr/lib/cgi-bin/alee_cdlcapital/models"
