@@ -90,11 +90,14 @@ class Transaction_dao:
 
      def get_owned_stock_model(self, user, stock, price):
           volume_result= self.db.query("select count(*) from transactions where user=('%s') and stock=('%s') and sold='0'"%(user, stock)+";")
-          profit_result = self.db.query("select sum(profit) from transactions where user=('%s') and stock=('%s')"%(user, stock)+";")
+          profit_result = self.db.query("select sum(profit) from transactions where user=('%s') and stock=('%s') and sold='0'"%(user, stock)+";")
           if volume_result and profit_result:
                volume = int(volume_result[0]['count(*)'])
                total_worth = int(volume) * Decimal(price)
-               profit = Decimal(profit_result[0]['sum(profit)'])
+               if profit_result[0]['sum(profit)'] != None:
+                    profit = Decimal(profit_result[0]['sum(profit)'])
+               else:
+                    profit = 0
                o = Owned_stock(stock, volume, price, total_worth, profit)
                return o
 
