@@ -1,6 +1,6 @@
 #!/usr/bin/python
 from datetime import datetime
-import sys,simplejson,re,time,LINK_HEADERS
+import sys,simplejson,re,time,LINK_HEADERS, update
 from yahoo_finance_class import YQLQuery
 sys.path.insert(0, str(LINK_HEADERS.DATABASE_LINK))
 from database_class import DB
@@ -9,7 +9,6 @@ from database_class import DB
 column_query_result= None
 column_names = None
 num_columns = None
-
 ###Sanitizes result of db query to retrieve ticker symbols from database and puts into list 
 ## @param result=all sticker symbols from db
 def create_result_list(result):
@@ -30,19 +29,15 @@ def request_yql(l,yql,db):
     result_string=""
     final=0
     counter=0
-
     for i in range(len(l)):
         result_string += l[i]
         counter+=1
         final+=1
 
-	if counter==50 or final == len(l):
+	if counter==40 or final == len(l):
 	    yql_query=START_YQL + result_string + END_YQL
-
             while True:
                 yql_result=yql.execute(yql_query)
-		#for key, value in yql_result['query']['results']['quote'][0].iteritems():
-                     #print key
                 if "query" in yql_result.keys():
 		    break
                 else:
@@ -53,11 +48,12 @@ def request_yql(l,yql,db):
 	    counter=0
         else:
             result_string += ","
-            
+       
 ###updates company information in database
 ## @param yql_result = yql query result with stock data for all stock symbols in database 
 ## @param db = db object
 def update_company_info(yql_result,db):
+ #   db_file = open('db_update_log','w')
     START_SQL="INSERT INTO company_info(" + column_names + ")" + "VALUES"
     END_SQL= ""
     VALUES_LIST=[]
@@ -79,11 +75,12 @@ def update_company_info(yql_result,db):
     try:
         db.query(SQL_QUERY)
     except Exception, e :
+        error_log = open('/usr/lib/cgi-bin/kchang_cdlcapital/logs/update_company_log.txt','a')
+        error_log.write(str(e))
         print str(e) 
-
+        error_log.close()
 def main(): 
     global column_query_result, num_columns, column_names
-    yql = YQLQuery()
     db = DB("localhost","root","mmGr2016","cdlcapital")
     result = db.get_stock_symbols()
     l = create_result_list(result)
@@ -91,21 +88,23 @@ def main():
     num_columns=len(column_query_result)
     column_names=str(column_query_result).strip("[]")
     column_names=column_names.replace("'","")
-
-    opening_time = "14:30:00"
-    closing_time = "21:30:00"
+    
+    opening_time = "13:30:00"
+    closing_time = "20:00:00"
     while True:
         current_time = datetime.utcnow().strftime("%H:%M:%S")
         start=time.time()
         if current_time > opening_time and current_time < closing_time:
+            yql= YQLQuery()
             print "request: " + str(current_time)
             request_yql(l,yql,db)
+            update.main()
             runtime=time.time()-start
             if runtime < 252:
                 sleeptime=252 - runtime
                 time.sleep(sleeptime)
         else:
-            print "NO request: " + str(current_time)
-            time.sleep(540)
-    
-main()
+            exit()
+
+if __name__ == "__main__":        
+    main()

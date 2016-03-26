@@ -63,4 +63,3 @@ def main():
     update_profit_in_transaction(l)
     update_total_stock_value(l)
     
-main()
