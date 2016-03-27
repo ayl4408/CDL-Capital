@@ -16,58 +16,135 @@
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
     <script src="https://code.highcharts.com/highcharts.js"></script>
+
+    <style>
+      #algorithms_menu select{
+         min-width:300px;
+      width:20%;
+      display:inline;
+      }
+
+      #header{
+      background: -webkit-linear-gradient(#F5F0E4, #E0D8C1);
+      background: -o-linear-gradient(#F5F0E4, #E0D8C1);
+      background: -moz-linear-gradient(#F5F0E4, #E0D8C1);
+      background: linear-gradient(#F5F0E4, #E0D8C1);
+
+      position:fixed;
+      width:100%;
+      height:50px;
+      z-index:1;
+      text-align:center;
+      color:black;
+
+      }
+
+      #logout{
+      float:right;
+      display:inline;
+      margin-right:5px;
+      margin-top:5px;
+      }
+
+      #title{
+      font-size:200%;
+      margin-left:2%;
+      margin-top:2px;
+      color:rgba(0,0,0,.70);
+      letter-spacing:3px;
+      }
+      .title{
+      display:block;
+      float:left;
+      background-color:#C5CFD4;
+      padding-left:10px;
+      padding-right:10px;
+      border-radius:5px;
+      color:rgb(255,255,255);
+      }
+      
+
+      #algorithms_menu button{
+          width:80px; 
+      }
+
+      #algorithms_menu{
+         width:40%;
+         min-width:400px;
+      }
+    </style>
 </head>
         
   <body>
-    <div class="container">
-                        <div class="jumbotron">
-                        <h1>CDL Capital</h1>
-                        <h5>Welcome to your profile, ${ username }$</h5>
-</br></br>
-                                <ul class="nav nav-pills">
-                                <li class="active"><a href=${home_link}$>My Profile</a></li>
-                              <!--  <li><a href=${home_link}$>Analysis</a></li>-->
-                                <li><a href="javascript:logout();">Logout</a></li>
-                                </ul>
-                        </div>
 
+    <div id="header">
+      <div id="title" style="float:left; display:inline;"><b><i>CDL Capital</i></b></div>
+      <div id="logout"> Logged in as <b><u>${username}$</b></u> <button class="btn btn-danger" style="margin-left:3px" onclick="logout();">Log Out</button></div>
+
+    </div>
+    <br><br><br>
+   
+    <div class="container">
+      <div><img style="margin-left:10%;" src="http://cliparts.co/cliparts/rcn/Kxo/rcnKxonLi.png"/></div>
+      
                         <ul class ="nav nav-tabs">
                             <li class="active"><a data-toggle="tab" href="#home">Portfolio</a></li>
                             <li><a data-toggle="tab" href="#menu1">Transactions</a></li>
 			    <li><a data-toggle="tab" href="#menu2">Trending</a></li>
-			    <li><a data-toggle="tab" href="#settings_menu">Settings</a></li>
+			    <li><a data-toggle="tab" href="#algorithms_menu" onclick="fetchAlgo(); displayActive(); ">Algorithms</a></li>
+			     <li><a data-toggle="tab" href="#settings_menu">Settings</a></li>
 
                         </ul>
 			<br>
+			
+			
                         <div class="tab-content" >
+
+			  <div id="algorithms_menu"  class="tab-pane fade">
+			    <div id="algo_menu" class="panel panel-success">
+			    </div>
+
+			    <hr>
+			    <div id="active_algos" class="panel panel-danger">
+			    </div>
+			    
+			  </div>
+			  
+		
+
 			  <div id="settings_menu" class="tab-pane fade">
-			    <br>
-			    <div class="panel panel-info" style="width:60%; margin-left:15%; margin-right:15%;">
+			    <div style="width:50%; float:left; display:inline;">
+			           <div class="panel panel-info" style="width:90%; ">
+				     <div class="panel-heading">Create New User</div>
+				     <div id="settings_create_user" class="panel-body">
+				       Username : <input id="create_user_username" class="form-control" type="text"/>
+				       First Name: <input id="create_user_first_name" class="form-control" type="text"/>
+				       Last Name: <input id="create_user_last_name" class="form-control" type="text"/>
+				       Password : <input id="create_user_passcode" class="form-control" type="password"/>
+				       Verify Password: <input id="create_user_verify" class="form-control" type="password"/>
+				<br><button class="btn btn-info" onclick="create_user();">Create User</button>
+			      </div>
+			      
+			         </div>
+
+				   
+			    <div class="panel panel-info" style="width:90%; ">
 			      <div class="panel-heading">Update Information</div>
 
 			      <div id="settings_update_body" class="panel-body" id="update_info">
 				First Name: <input id="update_info_first_name" class="form-control" type="text"/>
 				Last  Name: <input id="update_info_last_name"class="form-control" type="text"/>
 				
-				<br><button class="btn btn-warning" onclick="update_info();">Update</button>
+				<br><button class="btn btn-info" onclick="update_info();">Update</button>
 			      </div>			      
 			    </div>
-
-			    <div class="panel panel-info" style="width:60%; margin-left:15%; margin-right:15%;">
-			      <div class="panel-heading">Create New User</div>
-			      <div id="settings_create_user" class="panel-body">
-				Username : <input id="create_user_username" class="form-control" type="text"/>
-				First Name: <input id="create_user_first_name" class="form-control" type="text"/>
-				Last Name: <input id="create_user_last_name" class="form-control" type="text"/>
-				Password : <input id="create_user_passcode" class="form-control" type="password"/>
-				Verify Password: <input id="create_user_verify" class="form-control" type="password"/>
-
-				<br><button class="btn btn-success" onclick="create_user();">Create User</button>
-			      </div>
-			      
-			    </div>
 			    
-			    <div class="panel panel-danger" style="width:60%; margin-left:15%; margin-right:15%;">
+			    </div>
+
+			  <div style="width:50%; float:left; display:inline;">
+
+			    
+			    <div class="panel panel-danger" style="width:90%; margin-left:10%;">
 			      <div class="panel-heading">Update Password</div>
 			      <div id="settings_update_password" class="panel-body">
 				   Old Password: <input id="update_password_old" class="form-control" type="password"/>
@@ -77,7 +154,7 @@
 			       </div>
 			    
 			    </div>
-			    
+			    </div>
 			    
 			  </div>
 
@@ -88,9 +165,9 @@
 
 
 
-
+          <div style="width:50%; display:inline; float:left" >
 			  <form id="deposit_form" role="form">
-			    <div class="panel panel-info" style="width:60%; margin-left:15%; margin-right:15%;">
+			    <div class="panel panel-info" style="width:90%;">
 			      <div class="panel-heading">Deposits</div>
 			      <div id="deposits" class="panel-body">
 				Amount: <input id="amount" class="form-control" type="text"/><br>
@@ -99,21 +176,23 @@
 			    </div>
 			    </form>
 
-			  <form id="buy_form" role="form" rol="form">
-			    <div class="panel panel-success" style="width:60%; margin-left:15%; margin-right:15%;">
+	  </div>
+	         <div style="width:50%; display:inline; float:left;">
+	  <form id="buy_form" role="form" rol="form">
+			    <div class="panel panel-warning" style="width:100%; ">
 			      <div class="panel-heading">Buy</div>
 			      <div id="deposits" class="panel-body">
 				Company: <input id="company_name_buy" type="text" class="form-control" name="company_name" /><br>
 				Volume: <input id="volume_buy" class="form-control" type="number" min="0" name="volume_buy" /><br>
-				<button class="btn btn-success" id="Buy" onclick="buy()">Buy</button>
+				<button class="btn btn-warning" id="Buy" onclick="buy()">Buy</button>
 			      </div>
 			    </div>
 			  </form>
-
-
-
+	       
+			  
+	
 			  <form id="sell_form" role="form" rol="form">
-			    <div class="panel panel-warning" style="width:60%; margin-left:15%; margin-right:15%;">
+			    <div class="panel panel-warning" style="width:100%;  ">
 			      <div class="panel-heading">Sell</div>
 			      <div id="sells" class="panel-body">
 				Company: <select id="company_name_sell" class="form-control"  name="company_name_sell"></select>
@@ -122,7 +201,8 @@
 			      </div>
 			    </div>
 			    </form>
-
+	       </div>
+	       
 
 
 
@@ -148,7 +228,7 @@
                                       <div id="user_information"></div>
                                         <h2><b><u>Owned Stocks</u></b></h2>
                          		  <!--<div class="col-sm-12">-->
-					  <div style= "overflow:auto; height:300px;">
+					  <div style= "overflow:auto; max-height:600px;">
                                             <table class="table table-hover owned_stocks_table">
                                               <thead>
                                                 <tr>
@@ -167,7 +247,7 @@
 
 				    <div class="col-sm-6">
 <br>
-				      <div id="piechart" style="width: 500px; height: 500px; float:right;"></div>
+				      <div id="piechart" style="width: 500px; height: 450px; float:right;"></div>
                                     </div>
                                   </div>
 <br>
@@ -175,7 +255,7 @@
                                 <div class="row">
 				  <div class="col-sm-6">
 				    <h2><b><u>Transaction History</u></b></h4>
-                                      <div style="overflow:auto; height:500px;">
+                                      <div style="overflow:auto; max-height:500px;">
                                         <table class="table table-hover transaction_table" >
                                           <thead>
 					    <tr>
@@ -414,6 +494,8 @@
                 $('.user_table').append($formrow);
         }
 
+
+      
         function Deposit()
         {
                 var amount=document.getElementById('amount');
@@ -657,7 +739,90 @@
 	    });
         });
 
-    }
+					      }
+
+					      function fetchAlgo(){
+					          $.ajax({
+					           type: "POST",
+					           url: "${display_algorithms_link}$",
+					           data: {"user_name":"${username}$"},
+                                                   async: false,
+					           success: function(result){
+                                                        html="<div class='panel-heading'>Available Algorithms</div><div class='panel-body'><select id='algos' class='form-control'><option value=''>Select Algorithm</option>"  
+					                result=JSON.parse(result)
+					                 for (i in result){
+                                                             html+="<option value='"+result[i]["algo_id"] +"'>" + result[i]["algo_name"] + "</option>";
+					                 }
+					      html+="</select> <button class='btn btn-success' onclick='executeAlgo(); resetAlgo();'>Execute</button></div>";
+					      $("#algo_menu").html(html);
+					      }
+					      })
+					      
+
+					      }
+
+
+					      function executeAlgo(){
+					          var e = document.getElementById("algos");
+					          var algo_id = e.options[e.selectedIndex].value;
+					          
+					      $.ajax({
+					      type: "POST",
+					      url: "${execute_algo_link}$",
+					      data: {"status":"1", "algo_id":algo_id, user:"${username}$"},
+                                              async: false,
+					      success: function(result){
+					          console.log(result)
+					      }
+					      })
+					      
+					      resetAlgo()
+					      
+					      }
+
+
+					      function resetAlgo(){
+					      fetchAlgo()
+					      displayActive()
+					      }				      
+					      
+					      function displayActive(){
+					         $.ajax({
+					           type: "POST",
+					           url: "${get_active_algorithms_link}$",
+					           data: {"user_name":"${username}$"},
+                                                   async: false,
+					           success:function(result){
+					                result=JSON.parse(result)
+					                 html="<div class='panel-heading'>Active Algorithms</div><div class='panel-body'><select id='selected_algos' class='form-control'><option value=''>Select Algorithm</option>"
+					                for (i in result){
+                                                            html+="<option value='"+result[i]["algo_id"] +"'>" + result[i]["algo_name"]+"</option>"
+					                }
+
+					                html+="</select> <button class='btn btn-danger' onclick='stopAlgo();'>Stop</button></div>"
+					                $("#active_algos").html(html)
+					           }
+					      });
+					      }
+
+					      
+					      function stopAlgo(){
+					        var e = document.getElementById("selected_algos");
+					        var algo_id = e.options[e.selectedIndex].value;
+					          
+					      $.ajax({
+					      type: "POST",
+					      url: "${execute_algo_link}$",
+					      data: {"status":"2", "algo_id":algo_id, user:"${username}$"},
+                                              async: false,
+					      success: function(result){
+					          console.log(result)
+					      }
+					      })
+
+					      resetAlgo()
+					      
+					      }
 </script>
 <script type="text/javascript">
 

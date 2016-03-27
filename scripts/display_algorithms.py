@@ -13,13 +13,16 @@ if form.getvalue("user_name") != None:
     username = str(form.getvalue("user_name"))
 
 #username = 'kc343'
-algorithms_list = []
+algorithms_list=[]
 
 def display_algorithms():
     try:
-        algorithms = a.select_all_algorithms(username)
+        algorithms = a.select_inactive_algorithms(username)
         for x in algorithms:
-            algorithms_list.append(x.get_algo_name())
+            algorithms_dict={}
+            algorithms_dict['algo_id']=x.get_algo_id()
+            algorithms_dict['algo_name']=x.get_algo_name()
+            algorithms_list.append(algorithms_dict)
         print json.dumps(algorithms_list)
     except Exception, e:
         print str(e)

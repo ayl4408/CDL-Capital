@@ -45,4 +45,11 @@ class Active_algorithms_dao:#{
 	else:
 	    return False
 	    
+    def get_active(self, user):
+        SQL = """SELECT active_algorithms.algo_id, algorithms.algo_name 
+                 FROM active_algorithms, algorithms 
+                 WHERE active_algorithms.user='%s' AND algorithms.algo_id=active_algorithms.algo_id
+              """
+        result=self.db_connection.query(SQL%(user))
+        return result
 #}
