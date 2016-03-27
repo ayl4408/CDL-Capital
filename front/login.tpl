@@ -22,13 +22,13 @@
 	      <div class="form-group">
 		<label class="control-label col-sm-1" for="username"></label>
 		<div class="col-sm-3">
-		  <input class="form-control" id="username" name="username" placeholder="Username" type="text" required>
+		 Username  <input class="form-control" id="username" name="username" placeholder="Username" type="text" required>
 		</div>
 	      </div>
 	      <div class="form-group">
 		<label class="control-label col-sm-1" for="password"></label>
 		<div class="col-sm-3">
-		  <input class="form-control" id="password" name="password" placeholder="********" type="password" required>
+		 Password  <input class="form-control" id="password" name="password" placeholder="********" type="password" required>
 		</div>
 	      </div>
 	      <div class="form-group">

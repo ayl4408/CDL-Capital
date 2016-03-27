@@ -33,4 +33,12 @@ class Active_algorithms_dao:#{
         algo_id = task.get_algo_id()
         
         self.db_connection.query(SQL % (user, algo_id))
+
+    def get_active(self, user):
+        SQL = """SELECT active_algorithms.algo_id, algorithms.algo_name 
+                 FROM active_algorithms, algorithms 
+                 WHERE active_algorithms.user='%s' AND algorithms.algo_id=active_algorithms.algo_id
+              """
+        result=self.db_connection.query(SQL%(user))
+        return result
 #}
