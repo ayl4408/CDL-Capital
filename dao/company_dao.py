@@ -8,6 +8,7 @@ from database_class import DB
 from PDO import PDO
 from company_model import Company
 from company_base_model import Company_base
+from moving_average_model import Moving_average
 
 class Company_dao:
 
@@ -89,3 +90,18 @@ class Company_dao:
                 c.set_symbol(result[i]['Symbol'])
                 l.append(c)
             return l   
+
+    def get_moving_average(self):
+	result = self.db.query("SELECT Symbol, Ask, FiftydayMovingAverage, TwoHundreddayMovingAverage FROM company_info WHERE FiftydayMovingAverage!='None' and TwoHundreddayMovingAverage!='None' and ask!='None';")
+	if result:
+	    l = []
+	    for i in range(len(result)):
+		c = Moving_average()
+		c.set_symbol(result[i]['Symbol'])
+		c.set_ask(result[i]['Ask'])
+		c.set_fifty_day_ask(result[i]["FiftydayMovingAverage"])
+		c.set_two_hundred_day_ask(result[i]['TwoHundreddayMovingAverage'])
+		l.append(c)
+	    return l
+	else: #DO THIS FOR ALL 
+	    return False
