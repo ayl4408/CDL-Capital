@@ -4,7 +4,7 @@ import sys, LINK_HEADERS
 sys.path.insert(0,str(LINK_HEADERS.DATABASE_LINK))
 sys.path.insert(0,str(LINK_HEADERS.MODELS_LINK))
 from database_class import DB
-from login_model import Login
+from active_algorithms_model import Active_algorithms
 from PDO import PDO
 
 class Active_algorithms_dao:#{
@@ -33,4 +33,16 @@ class Active_algorithms_dao:#{
         algo_id = task.get_algo_id()
         
         self.db_connection.query(SQL % (user, algo_id))
+
+    def select_all(self):
+	results = self.db_connection.query("SELECT * FROM active_algorithms;")
+	if results:
+	    lst = []
+	    for i in range(len(results)):
+		a = Active_algorithms(results[i]["user"], results[i]["algo_id"])
+		lst.append(a)
+	    return lst
+	else:
+	    return False
+	    
 #}

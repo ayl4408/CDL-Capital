@@ -15,9 +15,11 @@ usv = User_stock_value_dao()
 #portfolio = up.get_user_portfolio_model('al356')
 #stock_value = usv.get_user_stock_value_model('al356')
 
-usv.update_profit('al356','0')
-usv.update_total_stock_values('al356','0')
+username = 'kad34'
 
-up.update_total_portfolio('al356', '0')
-up.update_total_deposited('al356','0')
-up.update_available_funds('al356','0')
+usv.update_profit(username,'0')
+usv.update_total_stock_values(username,'0')
+
+up.update_total_portfolio(username, '0')
+up.update_total_deposited(username,'0')
+up.update_available_funds(username,'0')
