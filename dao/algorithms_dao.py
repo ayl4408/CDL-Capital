@@ -28,15 +28,25 @@ class Algorithms_dao:
     def insert_algorithm(self, user, algo_name, algo_id):
         self.db.query("insert into algorithms(user, algo_name, algo_id) values('%s','%s','%s')"%(user, algo_name, algo_id) + ";")
 
-    def select_all_algorithms(self, user):
-        result = self.db.query("select * from algorithms where user=('%s')"%(user) + ";")
+    def select_inactive_algorithms(self, user):
+        l =[]
+        result = self.db.query("select * from algorithms where algorithms.algo_id not in (select active_algorithms.algo_id from active_algorithms) and user=('%s')"%(user) + ";")
         if result:
-            l = []
             for i in range(len(result)):
                 if result[i]['algo_name'] != None:
                     a = Algorithms(result[i]['user'], result[i]['algo_name'], result[i]['algo_id'])
                     l.append(a)
-            return l
+        return l
+ 
+    def select_all_algorithms(self, user):
+        l=[]
+        result = self.db.query("select * from algorithms where user=('%s')"%(user) + ";")
+        if result:
+            for i in range(len(result)):
+                if result[i]['algo_name'] != None:
+                    a = Algorithms(result[i]['user'], result[i]['algo_name'], result[i]['algo_id'])
+                    l.append(a)
+        return l
 
     def delete_algorithm(self, user, algo_name):
         result = self.db.query("delete from algorithms where user=('%s') and algo_name=('%s')"%(user, algo_name) + ";")
