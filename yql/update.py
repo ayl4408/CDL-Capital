@@ -22,9 +22,10 @@ def update_profit_in_transaction(company_stock):
             if c.get_symbol() == cu.get_stock():
                 current_price = c.get_ask()
                 purchase_price = cu.get_price()
-                profit = Decimal(current_price) - Decimal(purchase_price)
-                if cu.get_sold() == 0:
-                    tdao.update_profit(cu.get_user(), cu.get_trans_date(), cu.get_order_id(), profit)
+                if current_price != None and purchase_price != None:
+                    profit = Decimal(current_price) - Decimal(purchase_price)
+                    if cu.get_sold() == 0:
+                        tdao.update_profit(cu.get_user(), cu.get_trans_date(), cu.get_order_id(), profit)
 
 def update_total_stock_value(company_stock):
     # get list of users
