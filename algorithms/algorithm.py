@@ -31,4 +31,3 @@ def main():
 	#if aam.get_algo_id() == "1":
 	 #   algorithm_class.algorithm_1(aam.get_user())
 
-main()
