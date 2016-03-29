@@ -22,10 +22,12 @@ def update_profit_in_transaction(company_stock):
             if c.get_symbol() == cu.get_stock():
                 current_price = c.get_ask()
                 purchase_price = cu.get_price()
-                if current_price != None and purchase_price != None:
-                    profit = Decimal(current_price) - Decimal(purchase_price)
-                    if cu.get_sold() == 0:
-                        tdao.update_profit(cu.get_user(), cu.get_trans_date(), cu.get_order_id(), profit)
+                #if current_price != 'None' and current_price != 'NULL' and purchase_price != 'None' and purchase_price != 'NULL':
+                if current_price == 'None' or current_price == 'NULL' or purchase_price == 'None' or purchase_price == 'NULL':
+                    continue
+                profit = Decimal(current_price) - Decimal(purchase_price)
+                if cu.get_sold() == 0:
+                    tdao.update_profit(cu.get_user(), cu.get_trans_date(), cu.get_order_id(), profit)
 
 def update_total_stock_value(company_stock):
     # get list of users
@@ -41,6 +43,8 @@ def update_total_stock_value(company_stock):
                     for j in range(len(company_stock)): # all companies in the DB
                         if company_stock[j].get_symbol() == user_companies[k]: # when they equal, you have the most up to date price
                             # create owned stocks model for each company
+                            if company_stock[j].get_ask() == 'None' or company_stock[j].get_ask() == 'NULL':
+                                continue
                             o = tdao.get_owned_stock_model(user_list[i].get_user(), company_stock[j].get_symbol(), company_stock[j].get_ask())
                             # accumulate total worth of stocks for the user
                             total_worth = total_worth + o.get_total_worth()

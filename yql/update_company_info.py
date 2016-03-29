@@ -4,6 +4,8 @@ import sys,simplejson,re,time,LINK_HEADERS, update
 from yahoo_finance_class import YQLQuery
 sys.path.insert(0, str(LINK_HEADERS.DATABASE_LINK))
 from database_class import DB
+sys.path.insert(0, str(LINK_HEADERS.ALGORITHMS_LINK))
+import algorithm
 
 ###global variables
 column_query_result= None
@@ -62,6 +64,8 @@ def update_company_info(yql_result,db):
         for key, value in yql_result['query']['results']['quote'][x].iteritems():
             if key == "Change" or key == "symbol":
                 continue
+#            if key == "Ask" and (value == "None" or value == "null"):
+#               value = '0'
             value=str(value).replace("'","\\'")
 	    values.append(value)
         values=tuple(values)
@@ -94,11 +98,12 @@ def main():
     while True:
         current_time = datetime.utcnow().strftime("%H:%M:%S")
         start=time.time()
-        if current_time > opening_time and current_time < closing_time:
+        if current_time > opening_time or current_time < closing_time:
             yql= YQLQuery()
             print "request: " + str(current_time)
             request_yql(l,yql,db)
             update.main()
+            algorithm.main()
             runtime=time.time()-start
             if runtime < 252:
                 sleeptime=252 - runtime
