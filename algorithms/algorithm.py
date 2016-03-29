@@ -22,8 +22,7 @@ def main():
     active_algorithms_list = a.select_all()
 
     if active_algorithms_list:
-	print "here"
-        fifty_vs_two_hund_mving_avg(active_algorithms_list)
+	fifty_vs_two_hund_mving_avg(active_algorithms_list)
 
     #algorithm_class = Algorithm(company_model_list)
 

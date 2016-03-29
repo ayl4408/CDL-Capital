@@ -27,7 +27,7 @@ class Transaction_dao:
                return l
 
      def update_profit(self, user, trans_date, order_id, profit, stock, algo_id):
-          self.db.query("update transactions set profit=('%s') where user=('%s') and trans_date=('%s') and order_id=('%s') and stock=('%s') and algo_id=('%s')"%(profit, user, trans_date, order_id, stock, algo_id)+";")
+          self.db.query("update transactions set profit=('%s') where user=('%s') and trans_date=('%s') and order_id=('%s') and stock=('%s') and algo_id=('%s')"%(round(Decimal(profit), 2), user, trans_date, order_id, stock, algo_id)+";")
           
      def select_all(self, user):
           result = self.db.query("select * from transactions where user=('%s')"%(user)+";")
@@ -61,7 +61,7 @@ class Transaction_dao:
 
      def buy(self,user, trans_date, stock, volume, price, algo_id):
           for i in range(volume):
-               self.db.query("insert into transactions (user, trans_date, stock, price, sold, order_id, profit, algo_id) values ('%s','%s','%s',%f,'%s',%d,%f,'%s')"%(user, trans_date, stock, Decimal(price), 0, int(i), Decimal(0), algo_id)+";")
+               self.db.query("insert into transactions (user, trans_date, stock, price, sold, order_id, profit, algo_id) values ('%s','%s','%s',%f,'%s',%d,%f,'%s')"%(user, trans_date, stock, round(Decimal(price), 2), 0, int(i), Decimal(0), algo_id)+";")
 
      def sell(self, user, stock, volume, price, algo_id):
           result = self.db.query("select * from transactions where user=('%s') and stock=('%s') and sold='0'"%(user, stock)+" ORDER BY trans_date ASC, order_id ASC LIMIT "+str(volume)+";")
@@ -69,7 +69,7 @@ class Transaction_dao:
           if result:
                if len(result) >= volume:
                     for i in range(len(result)):
-                         profit = Decimal(price) - Decimal(result[i]['price'])
+                         profit = round(Decimal(price) - Decimal(result[i]['price']), 2)
                          self.db.query("update transactions set sold='1', profit=('%s'), trans_date=('%s') where user=('%s') and stock=('%s') and trans_date=('%s') and order_id=(%d) and algo_id=('%s')"%(Decimal(profit), str(time), user, stock, result[i]['trans_date'], result[i]['order_id'], algo_id)+";")
 
      def get_user_stock_list(self, user):
