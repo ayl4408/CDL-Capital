@@ -69,8 +69,8 @@ class Transaction_dao:
           if result:
                if len(result) >= volume:
                     for i in range(len(result)):
-                         profit = round(Decimal(price) - Decimal(result[i]['price']), 2)
-                         self.db.query("update transactions set sold='1', profit=('%s'), trans_date=('%s') where user=('%s') and stock=('%s') and trans_date=('%s') and order_id=(%d) and algo_id=('%s')"%(Decimal(profit), str(time), user, stock, result[i]['trans_date'], result[i]['order_id'], algo_id)+";")
+                         profit = Decimal(price) - Decimal(result[i]['price'])
+                         self.db.query("update transactions set sold='1', profit=('%s'), trans_date=('%s') where user=('%s') and stock=('%s') and trans_date=('%s') and order_id=(%d) and algo_id=('%s')"%(round(Decimal(profit),2), str(time), user, stock, result[i]['trans_date'], result[i]['order_id'], algo_id)+";")
 
      def get_user_stock_list(self, user):
           result = self.db.query("select distinct stock from transactions where user=('%s') and sold='0'"%(user)+";")
