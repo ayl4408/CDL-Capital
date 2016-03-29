@@ -26,8 +26,8 @@ class Transaction_dao:
                     l.append(t)
                return l
 
-     def update_profit(self, user, trans_date, order_id, profit):
-          self.db.query("update transactions set profit=('%s') where user=('%s') and trans_date=('%s') and order_id=('%s')"%(profit, user, trans_date, order_id)+";")
+     def update_profit(self, user, trans_date, order_id, profit, stock, algo_id):
+          self.db.query("update transactions set profit=('%s') where user=('%s') and trans_date=('%s') and order_id=('%s') and stock=('%s') and algo_id=('%s')"%(profit, user, trans_date, order_id, stock, algo_id)+";")
           
      def select_all(self, user):
           result = self.db.query("select * from transactions where user=('%s')"%(user)+";")

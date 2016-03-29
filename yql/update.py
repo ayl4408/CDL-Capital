@@ -16,30 +16,30 @@ usvdao = User_stock_value_dao()
 updao = User_portfolio_dao()
 
 def update_profit_in_transaction(company_stock):
-    user_stock = tdao.select()
-    for c in company_stock:
-        for cu in user_stock:
-            if c.get_symbol() == cu.get_stock():
-                current_price = c.get_ask()
-                purchase_price = cu.get_price()
-                #if current_price != 'None' and current_price != 'NULL' and purchase_price != 'None' and purchase_price != 'NULL':
-                if current_price == 'None' or current_price == 'NULL' or purchase_price == 'None' or purchase_price == 'NULL':
-                    continue
-                profit = Decimal(current_price) - Decimal(purchase_price)
-                if cu.get_sold() == 0:
-                    tdao.update_profit(cu.get_user(), cu.get_trans_date(), cu.get_order_id(), profit)
+    user_list = ldao.get_user_list()
+    if user_list:
+        for i in range(len(user_list)):
+            user_stocks = tdao.select_all_active(user_list[i].get_user())
+            if user_stocks:
+                for j in range(len(user_stocks)):
+                    for k in range(len(company_stock)):
+                        if user_stocks[j].get_stock() == company_stock[k].get_symbol():
+                            current_price = company_stock[k].get_ask()
+                            purchase_price = user_stocks[j].get_price()
+                            if current_price == 'None' or current_price == 'NULL' or purchase_price == 'None' or purchase_price == 'NULL' or purchase_price == None or current_price == None:
+                                continue
+                            profit = Decimal(current_price) - Decimal(purchase_price)
+                            if user_stocks[j].get_sold() == 0:
+                                tdao.update_profit(user_stocks[j].get_user(), user_stocks[j].get_trans_date(), user_stocks[j].get_order_id(), profit, user_stocks[j].get_stock(), user_stocks[j].get_algo_id())
 
 def update_total_stock_value(company_stock):
-    # get list of users
     user_list = ldao.get_user_list()
     if user_list:
         for i in range(len(user_list)): # user
-            #print user_list[i].get_user()
             total_worth = 0
             user_companies = tdao.get_user_stock_list(user_list[i].get_user())
             if user_companies:
                 for k in range(len(user_companies)): # companies owned by user
-                    #print user_companies[i]
                     for j in range(len(company_stock)): # all companies in the DB
                         if company_stock[j].get_symbol() == user_companies[k]: # when they equal, you have the most up to date price
                             # create owned stocks model for each company
@@ -48,12 +48,8 @@ def update_total_stock_value(company_stock):
                             o = tdao.get_owned_stock_model(user_list[i].get_user(), company_stock[j].get_symbol(), company_stock[j].get_ask())
                             # accumulate total worth of stocks for the user
                             total_worth = total_worth + o.get_total_worth()
-                            #print o.get_name()
-                            #print o.get_volume()
-                            #print o.get_price()
-                            #print o.get_total_worth()
-                            #print o.get_profit()
                             break
+                        
             # update total_stock_values in the user_stock_value table for user
             usvdao.update_total_stock_values(user_list[i].get_user(), total_worth)
             usv = tdao.get_user_stock_value_model(user_list[i].get_user())
