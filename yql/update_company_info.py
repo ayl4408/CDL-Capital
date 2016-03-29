@@ -98,7 +98,7 @@ def main():
     while True:
         current_time = datetime.utcnow().strftime("%H:%M:%S")
         start=time.time()
-        if current_time > opening_time or current_time < closing_time:
+        if current_time > opening_time and current_time < closing_time:
             yql= YQLQuery()
             print "request: " + str(current_time)
             request_yql(l,yql,db)
