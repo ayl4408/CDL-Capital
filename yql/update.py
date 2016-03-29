@@ -26,7 +26,7 @@ def update_profit_in_transaction(company_stock):
                         if user_stocks[j].get_stock() == company_stock[k].get_symbol():
                             current_price = company_stock[k].get_ask()
                             purchase_price = user_stocks[j].get_price()
-                            if current_price == 'None' or current_price == 'NULL' or purchase_price == 'None' or purchase_price == 'NULL' or purchase_price == None or current_price == None:
+                            if current_price == 'None' or current_price == 'NULL' or purchase_price == 'None' or purchase_price == 'NULL' or purchase_price == None or current_price == None or float(current_price) > 9999.99:
                                 continue
                             profit = Decimal(current_price) - Decimal(purchase_price)
                             if user_stocks[j].get_sold() == 0 or user_stocks[j].get_sold() == '0':
@@ -64,3 +64,4 @@ def main():
     update_profit_in_transaction(l)
     update_total_stock_value(l)
     
+main()
