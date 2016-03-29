@@ -29,7 +29,7 @@ def update_profit_in_transaction(company_stock):
                             if current_price == 'None' or current_price == 'NULL' or purchase_price == 'None' or purchase_price == 'NULL' or purchase_price == None or current_price == None:
                                 continue
                             profit = Decimal(current_price) - Decimal(purchase_price)
-                            if user_stocks[j].get_sold() == 0:
+                            if user_stocks[j].get_sold() == 0 or user_stocks[j].get_sold() == '0':
                                 tdao.update_profit(user_stocks[j].get_user(), user_stocks[j].get_trans_date(), user_stocks[j].get_order_id(), profit, user_stocks[j].get_stock(), user_stocks[j].get_algo_id())
 
 def update_total_stock_value(company_stock):
