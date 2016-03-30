@@ -8,7 +8,7 @@ import quick_sort_companyinfo
 
 print "Content-Type: text/html\r\n\r\n"
 
-c = Company()
+c = Active_company()
 
 def percent_differences_volumechange(volume_array, averagedailyvolume_array):
     percent_difference = []

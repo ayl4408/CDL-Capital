@@ -10,7 +10,7 @@ print "Content-Type: text/html\r\n\r\n"
 
  
 
-c = Company()
+c = Active_company()
 
 def main():
 
