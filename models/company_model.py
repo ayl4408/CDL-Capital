@@ -39,7 +39,7 @@ class Company:
 
     def set_volume(self,x):
         self.volume = x
-
+'''
     def get_avg_daily_volume(self):
         return self.avg_daily_volume
 
@@ -51,5 +51,5 @@ class Company:
 
     def set_percent_change(self,x):
         self.percent_change = x
-
+'''
     
