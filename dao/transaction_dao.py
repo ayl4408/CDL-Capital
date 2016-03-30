@@ -93,7 +93,11 @@ class Transaction_dao:
           profit_result = self.db.query("select sum(profit) from transactions where user=('%s') and stock=('%s') and sold='0'"%(user, stock)+";")
           if volume_result and profit_result:
                volume = int(volume_result[0]['count(*)'])
-               total_worth = int(volume) * Decimal(price)
+               #Check for decimal operation failure
+	       try:
+                   total_worth = int(volume) * Decimal(price)
+	       except InvalidOperation:
+		   total_worth = 0
                if profit_result[0]['sum(profit)'] != None:
                     profit = Decimal(profit_result[0]['sum(profit)'])
                else:
