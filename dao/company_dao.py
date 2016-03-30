@@ -9,6 +9,7 @@ from PDO import PDO
 from company_model import Company
 from company_base_model import Company_base
 from moving_average_model import Moving_average
+from active_company_model import Active_company
 
 class Company_dao:
 
@@ -36,9 +37,9 @@ class Company_dao:
             c = Company()
             c.set_ask(result[0]['Ask'])
             c.set_name(result[0]['Name'])
-            c.set_percent_change(result[0]['PercentChange']) 
+            #c.set_percent_change(result[0]['PercentChange']) 
             c.set_symbol(symbol)
-            c.set_avg_daily_volume(result[0]['AverageDailyVolume'])
+            #c.set_avg_daily_volume(result[0]['AverageDailyVolume'])
             c.set_volume(result[0]['Volume'])
             return c
 
@@ -47,7 +48,7 @@ class Company_dao:
 	if result:
 	    l = []
 	    for i in range(len(result)):
-		c = Company()
+		c = Active_company()
 		c.set_symbol(result[i]['symbol'])
 		#r = result[i]['PercentChange'].translate(None, '+%')
 		#c.set_percent_change(r)
@@ -62,7 +63,7 @@ class Company_dao:
 	if result:
 	    l = []
 	    for i in range(len(result)):
-		c = Company()
+		c = Active_company()
 		c.set_symbol(result[i]['symbol'])
 		c.set_volume(result[i]['Volume'])
 		l.append(c)
@@ -74,7 +75,7 @@ class Company_dao:
          if result:
              l = []
              for i in range(len(result)):
-                 c = Company()
+                 c = Active_company()
                  c.set_symbol(result[i]['symbol'])
                  c.set_avg_daily_volume(result[i]['AverageDailyVolume'])
                  l.append(c)
