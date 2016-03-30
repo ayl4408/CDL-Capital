@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 class History:
-    def __init__(self, user, trans_date, trans_type, stock, price, total_price, volume):
+    def __init__(self, user, trans_date, trans_type, stock, price, total_price, volume, algo_id):
         self.user = user
         self.trans_date = trans_date
         self.trans_type = trans_type
@@ -9,7 +9,14 @@ class History:
         self.price = price
         self.total_price = total_price
         self.volume = volume
+        self.algo_id = algo_id
 
+    def get_algo_id(self):
+        return self.algo_id
+
+    def set_algo_id(self, x):
+        self.algo_id = x
+        
     def get_user(self):
         return self.user
 

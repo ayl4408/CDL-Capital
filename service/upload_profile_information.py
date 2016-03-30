@@ -18,9 +18,18 @@ form = cgi.FieldStorage()
 
 if form.getvalue("username") != None:
     username = form.getvalue("username")
+if form.getvalue("filter") != None:
+    portfolio_filter = form.getvalue("filter")
 
-#username='al356'
-    
+    if portfolio_filter == '1':
+        filter_flag = "ALL"
+    elif portfolio_filter == '2':
+        filter_flag = "ALGOS"
+    elif portfolio_filter == '0':
+        filter_flag = "USER"
+    else:
+        filter_flag = portfolio_filter
+        
 tdao = Transaction_dao()
 u2 = User_stock_value_dao()
 u1 = User_portfolio_dao()
@@ -29,11 +38,23 @@ hdao = History_dao()
 
 data={}
 
-t = hdao.select_all(username)
+if filter_flag == "ALL":
+    t = hdao.select_all(username)
+    l = tdao.get_user_stock_list(username)
+elif filter_flag == "ALGOS":
+    t = hdao.select_all_algo_trades(username)
+    l = tdao.get_all_algo_stock_list(username)
+elif filter_flag == "USER":
+    t = hdao.select_all_user_trades(username)
+    l = tdao.get_only_user_stock_list(username)
+else:
+    t = hdao.select_algo_trades(username, filter_flag)
+    l = tdao.get_algo_stock_list(username, filter_flag)
 
+# HISTORY
 if t:
     data['transactions']={}
-
+    
     for i in range(len(t)):
         data['transactions'][i]={}
 	
@@ -63,24 +84,8 @@ else:
     data['transactions'][0]['price'] = ""
     data['transactions'][0]['total_price'] = ""
     data['transactions'][0]['volume'] = ""
-    
-l = tdao.get_user_stock_list(username)
 
-'''
-def update_profit_in_transaction(company_stock):
-    user_stock = tdao.select()
-    for c in company_stock:
-        for cu in user_stock:
-            if c.get_symbol() == cu.get_stock():
-                current_price = c.get_ask()
-                purchase_price = cu.get_price()
-                profit = Decimal(current_price) - Decimal(purchase_price)
-                if cu.get_sold() == 0:
-                    tdao.update_profit(cu.get_user(), cu.get_trans_date(), cu.get_order_id(), profit)
-'''                 
-#lis = cdao.get_all_ask()
-#update_profit_in_transaction(lis)
-
+# OWNED STOCKS
 if l:
     data['owned_stocks']={}
     total_stock_value = 0
@@ -95,10 +100,6 @@ if l:
         data['owned_stocks'][i]['total_worth'] = o.get_total_worth()
         data['owned_stocks'][i]['profit'] = o.get_profit()
         total_stock_value = Decimal(total_stock_value) + Decimal(o.get_total_worth())
-
-    u2.update_total_stock_values(username, total_stock_value)
-    u = u1.get_user_portfolio_model(username)
-    u1.update_total_portfolio(username, Decimal(u.get_available_funds()) + total_stock_value)
 else:
     data['owned_stocks']={}
     data['owned_stocks'][0]={}
@@ -108,15 +109,27 @@ else:
     data['owned_stocks'][0]['total_worth'] = ""
     data['owned_stocks'][0]['profit'] = ""
 
-usv = u2.get_user_stock_value_model(username)
+# PORTFOLIO INFORMATION
 up = u1.get_user_portfolio_model(username)
+usv = u2.get_user_stock_value_model(username)
 
 data['users']={}
-data['users']['profit'] = usv.get_profit()
-data['users']['total_portfolio'] = up.get_total_portfolio()
-data['users']['available_funds'] = up.get_available_funds()
-data['users']['total_stock_values'] = usv.get_total_stock_values()
-data['users']['total_deposited'] = up.get_total_deposited()
+
+if up:
+    data['users']['total_portfolio'] = up.get_total_portfolio()
+    data['users']['total_deposited'] = up.get_total_deposited()
+    data['users']['available_funds'] = up.get_available_funds()
+else:
+    data['users']['total_portfolio'] = 0
+    data['users']['total_deposited'] = 0
+    data['users']['available_funds'] = 0  
+
+if usv:
+    data['users']['total_stock_values'] = usv.get_total_stock_values()
+    data['users']['profit'] = usv.get_profit() 
+else:
+    data['users']['total_stock_values'] = 0
+    data['users']['profit'] = 0
     
 json_result = json.dumps(data)
 print json_result
