@@ -80,7 +80,31 @@ class Transaction_dao:
               for i in range(len(result)):
                    l.append(result[i]['stock'])
               return l
-     
+
+     def get_all_algo_stock_list(self, user):
+          result = self.db.query("select distinct stock from transactions where user=('%s') and sold='0' and algo_id != '0'"%(user)+";")
+          if result:
+              l=[]
+              for i in range(len(result)):
+                   l.append(result[i]['stock'])
+              return l
+
+     def get_only_user_stock_list(self, user):
+          result = self.db.query("select distinct stock from transactions where user=('%s') and sold='0' and algo_id = '0'"%(user)+";")
+          if result:
+              l=[]
+              for i in range(len(result)):
+                   l.append(result[i]['stock'])
+              return l
+
+     def get_algo_stock_list(self, user, algo_id):
+          result = self.db.query("select distinct stock from transactions where user=('%s') and sold='0' and algo_id = ('%s')"%(user, algo_id)+";")
+          if result:
+              l=[]
+              for i in range(len(result)):
+                   l.append(result[i]['stock'])
+              return l
+         
      #def get_user_owned_stocks_list(self, user):
      #     result=self.db.query("select distinct stock from transactions where user=('%s') and sold='0'"%(user) + ";")
      #     if result:
