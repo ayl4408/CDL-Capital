@@ -77,294 +77,328 @@
 
 <body>
 
-	<div id="header">
-		<div id="title" style="float:left; display:inline;"><b><i>CDL Capital</i></b></div>
-		<div id="logout"> Logged in as <b><u>${username}$</b></u> <button class="btn btn-danger" style="margin-left:3px" onclick="logout();">Log Out</button></div>
-
+  <div id="header">
+    <div id="title" style="float:left; display:inline;"><b><i>CDL Capital</i></b></div>
+    <div id="logout"> Logged in as <b><u>${username}$</b></u> <button class="btn btn-danger" style="margin-left:3px" onclick="logout();">Log Out</button></div>
+    
+  </div>
+  <br><br><br>
+  
+  <div class="container">
+    <div><img style="margin-left:10%;" src="http://cliparts.co/cliparts/rcn/Kxo/rcnKxonLi.png"/></div>
+    
+    <ul class ="nav nav-tabs">
+      <li class="active"><a data-toggle="tab" href="#home">Portfolio</a></li>
+      <li><a data-toggle="tab" href="#menu1">Transactions</a></li>
+      <li><a data-toggle="tab" href="#menu2">Trending</a></li>
+      <li><a data-toggle="tab" href="#algorithms_menu" onclick="fetchAlgo(); displayActive(); ">Algorithms</a></li>
+      <li><a data-toggle="tab" href="#settings_menu">Settings</a></li>
+      
+    </ul>
+    <br>
+    
+    
+    <div class="tab-content" >
+      
+      <div id="algorithms_menu"  class="tab-pane fade">
+	<div id="algo_menu" class="panel panel-success">
 	</div>
-	<br><br><br>
 	
-	<div class="container">
-		<div><img style="margin-left:10%;" src="http://cliparts.co/cliparts/rcn/Kxo/rcnKxonLi.png"/></div>
-		
-		<ul class ="nav nav-tabs">
-			<li class="active"><a data-toggle="tab" href="#home">Portfolio</a></li>
-			<li><a data-toggle="tab" href="#menu1">Transactions</a></li>
-			<li><a data-toggle="tab" href="#menu2">Trending</a></li>
-			<li><a data-toggle="tab" href="#algorithms_menu" onclick="fetchAlgo(); displayActive(); ">Algorithms</a></li>
-			<li><a data-toggle="tab" href="#settings_menu">Settings</a></li>
-
-		</ul>
-		<br>
-		
-		
-		<div class="tab-content" >
-
-			<div id="algorithms_menu"  class="tab-pane fade">
-				<div id="algo_menu" class="panel panel-success">
-				</div>
-
-				<hr>
-				<div id="active_algos" class="panel panel-danger">
-				</div>
-				
-			</div>
-			
-			
-
-			<div id="settings_menu" class="tab-pane fade">
-				<div style="width:50%; float:left; display:inline;">
-					<div class="panel panel-info" style="width:90%; ">
-						<div class="panel-heading">Create New User</div>
-						<div id="settings_create_user" class="panel-body">
-							Username : <input id="create_user_username" class="form-control" type="text"/>
-							First Name: <input id="create_user_first_name" class="form-control" type="text"/>
-							Last Name: <input id="create_user_last_name" class="form-control" type="text"/>
-							Password : <input id="create_user_passcode" class="form-control" type="password"/>
-							Verify Password: <input id="create_user_verify" class="form-control" type="password"/>
-							<br><button class="btn btn-info" onclick="create_user();">Create User</button>
-						</div>
-						
-					</div>
-
-					
-					<div class="panel panel-info" style="width:90%; ">
-						<div class="panel-heading">Update Information</div>
-
-						<div id="settings_update_body" class="panel-body" id="update_info">
-							First Name: <input id="update_info_first_name" class="form-control" type="text"/>
-							Last  Name: <input id="update_info_last_name"class="form-control" type="text"/>
-							
-							<br><button class="btn btn-info" onclick="update_info();">Update</button>
-						</div>			      
-					</div>
-					
-				</div>
-
-				<div style="width:50%; float:left; display:inline;">
-
-					
-					<div class="panel panel-danger" style="width:90%; margin-left:10%;">
-						<div class="panel-heading">Update Password</div>
-						<div id="settings_update_password" class="panel-body">
-							Old Password: <input id="update_password_old" class="form-control" type="password"/>
-							New Password  <input id="update_password_new" class="form-control" type="password"/>
-							Verify Password <input id="update_password_verify" class="form-control" type="password"/>
-							<br><button class="btn btn-danger" onclick="update_password()">Update</button> 
-						</div>
-						
-					</div>
-				</div>
-				
-			</div>
-
-
-			<div id="menu1" class="tab-pane fade">
-			</br>
-
-
-
-
-			<div style="width:50%; display:inline; float:left" >
-				<form id="deposit_form" role="form">
-					<div class="panel panel-info" style="width:90%;">
-						<div class="panel-heading">Deposits</div>
-						<div id="deposits" class="panel-body">
-							Amount: <input id="amount" class="form-control" type="text"/><br>
-							<button class="btn btn-info" onclick="Deposit()">Deposit</button>
-						</div>
-					</div>
-				</form>
-
-			</div>
-			<div style="width:50%; display:inline; float:left;">
-				<form id="buy_form" role="form" rol="form">
-					<div class="panel panel-warning" style="width:100%; ">
-						<div class="panel-heading">Buy</div>
-						<div id="deposits" class="panel-body">
-							Company: <input id="company_name_buy" type="text" class="form-control" name="company_name" /><br>
-							Volume: <input id="volume_buy" class="form-control" type="number" min="0" name="volume_buy" /><br>
-							<button class="btn btn-warning" id="Buy" onclick="buy()">Buy</button>
-						</div>
-					</div>
-				</form>
-				
-				
-				
-				<form id="sell_form" role="form" rol="form">
-					<div class="panel panel-warning" style="width:100%;  ">
-						<div class="panel-heading">Sell</div>
-						<div id="sells" class="panel-body">
-							Company: <select id="company_name_sell" class="form-control"  name="company_name_sell"></select>
-							Volume: <input id="volume_sell" class="form-control" type="number" min="0" name="volume_sell" /><br>
-							<button class="btn btn-warning" id="Sell" onclick="sell()">Sell</button>
-						</div>
-					</div>
-				</form>
-			</div>
-			
-
-
-
-
-
-		</div>
-		<div id="home" class="tab-pane fade in active">
-			<div class="row">
-				<div class="col-sm-6" sidenav>
-					<h2><b><u>Portfolio Information</u></b></h2>
-					<table class="table table-hover user_table">
-						<thead>
-							<tr>
-								<th>Total Portfolio</th>
-								<th>Available Funds</th>
-								<th>Total Stock Values</th>
-								<th>Total Gain/Loss</th>
-								<th>Total Deposited</th>
-							</tr>
-						</thead>
-					</table>
-					<br>
-					<div id="user_information"></div>
-					<h2><b><u>Owned Stocks</u></b></h2>
-					<!--<div class="col-sm-12">-->
-					<div style= "overflow:auto; max-height:600px;">
-						<table class="table table-hover owned_stocks_table">
-							<thead>
-								<tr>
-									<th>Stock</th>
-									<th>Shares</th>
-									<th>Current Price</th>
-									<th>Total Worth</th>
-									<th>Gain/Loss</th>
-								</tr>
-							</thead>
-						</table>
-						<!--</div>-->
-					</div>
-					<div id="owned_stocks_information"></div>
-				</div>
-
-				<div class="col-sm-6">
-					<br>
-					<div id="piechart" style="width: 500px; height: 450px; float:right;"></div>
-				</div>
-			</div>
-			<br>
-			<br>
-			<div class="row">
-				<div class="col-sm-6">
-					<h2><b><u>Transaction History</u></b></h4>
-						<div style="overflow:auto; max-height:500px;">
-							<table class="table table-hover transaction_table" >
-								<thead>
-									<tr>
-										<th>Transaction Date </th>
-										<th>Transaction Type</th>
-										<th>Stock</th>
-										<th>Price</th>
-										<th>Total Price</th>
-										<th>Volume</th>
-									</tr>
-								</thead>
-							</table>
-						</div>
-					</div>
-					<div class="col-sm-6"></div>
-				</div>
-				<br><br>
-			</div>
-
-			
-			<div id="menu2" class="tab-pane fade">	
-				<div class="row">
-					<div class="col-sm-6">
-						<h2><b><u>Percent Change In Price</u></b></h2>				
-						<div>
-							<br>
-							<h4>Top 25 Positive Changes</h4>
-							<div style= "overflow:auto; height:350px;">
-								<table class="table table-hover percentchange_max_table" >
-									<thead>
-										<tr>
-											<th>Stock</th>
-											<th>Percent Change</th>
-										</tr>
-									</thead>
-								</table>
-							</div>
-						</div>
-
-						<div>
-							<br>
-							<h4>Top 25 Negative Changes</h4>
-							<div style="overflow:auto; height:350px">
-								<table class="table table-hover percentchange_min_table" >
-									<thead>
-										<tr>                                                      
-											<th>Stock</th>
-											<th>Percent Change</th>
-										</tr>
-									</thead>
-								</table>
-							</div>
-						</div>
-					</div>
-
-					<div class="col-sm-6">
-						<h2><b><u>Percent Change in Daily Volume</u></b></h2>
-						<br>
-						<h4>Top 25 Percent Change</h4>
-						<div style="overflow:auto; height:800px">
-							<table class="table table-hover volumechange_max_table">
-								<thead><tr>
-									<th>Stock</th>
-									<th>Percent Change</th>
-								</tr></thead>
-							</table>
-						</div>
-						
-					</div>
-				</div>
-
-
-				<br>
-				<br>
-				<div id="transaction_information"></div>
-			</div>
-		</div>
-		<br/>
-		<br/>
+	<hr>
+	<div id="active_algos" class="panel panel-danger">
 	</div>
+	
+      </div>
+      
+      
+      
+      <div id="settings_menu" class="tab-pane fade">
+	<div style="width:50%; float:left; display:inline;">
+	  <div class="panel panel-info" style="width:90%; ">
+	    <div class="panel-heading">Create New User</div>
+	    <div id="settings_create_user" class="panel-body">
+	      Username : <input id="create_user_username" class="form-control" type="text"/>
+	      First Name: <input id="create_user_first_name" class="form-control" type="text"/>
+	      Last Name: <input id="create_user_last_name" class="form-control" type="text"/>
+	      Password : <input id="create_user_passcode" class="form-control" type="password"/>
+	      Verify Password: <input id="create_user_verify" class="form-control" type="password"/>
+	      <br><button class="btn btn-info" onclick="create_user();">Create User</button>
+	    </div>
+	    
+	  </div>
+	  
+	  
+	  <div class="panel panel-info" style="width:90%; ">
+	    <div class="panel-heading">Update Information</div>
+	    
+	    <div id="settings_update_body" class="panel-body" id="update_info">
+	      First Name: <input id="update_info_first_name" class="form-control" type="text"/>
+	      Last  Name: <input id="update_info_last_name"class="form-control" type="text"/>
+	      
+	      <br><button class="btn btn-info" onclick="update_info();">Update</button>
+	    </div>			      
+	  </div>
+	  
+	</div>
+	
+	<div style="width:50%; float:left; display:inline;">
+	  
+	  
+	  <div class="panel panel-danger" style="width:90%; margin-left:10%;">
+	    <div class="panel-heading">Update Password</div>
+	    <div id="settings_update_password" class="panel-body">
+	      Old Password: <input id="update_password_old" class="form-control" type="password"/>
+	      New Password  <input id="update_password_new" class="form-control" type="password"/>
+	      Verify Password <input id="update_password_verify" class="form-control" type="password"/>
+	      <br><button class="btn btn-danger" onclick="update_password()">Update</button> 
+	    </div>
+	    
+	  </div>
+	</div>
+	
+      </div>
+      
+      
+      <div id="menu1" class="tab-pane fade">
+	<br>
+	
+			
 
-	<script type="text/javascript">
-      //what
+
+	<div style="width:50%; display:inline; float:left" >
+	  <form id="deposit_form" role="form">
+	    <div class="panel panel-info" style="width:90%;">
+	      <div class="panel-heading">Deposits</div>
+	      <div id="deposits" class="panel-body">
+		Amount: <input id="amount" class="form-control" type="text"/><br>
+		<button class="btn btn-info" onclick="Deposit()">Deposit</button>
+	      </div>
+	    </div>
+	  </form>
+	  
+	</div>
+	<div style="width:50%; display:inline; float:left;">
+	  <form id="buy_form" role="form" rol="form">
+	    <div class="panel panel-warning" style="width:100%; ">
+	      <div class="panel-heading">Buy</div>
+	      <div id="deposits" class="panel-body">
+		Company: <input id="company_name_buy" type="text" class="form-control" name="company_name" /><br>
+		Volume: <input id="volume_buy" class="form-control" type="number" min="0" name="volume_buy" /><br>
+		<button class="btn btn-warning" id="Buy" onclick="buy()">Buy</button>
+	      </div>
+	    </div>
+	  </form>
+	  
+	  
+	  
+	  <form id="sell_form" role="form" rol="form">
+	    <div class="panel panel-warning" style="width:100%;  ">
+	      <div class="panel-heading">Sell</div>
+	      <div id="sells" class="panel-body">
+		Company: <select id="company_name_sell" class="form-control"  name="company_name_sell"></select>
+		Volume: <input id="volume_sell" class="form-control" type="number" min="0" name="volume_sell" /><br>
+		<button class="btn btn-warning" id="Sell" onclick="sell()">Sell</button>
+	      </div>
+	    </div>
+	  </form>
+	</div>
+	
+	
+	
+	
+	
+	
+      </div>
+      <div id="home" class="tab-pane fade in active">
+	<div class="dropdown">
+	  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Portfolio Filter<span class="caret"></span></button>
+	  <br>
+	  <ul id="portfolio_filter_dropdown" class="dropdown-menu">
+	    <!--
+	    <li><a href="#" onClick="set_filter_cookie(1);update_profile_information();">All</a></li>
+	    <li><a href="#" onClick="set_filter_cookie(0);update_profile_information();">User</a></li>
+	    <li><a href="#" onClick="set_filter_cookie(2);update_profile_information();">Algorithms</a></li>
+	    -->
+	  </ul>
+	</div>
+	
+	<div class="row">
+	  <div class="col-sm-6" sidenav>
+	    <h2><b><u>Portfolio Information</u></b></h2>
+	    <table class="table table-hover user_table">
+	      <thead>
+		<tr>
+		  <th>Total Portfolio</th>
+		  <th>Available Funds</th>
+		  <th>Total Deposited</th>
+		  <th>Total Stock Value</th>
+		  <th>Total Gain/Loss</th>
+		</tr>
+	      </thead>
+	    </table>
+	    
+	    
+	    <div id="user_information"></div>
+	    <h2><b><u>Owned Stocks</u></b></h2>
+	    <!--<div class="col-sm-12">-->
+	    <div style= "overflow:auto; max-height:600px;">
+	      <table class="table table-hover owned_stocks_table">
+		<thead>
+		  <tr>
+		    <th>Stock</th>
+		    <th>Shares</th>
+		    <th>Current Price</th>
+		    <th>Total Worth</th>
+		    <th>Gain/Loss</th>
+		  </tr>
+		</thead>
+	      </table>
+	      <!--</div>-->
+	    </div>
+	    <div id="owned_stocks_information"></div>
+	  </div>
+	  
+	  <div class="col-sm-6">
+	    <br>
+	    <div id="piechart" style="width: 500px; height: 450px; float:right;"></div>
+	  </div>
+	</div>
+	<br>
+	<br>
+	<div class="row">
+	  <div class="col-sm-6">
+	    <h2><b><u>Transaction History</u></b></h2>
+	    <div style="overflow:auto; max-height:500px;">
+	      <table class="table table-hover transaction_table" >
+		<thead>
+		  <tr>
+		    <th>Transaction Date </th>
+		    <th>Transaction Type</th>
+		    <th>Stock</th>
+		    <th>Price</th>
+		    <th>Total Price</th>
+		    <th>Volume</th>
+		  </tr>
+		</thead>
+	      </table>
+	    </div>
+	  </div>
+	  <div class="col-sm-6"></div>
+	</div>
+	<br><br>
+      </div>
+      
+      
+      <div id="menu2" class="tab-pane fade">	
+	<div class="row">
+	  <div class="col-sm-6">
+	    <h2><b><u>Percent Change In Price</u></b></h2>				
+	    <div>
+	      <br>
+	      <h4>Top 25 Positive Changes</h4>
+	      <div style= "overflow:auto; height:350px;">
+		<table class="table table-hover percentchange_max_table" >
+		  <thead>
+		    <tr>
+		      <th>Stock</th>
+		      <th>Percent Change</th>
+		    </tr>
+		  </thead>
+		</table>
+	      </div>
+	    </div>
+	    
+	    <div>
+	      <br>
+	      <h4>Top 25 Negative Changes</h4>
+	      <div style="overflow:auto; height:350px">
+		<table class="table table-hover percentchange_min_table" >
+		  <thead>
+		    <tr>                                                      
+		      <th>Stock</th>
+		      <th>Percent Change</th>
+		    </tr>
+		  </thead>
+		</table>
+	      </div>
+	    </div>
+	  </div>
+	  
+	  <div class="col-sm-6">
+	    <h2><b><u>Percent Change in Daily Volume</u></b></h2>
+	    <br>
+	    <h4>Top 25 Percent Change</h4>
+	    <div style="overflow:auto; height:800px">
+	      <table class="table table-hover volumechange_max_table">
+		<thead><tr>
+		    <th>Stock</th>
+		    <th>Percent Change</th>
+		</tr></thead>
+	      </table>
+	    </div>
+	    
+	  </div>
+	</div>
+	
+	
+	<br>
+	<br>
+	<div id="transaction_information"></div>
+      </div>
+    </div>
+    <br/>
+    <br/>
+  </div>
+  
+  <script type="text/javascript">
+    
       var intervalId = null;
       window.onload = start;
+      
+      function set_filter_cookie(filter)
+      {
+        document.cookie = "filter="+filter;
+      }
 
+      function getCookie(cname)
+      {
+        var name = cname + "=";
+        var ca = document.cookie.split(';');
+        for(var i=0; i<ca.length; i++)
+	{
+		var c = ca[i];
+		while (c.charAt(0)==' ') c = c.substring(1);
+		if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
+	}
+	return "";
+      }
+      
       function start()
       {
+        set_filter_cookie(1);
       	generate_sell_drop_down();
+	generate_filter_dropdown();
       	get_company_names();
       	update_profile_information();
-      	intervalId = setInterval(update_profile_information, 60000);
+      	intervalId = setInterval(update_profile_information, 30000);
       }
 
       function update_profile_information()
       {
-      	var update_profile_result = $.ajax({
+        filter = getCookie("filter");
+        var update_profile_result = $.ajax({
       		type: 'POST',
       		url: '${upload_link}$',
-      		data: 'username='+ '${username}$',
+      		data: 'username='+ '${username}$'  + '&filter='+ filter,
       		dataType: "json",
       		async: false}).responseText;
 
       	var json_obj=JSON.parse(update_profile_result);
-      //		console.log(json_obj);
-      table_generate_users(json_obj['users']);
-      table_generate_transactions(json_obj['transactions']);
-      table_generate_owned_stocks(json_obj['owned_stocks']);
-      drawChart();
+        //		console.log(json_obj);
+        table_generate_users(json_obj['users']);
+        table_generate_transactions(json_obj['transactions']);
+        table_generate_owned_stocks(json_obj['owned_stocks']);
+        drawChart();
                 //load_profile_information();
                 most_active_stocks();
                 most_active_stocks_volume();
@@ -375,9 +409,9 @@
             	$('.owned_stocks_table tr td').remove();
             	var tb = document.createElement("tbody");		
             	
-            	
+                var count = 0;
             	for (i in json_obj)
-            	{
+                {
             		var tr = document.createElement("tr");
             		var td1 = document.createElement("td");
             		var td2 = document.createElement("td");
@@ -473,12 +507,12 @@
             	td1.appendChild(t1);
             	var t2 = document.createTextNode(json_obj['available_funds']);
             	td2.appendChild(t2);
-            	var t3 = document.createTextNode(json_obj['total_stock_values']);
-            	td3.appendChild(t3);
-            	var t4 = document.createTextNode(json_obj['profit']);
+            	var t4 = document.createTextNode(json_obj['total_stock_values']);
             	td4.appendChild(t4);
-            	var t5 = document.createTextNode(json_obj['total_deposited']);
+            	var t5 = document.createTextNode(json_obj['profit']);
             	td5.appendChild(t5);
+            	var t3 = document.createTextNode(json_obj['total_deposited']);
+            	td3.appendChild(t3);
 
             	tr.appendChild(td1);
             	tr.appendChild(td2);
@@ -536,8 +570,8 @@
 		    document.getElementById("buy_form").reset();
 		}
 		
-		function sell()
-		{
+	    function sell()
+	    {
 			var company_name=company_name_sell.value;
 			var volume=document.getElementById('volume_sell');
 			
@@ -556,6 +590,27 @@
                 document.getElementById("sell_form").reset();
                 generate_sell_drop_down();
                 
+            }
+
+            function generate_filter_dropdown()
+            {
+                 var user_name = "${username}$";
+
+                 var generate_filter_dropdown_result = $.ajax({
+            		type: 'POST',
+            		url: "${filter_link}$",
+            		data: 'user_name='+ user_name,
+            		dataType: "json",
+                        async: false}).responseText;
+      
+                    generate_filter_dropdown_parsed=JSON.parse(generate_filter_dropdown_result);
+                    console.log(generate_filter_dropdown_parsed);
+                    
+                    $('#portfolio_filter_dropdown').empty();
+                    
+                    for(var field in generate_filter_dropdown_parsed) {
+                    	$('<li><a href="#" onClick="set_filter_cookie('+generate_filter_dropdown_parsed[field]+');update_profile_information();">' + field + '</a></li>').appendTo('#portfolio_filter_dropdown');
+                    }
             }
             
             function generate_sell_drop_down()

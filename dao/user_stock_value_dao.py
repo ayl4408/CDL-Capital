@@ -29,4 +29,4 @@ class User_stock_value_dao:
         if result:
             u = User_stock_value(user, result[0]['profit'],result[0]['total_stock_values'])
             return u
-
+        

@@ -34,7 +34,7 @@ def transaction(username, volume, company, trans_type, algo_id):
         u = udao2.get_user_portfolio_model(username)
         if final <= u.get_available_funds():
             tdao.buy(username, time, company, volume, ask, algo_id)
-            hdao.insert(username, time, 'buy', company, ask, final, volume)
+            hdao.insert(username, time, 'buy', company, ask, final, volume, algo_id)
             
             o = tdao.get_user_stock_value_model(username)
             
@@ -53,7 +53,7 @@ def transaction(username, volume, company, trans_type, algo_id):
         
         if o.get_volume() >= volume:
             tdao.sell(username, company, volume, ask, algo_id)
-            hdao.insert(username, time, 'sell', company, ask, final, volume)
+            hdao.insert(username, time, 'sell', company, ask, final, volume, algo_id)
 
             u = tdao.get_user_stock_value_model(username)    
             udao1.update_total_stock_values(username, u.get_total_stock_values())
