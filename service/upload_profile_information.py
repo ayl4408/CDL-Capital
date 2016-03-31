@@ -1,5 +1,6 @@
 #!/usr/bin/python
 
+import operator
 import cgi, sys, LINK_HEADERS
 import simplejson as json
 from datetime import datetime
@@ -11,7 +12,7 @@ from user_portfolio_dao import User_portfolio_dao
 from user_stock_value_dao import User_stock_value_dao
 from company_dao import Company_dao
 from history_dao import History_dao
-
+from sector_info_dao import Sector_info_dao
 print "Content-Type: text/html\r\n\r\n"
 
 form = cgi.FieldStorage()
@@ -19,7 +20,7 @@ form = cgi.FieldStorage()
 if form.getvalue("username") != None:
     username = form.getvalue("username")
 
-#username='al356'
+#username='kad34'
     
 tdao = Transaction_dao()
 u2 = User_stock_value_dao()
@@ -30,6 +31,7 @@ hdao = History_dao()
 data={}
 
 t = hdao.select_all(username)
+
 
 if t:
     data['transactions']={}
@@ -80,14 +82,22 @@ def update_profit_in_transaction(company_stock):
 '''                 
 #lis = cdao.get_all_ask()
 #update_profit_in_transaction(lis)
+sector_dao=Sector_info_dao()
+data['sector_volume']={}
 
 if l:
+    
     data['owned_stocks']={}
     total_stock_value = 0
     
     for i in range(len(l)):
         c = cdao.get_company_model(l[i])
-        o = tdao.get_owned_stock_model(username, l[i], c.get_ask()) 
+
+        try:
+            o = tdao.get_owned_stock_model(username, l[i], c.get_ask()) 
+        except:
+            continue;
+            
         data['owned_stocks'][i]={}
         data['owned_stocks'][i]['stock'] = l[i]
         data['owned_stocks'][i]['current_shares'] = o.get_volume()
@@ -96,9 +106,21 @@ if l:
         data['owned_stocks'][i]['profit'] = o.get_profit()
         total_stock_value = Decimal(total_stock_value) + Decimal(o.get_total_worth())
 
-    u2.update_total_stock_values(username, total_stock_value)
-    u = u1.get_user_portfolio_model(username)
-    u1.update_total_portfolio(username, Decimal(u.get_available_funds()) + total_stock_value)
+        #--------Code for chart - sector_volume:---
+        volume=o.get_volume()
+        symbol=l[i]
+        try:
+            sector=sector_dao.get_sector_by_symbol(symbol)
+            if(sector.strip()==''):sector="Other"
+        except:
+            sector="Other"
+
+        if(sector not in data['sector_volume']):
+            data['sector_volume'][sector]=volume;
+        else:
+            data['sector_volume'][sector]+=volume;
+        #----------end of code for chart--------
+        
 else:
     data['owned_stocks']={}
     data['owned_stocks'][0]={}
@@ -117,6 +139,37 @@ data['users']['total_portfolio'] = up.get_total_portfolio()
 data['users']['available_funds'] = up.get_available_funds()
 data['users']['total_stock_values'] = usv.get_total_stock_values()
 data['users']['total_deposited'] = up.get_total_deposited()
-    
+
+
+
+#---------------------Code for Chart Generation-----------------------------
+sectors=[]
+volume=[]
+
+sorted_volume=sorted(data['sector_volume'].items(),key=operator.itemgetter(1))
+length=len(sorted_volume);
+
+#Insertion Sort
+for i in range(length):
+    j=i
+    while(j>0 and sorted_volume[j][1]>sorted_volume[j-1][1]):
+        temp=sorted_volume[j-1]
+        sorted_volume[j-1]=sorted_volume[j]
+        sorted_volume[j]=temp
+        j=j-1
+
+MAX=35
+for i in range(length):
+    if(i>=MAX):break;
+    if(sorted_volume[i][0]=='Other'):continue
+    sectors.append(sorted_volume[i][0])
+    volume.append(sorted_volume[i][1])
+
+
+data['chart_axis']=sectors;
+data['chart_data']=volume;
+#--------------------------------end of code for chart--------------------#
+
+
 json_result = json.dumps(data)
 print json_result
