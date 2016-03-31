@@ -59,9 +59,9 @@ class Transaction_dao:
                l.sort(key=lambda x: x.get_trans_date(), reverse=False)
                return l
 
-     def buy(self,user, trans_date, stock, volume, price, algo_id):
+     def buy(self,user, stock, volume, price, algo_id):
           for i in range(volume):
-               self.db.query("insert into transactions (user, trans_date, stock, price, sold, order_id, profit, algo_id) values ('%s','%s','%s',%f,'%s',%d,%f,'%s')"%(user, trans_date, stock, round(Decimal(price), 2), 0, int(i), Decimal(0), algo_id)+";")
+               self.db.query("insert into transactions (user, stock, price, sold, order_id, profit, algo_id) values ('%s','%s',%f,'%s',%d,%f,'%s')"%(user, stock, round(Decimal(price), 2), 0, int(i), Decimal(0), algo_id)+";")
 
      def sell(self, user, stock, volume, price, algo_id):
           result = self.db.query("select * from transactions where user=('%s') and stock=('%s') and sold='0'"%(user, stock)+" ORDER BY trans_date ASC, order_id ASC LIMIT "+str(volume)+";")

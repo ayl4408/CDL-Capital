@@ -28,8 +28,6 @@ def create_result_list(result):
         else:
             l.append(result[i]['symbol'].replace(" ",""))
     return l
-
-###converts ticker list into a string and executes yql query at intervals of 100 
 ## @param l = list of ticker symbols
 ## @param yql = YQLQuery object 
 def request_yql(l,yql,db):
@@ -43,7 +41,7 @@ def request_yql(l,yql,db):
         counter+=1
         final+=1
 
-	if counter==30 or final == len(l):
+	if counter==20 or final == len(l):
 	    yql_query=START_YQL + result_string + END_YQL
             while True:
                 yql_result=yql.execute(yql_query)
@@ -170,8 +168,8 @@ def main():
             yql= YQLQuery()
             print "request: " + str(current_time)
             request_yql(l,yql,db)
-            #update.main()
-            #algorithm.main()
+            update.main()
+            algorithm.main()
             runtime=time.time()-start
             if runtime < 252:
                 sleeptime=252 - runtime
