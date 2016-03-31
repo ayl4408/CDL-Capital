@@ -258,9 +258,9 @@
 	    <div id="owned_stocks_information"></div>
 	  </div>
 	  
-	  <div class="col-sm-6">
+	  <div class="col-sm-6" style="height:900px">
 	    <br>
-	    <div id="piechart" style="width: 500px; height: 450px; float:right;"></div>
+	    <div id="sector_chart" style="width: 500px; height: 950px; float:right;"></div>
 	  </div>
 	</div>
 	<br>
@@ -398,11 +398,55 @@
         table_generate_users(json_obj['users']);
         table_generate_transactions(json_obj['transactions']);
         table_generate_owned_stocks(json_obj['owned_stocks']);
-        drawChart();
+        displayChart(json_obj)
+				  //drawChart();
                 //load_profile_information();
                 most_active_stocks();
                 most_active_stocks_volume();
-            }
+				  }
+
+				  function displayChart(json_obj){
+				  chart_axis=json_obj['chart_axis']
+				  chart_data=json_obj['chart_data']
+
+				  $(function () {
+				  $('#sector_chart').highcharts({
+				  chart: {
+				  plotBackgroundColor: null,
+				  plotBorderWidth: null,
+				  plotShadow: false,
+				  type: 'bar'
+				  },
+
+				  xAxis: {
+				  categories: chart_axis,
+				  title: {
+				  text: null
+				  }
+				  },
+
+				  title: {
+				  text: ' '
+				  },
+
+				  plotOptions: {
+				  bar:{
+				  dataLabels:{enabled:true}
+				  }
+				  },
+				  tooltip:{
+				  valueSuffix: ' stocks'
+				  },
+				  series: [{
+				  name: 'volume',
+				  colorByPoint: true,
+				  data: chart_data
+				  }]
+				  });
+				  });
+				  }
+				  
+				  
 
             function table_generate_owned_stocks (json_obj)
             {

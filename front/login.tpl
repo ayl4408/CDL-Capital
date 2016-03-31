@@ -7,39 +7,72 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <title>CDL Capital</title>
+
+    <style>
+      body {
+      padding-top: 40px;
+      padding-bottom: 40px;
+      background-color: #eee;
+      }
+
+      .form-signin {
+      max-width: 330px;
+      padding: 15px;
+      margin: 0 auto;
+      }
+      .form-signin .form-signin-heading,
+      .form-signin .checkbox {
+      margin-bottom: 10px;
+      }
+      .form-signin .checkbox {
+      font-weight: normal;
+      }
+      .form-signin .form-control {
+      position: relative;
+      height: auto;
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+      padding: 10px;
+      font-size: 16px;
+      }
+      .form-signin .form-control:focus {
+      z-index: 2;
+      }
+      .form-signin input[type="text"] {
+      margin-bottom: -1px;
+      border-bottom-right-radius: 0;
+      border-bottom-left-radius: 0;
+      }
+      .form-signin input[type="password"] {
+      margin-bottom: 10px;
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+      }
+
+      #headerImg{
+         max-width:100%;
+      }
+    </style>
+    
+
   </head>
 
   <body>
     <div class="container">
-      <div class="jumbotron">
-	<h1>CDL Capital</h1>
-	<br/>
-      </div>
-      <div id="main">
-	<div class="row">
-	  <div id="login">
-	    <form action=${validate_login_link}$ method="post" class="form-horizontal" role="form">
-	      <div class="form-group">
-		<label class="control-label col-sm-1" for="username"></label>
-		<div class="col-sm-3">
-		 Username  <input class="form-control" id="username" name="username" placeholder="Username" type="text" required>
-		</div>
-	      </div>
-	      <div class="form-group">
-		<label class="control-label col-sm-1" for="password"></label>
-		<div class="col-sm-3">
-		 Password  <input class="form-control" id="password" name="password" placeholder="********" type="password" required>
-		</div>
-	      </div>
-	      <div class="form-group">
-		<div class="col-sm-offset-1 col-sm-1">
-		  <input class="form-control" name="submit" type="submit" value="Submit">
-		</div>
-	      </div>
-	    </form>
-	  </div>
+      <center><img id="headerImg" src="http://cliparts.co/cliparts/rcn/Kxo/rcnKxonLi.png"/></center>
+      <form class="form-signin" action="${validate_login_link}$" method="POST">
+	<h3 class="form-signin-heading"><b><u>CDL Capital</u></b><br>Sign-In</h3>
+	<label for="inputEmail" class="sr-only">Email address</label>
+	<input type="text" id="username" name="username" class="form-control" placeholder="Username" required autofocus>
+	<label for="inputPassword" class="sr-only">Password</label>
+	<input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
+	<div class="checkbox">
+	  <label>
+	    <input type="checkbox" value="remember-me"> Remember me
+	  </label>
 	</div>
-      </div>
-    </div>
+	<button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+      </form>
   </body>
 </html>
