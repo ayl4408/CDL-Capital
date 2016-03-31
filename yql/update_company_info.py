@@ -43,7 +43,7 @@ def request_yql(l,yql,db):
         counter+=1
         final+=1
 
-	if counter==40 or final == len(l):
+	if counter==30 or final == len(l):
 	    yql_query=START_YQL + result_string + END_YQL
             while True:
                 yql_result=yql.execute(yql_query)
@@ -166,12 +166,12 @@ def main():
     while True:
         current_time = datetime.utcnow().strftime("%H:%M:%S")
         start=time.time()
-        if current_time > opening_time or current_time < closing_time:
+        if current_time > opening_time and current_time < closing_time:
             yql= YQLQuery()
             print "request: " + str(current_time)
             request_yql(l,yql,db)
-            update.main()
-            algorithm.main()
+            #update.main()
+            #algorithm.main()
             runtime=time.time()-start
             if runtime < 252:
                 sleeptime=252 - runtime
