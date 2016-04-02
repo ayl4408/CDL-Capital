@@ -90,7 +90,7 @@
     <ul class ="nav nav-tabs">
       <li class="active"><a data-toggle="tab" href="#home">Portfolio</a></li>
       <li><a data-toggle="tab" href="#menu1">Transactions</a></li>
-      <li><a data-toggle="tab" href="#menu2">Trending</a></li>
+      <li><a data-toggle="tab" href="#menu2" onclick="most_active_stocks(); most_active_stocks_volume();" >Trending</a></li>
       <li><a data-toggle="tab" href="#algorithms_menu" onclick="fetchAlgo(); displayActive(); ">Algorithms</a></li>
       <li><a data-toggle="tab" href="#settings_menu">Settings</a></li>
       
@@ -385,8 +385,8 @@
         displayChart(json_obj)
 				  //drawChart();
                 //load_profile_information();
-                most_active_stocks();
-                most_active_stocks_volume();
+                //most_active_stocks();
+                //most_active_stocks_volume();
 				  }
 
 				  function displayChart(json_obj){
