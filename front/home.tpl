@@ -100,7 +100,7 @@
     <ul class ="nav nav-tabs">
       <li class="active"><a data-toggle="tab" href="#home">Portfolio</a></li>
       <li><a data-toggle="tab" href="#menu1">Transactions</a></li>
-      <li><a data-toggle="tab" href="#menu2">Trending</a></li>
+      <li><a data-toggle="tab" href="#menu2" onclick="most_active_stocks(); most_active_stocks_volume();" >Trending</a></li>
       <li><a data-toggle="tab" href="#algorithms_menu" onclick="fetchAlgo(); displayActive(); ">Algorithms</a></li>
       <li><a data-toggle="tab" href="#settings_menu">Settings</a></li>
       
@@ -239,16 +239,12 @@
 	
 	
       </div>
+      
       <div id="home" class="tab-pane fade in active">
 	<div class="dropdown">
 	  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Portfolio Filter<span class="caret"></span></button>
 	  <br>
 	  <ul id="portfolio_filter_dropdown" class="dropdown-menu">
-	    <!--
-	    <li><a href="#" onClick="set_filter_cookie(1);update_profile_information();">All</a></li>
-	    <li><a href="#" onClick="set_filter_cookie(0);update_profile_information();">User</a></li>
-	    <li><a href="#" onClick="set_filter_cookie(2);update_profile_information();">Algorithms</a></li>
-	    -->
 	  </ul>
 	</div>
 	
@@ -266,12 +262,9 @@
 		</tr>
 	      </thead>
 	    </table>
-	    
-	    
-	    <div id="user_information"></div>
+ 
 	    <h2><b><u>Owned Stocks</u></b></h2>
-	    <!--<div class="col-sm-12">-->
-	    <div style= "overflow:auto; max-height:600px;">
+	    <div style= "overflow:auto; max-height:400px;">
 	      <table class="table table-hover owned_stocks_table">
 		<thead>
 		  <tr>
@@ -283,22 +276,12 @@
 		  </tr>
 		</thead>
 	      </table>
-	      <!--</div>-->
 	    </div>
-	    <div id="owned_stocks_information"></div>
-	  </div>
-	  
-	  <div class="col-sm-6" style="height:900px">
+
 	    <br>
-	    <div id="sector_chart" style="width: 500px; height: 950px; float:right;"></div>
-	  </div>
-	</div>
-	<br>
-	<br>
-	<div class="row">
-	  <div class="col-sm-6">
+	    
 	    <h2><b><u>Transaction History</u></b></h2>
-	    <div style="overflow:auto; max-height:500px;">
+	    <div style="overflow:auto; max-height:400px;">
 	      <table class="table table-hover transaction_table" >
 		<thead>
 		  <tr>
@@ -313,12 +296,13 @@
 	      </table>
 	    </div>
 	  </div>
-	  <div class="col-sm-6"></div>
-	</div>
-	<br><br>
+	  <div class="col-sm-6" sidenav>
+	    <h2><b><u>Industry Distribution</u></b></h2>
+	    <div id="sector_chart" style="width: 500px; height: 950px; float:right;"></div>
+	  </div>
+	</div>	
       </div>
-      
-      
+            
       <div id="menu2" class="tab-pane fade">	
 	<div class="row">
 	  <div class="col-sm-6">
@@ -538,7 +522,7 @@
 	generate_filter_dropdown();
       	get_company_names();
       	update_profile_information();
-      	intervalId = setInterval(update_profile_information, 30000);
+      	intervalId = setInterval(update_profile_information, 600000);
       }
 
       function update_profile_information()
@@ -559,14 +543,18 @@
         displayChart(json_obj)
 				  //drawChart();
                 //load_profile_information();
-                most_active_stocks();
-                most_active_stocks_volume();
+                //most_active_stocks();
+                //most_active_stocks_volume();
 				  }
 
 				  function displayChart(json_obj){
 				  chart_axis=json_obj['chart_axis']
 				  chart_data=json_obj['chart_data']
 
+				  if(chart_data.length<10){
+							 document.getElementById('sector_chart').style.height='500px';
+							 }
+				  
 				  $(function () {
 				  $('#sector_chart').highcharts({
 				  chart: {

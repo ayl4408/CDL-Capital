@@ -16,7 +16,7 @@ class History_dao:
     def __init__(self):
         self.db =  PDO().get_connection(LINK_HEADERS.DB_HOST, LINK_HEADERS.DB_USER, LINK_HEADERS.DB_PASSWORD, LINK_HEADERS.DB_NAME)
 
-    def insert(self, user, trans_date, trans_type, stock, price, total_price, volume):
+    def insert(self, user, trans_date, trans_type, stock, price, total_price, volume, algo_id):
         self.db.query("insert into history (user, trans_date, trans_type, stock, price, total_price, volume, algo_id) values ('%s','%s','%s','%s','%s','%s',%d, '%s')"%(user, trans_date, trans_type, stock, round(Decimal(price),2), round(Decimal(total_price),2), volume, algo_id)+";")
 
     def select_all(self, user):
