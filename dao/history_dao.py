@@ -6,6 +6,7 @@ sys.path.insert(0, str(LINK_HEADERS.DATABASE_LINK))
 sys.path.insert(0, str(LINK_HEADERS.MODELS_LINK))
 from database_class import DB
 from history_model import History
+from date_history_model import Date_history
 from PDO import PDO
 
 class History_dao:
@@ -54,4 +55,20 @@ class History_dao:
                 l.append(h)
             return l
 
+    def get_volume_per_day(self,user):
+        result = self.db.query("select DATE(trans_date) as date, sum(volume) as volume from history where user=('%s') group by DATE(trans_date)"%(user)+";");
+        if result:
+            l = []
+            for i in range(len(result)):
+                t = Date_history()
+                t.set_date(result[i]['date'])
+                t.set_volume(result[i]['volume'])
+                l.append(t)
+            return l
+        else:
+            return False
+
+#h = History_dao()
+#print h.get_volume_per_day("al356")
+            
         
