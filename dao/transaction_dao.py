@@ -8,6 +8,7 @@ from database_class import DB
 from transaction_model import Transaction
 from owned_stock_model import Owned_stock
 from user_stock_value_model import User_stock_value
+from date_transaction_model import Date_transaction
 from PDO import PDO
 
 class Transaction_dao:
@@ -145,3 +146,20 @@ class Transaction_dao:
                
           u = User_stock_value(user, profit, total_stock_values)
           return u
+
+     def get_trades_per_day(self, user):
+          result = self.db.query("select DATE(trans_date) as date, count(id) as num_trades from transactions where user=('%s') group by DATE(trans_date)"%(user)+";");
+          if result:
+               l = []
+               #print result[0]['date']
+               for i in range(len(result)):
+                    t = Date_transaction()
+                    t.set_date(result[i]['date'])
+                    t.set_num_trades(result[i]['num_trades'])
+                    l.append(t)
+               return l
+          else:
+               return False
+
+#t = Transaction_dao()
+#print t.get_trades_per_day("al356")
