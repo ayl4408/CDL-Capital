@@ -95,37 +95,40 @@ data['sector_volume']={}
 if l:
     
     data['owned_stocks']={}
-    total_stock_value = 0
+    #total_stock_value = 0
     
-    for i in range(len(l)):
-        c = cdao.get_company_model(l[i])
-
-        try:
-            o = tdao.get_owned_stock_model(username, l[i], c.get_ask()) 
-        except:
-            continue;
+#    for i in range(len(l)):
+#        c = cdao.get_company_model(l[i])
+    
+    c = cdao.get_list_of_company_models(l)
+    if c:
+        for i in range(len(c)):
+            try:
+                o = tdao.get_owned_stock_model(username, c[i].get_symbol(), c[i].get_ask()) 
+            except:
+                continue
             
-        data['owned_stocks'][i]={}
-        data['owned_stocks'][i]['stock'] = l[i]
-        data['owned_stocks'][i]['current_shares'] = o.get_volume()
-        data['owned_stocks'][i]['current_price'] = c.get_ask()
-        data['owned_stocks'][i]['total_worth'] = o.get_total_worth()
-        data['owned_stocks'][i]['profit'] = o.get_profit()
-        total_stock_value = Decimal(total_stock_value) + Decimal(o.get_total_worth())
+            data['owned_stocks'][i]={}
+            data['owned_stocks'][i]['stock'] = c[i].get_symbol()
+            data['owned_stocks'][i]['current_shares'] = o.get_volume()
+            data['owned_stocks'][i]['current_price'] = c[i].get_ask()
+            data['owned_stocks'][i]['total_worth'] = o.get_total_worth()
+            data['owned_stocks'][i]['profit'] = o.get_profit()
+            #total_stock_value = Decimal(total_stock_value) + Decimal(o.get_total_worth())
 
-        #--------Code for chart - sector_volume:---
-        volume=o.get_volume()
-        symbol=l[i]
-        try:
-            sector=sector_dao.get_sector_by_symbol(symbol)
-            if(sector.strip()==''):sector="Other"
-        except:
-            sector="Other"
+            #--------Code for chart - sector_volume:---
+            volume=o.get_volume()
+            symbol=c[i].get_symbol()
+            try:
+                sector=sector_dao.get_sector_by_symbol(symbol)
+                if(sector.strip()==''):sector="Other"
+            except:
+                sector="Other"
 
-        if(sector not in data['sector_volume']):
-            data['sector_volume'][sector]=volume;
-        else:
-            data['sector_volume'][sector]+=volume;
+            if(sector not in data['sector_volume']):
+                data['sector_volume'][sector]=volume;
+            else:
+                data['sector_volume'][sector]+=volume;
         #----------end of code for chart--------
         
 else:
