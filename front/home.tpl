@@ -119,7 +119,7 @@
 	    </div>
         
         <div class="dropdown" id="algorithm_graph_dropdown_types_div" > 
-          <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style="width:150px;">Graph Filter<span class="caret"></span></button>
+          <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style="width:150px;">Graph Type<span class="caret"></span></button>
           <ul id="algorithm_graph_dropdown_types" class="dropdown-menu"> 
             
                                     
@@ -129,14 +129,14 @@
         </div>
 
         <div class="dropdown" id="algorithm_graph_dropdown_lines_div"> 
-          <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style="width:150px;">Graph Filter<span class="caret"></span></button>
+          <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style="width:150px;">Filter<span class="caret"></span></button>
           <ul id="algorithm_graph_dropdown_lines" class="dropdown-menu"> </ul>
         </div>
 
     
 
         <!--<select id="algorithm_graph_dropdown" class="form-control"  name="algorithm_graph_dropdown"></select>-->
-        <div id="graph_container" style="width: 1200px; height: 800px; margin0 auto"></div>	
+        <div id="graph_container" style="width: 1200px; height: 600px; margin0 auto"></div>	
 
       </div>
       
