@@ -404,7 +404,7 @@
         data = algorithm_graph_result();
         //console.log(field);
         var graph_1 = [];
-        graph_1.push({name: "algo", data: data});
+        graph_1.push({name: "Total", data: data});
         
    
         $(function () {
@@ -439,7 +439,7 @@
                     }]
                 },
                 tooltip: {
-                    valueSuffix: ' Trades'
+                    valueSuffix: ' shares'
                 },
                 legend: {
                     layout: 'vertical',
