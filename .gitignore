@@ -2,6 +2,7 @@
 *.swp
 *.py~
 
+algorithms/LINK_HEADERS.py
 back/LINK_HEADERS.py
 dao/LINK_HEADERS.py
 front/LINK_HEADERS.py

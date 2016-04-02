@@ -4,17 +4,26 @@ import cgi, datetime, sys, LINK_HEADERS
 import simplejson as json
 sys.path.insert(0, str(LINK_HEADERS.DAO_LINK))
 from transaction_dao import Transaction_dao
+from algorithms_dao import Algorithms_dao
 
 print "Content-Type: text/html\r\n\r\n"
+'''
+def get_all():
+    print     
 
+def get_all_algos():
+    print
 
-
+def get_each_algo():
+    print
+'''
 
 def main():
 
     form = cgi.FieldStorage()
-    username = None;
-    group = None;    
+    username = None
+    #username = "kad34"
+    group = None
 
     if form.getvalue("username") != None:
         username = form.getvalue("username")
@@ -22,6 +31,16 @@ def main():
     #    group = form.getvalue("group")
 
     tdao = Transaction_dao()
+    #adao = Algorithms_dao()
+    #lst = adao.select_all_algorithms(username)
+
+    #algo_ids = []
+    #for i in range(len(lst)):
+    #    algo_ids.append(lst[i].get_algo_id())
+    
+        
+
+    #print algo_ids
 
     trades_per_day = tdao.get_trades_per_day(username)
     
