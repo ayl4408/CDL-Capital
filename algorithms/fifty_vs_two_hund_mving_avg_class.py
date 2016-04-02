@@ -16,7 +16,7 @@ class fifty_vs_two_hund_mving_avg:
 	self.t = Transaction_dao()
 	self.c = Company_dao()
 	for aam in active_algorithms_list:
-            if aam.get_algo_id() == "2":
+            if aam.get_algo_id() == "3":
 		if self.moving_list == None:
 		    self.moving_list = self.c.get_moving_average()
 		if self.moving_list: 
