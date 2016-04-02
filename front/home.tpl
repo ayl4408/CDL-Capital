@@ -207,7 +207,6 @@
 	  </form>
 	  
 	</div>
-
 	<div style="width:50%; display:inline; float:left;">
 	  <form id="buy_form" role="form" rol="form">
 	    <div class="panel panel-warning" style="width:100%; ">
@@ -874,13 +873,13 @@
 }
 
 
-    function table_generate_active_stocks_percentchange (json_obj)
-    {
-	    $('.percentchange_min_table tr td').remove();
-	    var tb = document.createElement("tbody");
+function table_generate_active_stocks_percentchange (json_obj)
+{
+	$('.percentchange_min_table tr td').remove();
+	var tb = document.createElement("tbody");
 
-    	var worst_changes = json_obj[0];	
-	    var best_changes = json_obj[1];	
+	var worst_changes = json_obj[0];	
+	var best_changes = json_obj[1];	
 		//console.log(worst_changes[0]["symbol"]);					
 		// Doing the negative changes
 		for (i=0; i < worst_changes.length; i++)
