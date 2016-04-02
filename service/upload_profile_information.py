@@ -113,6 +113,10 @@ if l:
         data['owned_stocks'][i]['profit'] = o.get_profit()
         total_stock_value = Decimal(total_stock_value) + Decimal(o.get_total_worth())
 
+        #u2.update_total_stock_values(username, total_stock_value)
+        #u = u1.get_user_portfolio_model(username)
+        #u1.update_total_portfolio(username, Decimal(u.get_available_funds()) + total_stock_value)
+        
         #--------Code for chart - sector_volume:---
         volume=o.get_volume()
         symbol=l[i]
@@ -145,18 +149,10 @@ volume=[]
 sorted_volume=sorted(data['sector_volume'].items(),key=operator.itemgetter(1))
 length=len(sorted_volume);
 
-#Insertion Sort
-for i in range(length):
-    j=i
-    while(j>0 and sorted_volume[j][1]>sorted_volume[j-1][1]):
-        temp=sorted_volume[j-1]
-        sorted_volume[j-1]=sorted_volume[j]
-        sorted_volume[j]=temp
-        j=j-1
 
-MAX=35
-for i in range(length):
-    if(i>=MAX):break;
+MAX=20
+for i in range(length-1,-1,-1):
+    if(length-i>MAX):break;
     if(sorted_volume[i][0]=='Other'):continue
     sectors.append(sorted_volume[i][0])
     volume.append(sorted_volume[i][1])
@@ -185,6 +181,31 @@ if usv:
 else:
     data['users']['total_stock_values'] = 0
     data['users']['profit'] = 0
+
+
+
+#----------------------------------code owned Stocks chart-----------------------------#
+
+owned_stocks=data['owned_stocks']
+owned_stocks_graph_data={}
+
+sorted_owned_stocks_chart_axis=[]
+sorted_owned_stocks_chart_value=[]
+
+for i in owned_stocks:
+    owned_stocks_graph_data[owned_stocks[i]['stock']]=owned_stocks[i]['total_worth']
+
+length=len(owned_stocks_graph_data);
+sorted_data=sorted(owned_stocks_graph_data.items(),key=operator.itemgetter(1))
+
+
+for i in range(length-1,-1,-1):
+    if(length-i>MAX):break;
+    sorted_owned_stocks_chart_axis.append(sorted_data[i][0])
+    sorted_owned_stocks_chart_value.append(sorted_data[i][1])
+
+data['owned_stocks_chart_axis']=sorted_owned_stocks_chart_axis;
+data['owned_stocks_chart_value']=sorted_owned_stocks_chart_value;
     
 json_result = json.dumps(data)
 print json_result

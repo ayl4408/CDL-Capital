@@ -76,7 +76,7 @@
 </head>
 
 <body>
-
+  
   <div id="header">
     <div id="title" style="float:left; display:inline;"><b><i>CDL Capital</i></b></div>
     <div id="logout"> Logged in as <b><u>${username}$</b></u> <button class="btn btn-danger" style="margin-left:3px" onclick="logout();">Log Out</button></div>
@@ -267,12 +267,19 @@
 	    </div>
 	  </div>
 	  <div class="col-sm-6" sidenav>
-	    <h2><b><u>Industry Distribution</u></b></h2>
-	    <div id="sector_chart" style="width: 500px; height: 950px; float:right;"></div>
+	     <div><h2><b><u>Top Invested Companies</u></b></h2></div>
+	     <div><div id="owned_stocks_chart" style="width:500px; height:500px;"></div></div>
+ 
+
+	    <div><h2><b><u>Top Invested Industries</u></b></h2></div>
+	    <div id="sector_chart" style="width: 500px; height: 550px; float:right;"></div>
+	    
+	   
+  
 	  </div>
 	</div>	
       </div>
-            
+          
       <div id="menu2" class="tab-pane fade">	
 	<div class="row">
 	  <div class="col-sm-6">
@@ -382,23 +389,24 @@
         table_generate_users(json_obj['users']);
         table_generate_transactions(json_obj['transactions']);
         table_generate_owned_stocks(json_obj['owned_stocks']);
-        displayChart(json_obj)
+        displayChart(json_obj['chart_axis'],json_obj['chart_data'],'#sector_chart',' stocks' , 'volume')
 				  //drawChart();
+
+	displayChart(json_obj['owned_stocks_chart_axis'],json_obj['owned_stocks_chart_value'],'#owned_stocks_chart',' USD','price')
+			
                 //load_profile_information();
                 most_active_stocks();
                 most_active_stocks_volume();
 				  }
 
-				  function displayChart(json_obj){
-				  chart_axis=json_obj['chart_axis']
-				  chart_data=json_obj['chart_data']
-
-				  if(chart_data.length<10){
+				  function displayChart(chart_axis, chart_data,chart_div,suffix, tooltip){
+				 
+				  if(chart_axis.length<10){
 							 document.getElementById('sector_chart').style.height='500px';
 							 }
 				  
 				  $(function () {
-				  $('#sector_chart').highcharts({
+				  $(chart_div).highcharts({
 				  chart: {
 				  plotBackgroundColor: null,
 				  plotBorderWidth: null,
@@ -423,10 +431,10 @@
 				  }
 				  },
 				  tooltip:{
-				  valueSuffix: ' stocks'
+				  valueSuffix: suffix,
 				  },
 				  series: [{
-				  name: 'volume',
+				  name: tooltip,
 				  colorByPoint: true,
 				  data: chart_data
 				  }]
@@ -722,7 +730,7 @@ function table_generate_active_stocks_percentchange (json_obj)
 
 			var t1 = document.createTextNode(i+1 + ". " + worst_changes[i]['symbol']);
 			td1.appendChild(t1);
-			var t2 = document.createTextNode(worst_changes[i]['PercentChange'] + " %");
+			var t2 = document.createTextNode(Math.round(worst_changes[i]['PercentChange']*100)/100 + " %");
 			td2.appendChild(t2);
 
 
@@ -754,7 +762,7 @@ function table_generate_active_stocks_percentchange (json_obj)
 			
 			var t1 = document.createTextNode(i+1 + ". " + best_changes[i]['symbol']);
 			td1.appendChild(t1);
-                        var t2 = document.createTextNode("+" + best_changes[i]['PercentChange'] + " %"); // Add the + sign for display
+                        var t2 = document.createTextNode("+" + Math.round(best_changes[i]['PercentChange']*100)/100 + " %"); // Add the + sign for display
                         td2.appendChild(t2);
 
                         tr.appendChild(td1);
@@ -796,7 +804,7 @@ function table_generate_active_stocks_percentchange (json_obj)
 			
 			var t1 = document.createTextNode(i+1 + ". " + json_obj[i]['symbol']);
 			td1.appendChild(t1);
-			var t2 = document.createTextNode(json_obj[i]['volume_change'] + " %");
+			var t2 = document.createTextNode(Math.round(json_obj[i]['volume_change']*100)/100 + " %");
 			td2.appendChild(t2);
 
 			tr.appendChild(td1);
