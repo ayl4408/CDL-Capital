@@ -17,7 +17,11 @@ class DB:
         self.user = db_user
         self.password = db_password
         self.database = db_name
+        self.connect()
 
+    def __del__(self):
+        self.disconnect()
+        
     def connect(self):
         try:
             conn = MySQLdb.connect(self.host, self.user, self.password, self.database,cursorclass=MySQLdb.cursors.DictCursor)
@@ -27,16 +31,13 @@ class DB:
             print e
 
     def query(self, query):
-        self.connect()
         result = self.session.execute(query)
         self.connection.commit()
         result = self.session.fetchall()
         if len(result):
             result=list(result)
-            self.disconnect()
             return result
         else:
-            self.disconnect()
             return
 
     def disconnect(self):
