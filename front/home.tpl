@@ -18,6 +18,16 @@
     <script src="https://code.highcharts.com/highcharts.js"></script>
 
     <style>
+        #algorithm_graph_dropdown_types_div{
+            display:inline;
+            float:left;    
+        }
+
+        #algorithm_graph_dropdown_lines_div{
+            float:left;
+            margin-left: 5px;
+        }
+
     	#algorithms_menu select{
     		min-width:300px;
     		width:20%;
@@ -90,7 +100,7 @@
     <ul class ="nav nav-tabs">
       <li class="active"><a data-toggle="tab" href="#home">Portfolio</a></li>
       <li><a data-toggle="tab" href="#menu1">Transactions</a></li>
-      <li><a data-toggle="tab" href="#menu2">Trending</a></li>
+      <li><a data-toggle="tab" href="#menu2" onclick="most_active_stocks(); most_active_stocks_volume();" >Trending</a></li>
       <li><a data-toggle="tab" href="#algorithms_menu" onclick="fetchAlgo(); displayActive(); ">Algorithms</a></li>
       <li><a data-toggle="tab" href="#settings_menu">Settings</a></li>
       
@@ -101,13 +111,33 @@
     <div class="tab-content" >
       
       <div id="algorithms_menu"  class="tab-pane fade">
-	<div id="algo_menu" class="panel panel-success">
-	</div>
-	
-	<hr>
-	<div id="active_algos" class="panel panel-danger">
-	</div>
-	
+	    <div id="algo_menu" class="panel panel-success">
+	    </div>
+	    
+        <hr>
+	    <div id="active_algos" class="panel panel-danger">
+	    </div>
+        
+        <div class="dropdown" id="algorithm_graph_dropdown_types_div" > 
+          <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style="width:150px;">Graph Type<span class="caret"></span></button>
+          <ul id="algorithm_graph_dropdown_types" class="dropdown-menu"> 
+            
+                                    
+            <li><a href="#" onClick="draw_algorithm_line_graph('Total Volume Traded')">Total Volume Traded</a></li>
+
+          </ul>
+        </div>
+
+        <div class="dropdown" id="algorithm_graph_dropdown_lines_div"> 
+          <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style="width:150px;">Filter<span class="caret"></span></button>
+          <ul id="algorithm_graph_dropdown_lines" class="dropdown-menu"> </ul>
+        </div>
+
+    
+
+        <!--<select id="algorithm_graph_dropdown" class="form-control"  name="algorithm_graph_dropdown"></select>-->
+        <div id="graph_container" style="width: 1200px; height: 600px; margin0 auto"></div>	
+
       </div>
       
       
@@ -341,6 +371,134 @@
     <br/>
   </div>
   
+
+
+<script type="text/javascript">
+  
+    function algorithm_graph_result(){ 
+        var algorithm_graph_result = $.ajax({
+          		type: 'POST',
+          		url: '${algorithm_graph_link}$',
+          		data: 'username='+ '${username}$',
+          		dataType: "json",
+          		async: false}).responseText;
+
+          	var json_obj=JSON.parse(algorithm_graph_result);
+            console.log(json_obj)
+            return json_obj
+    }    
+    
+      
+ 
+    // Doesn't do anything, never did anything, might use later
+    /*
+    function json_to_graph_data(json_obj)
+    {   
+        
+        for (var i=(parseInt(upload_company_data[0]['query']['count'])-1); i>=0; i--)
+        {
+            //stock_data.push([upload_company_data[0]['query']['results']['quote'][i]['Date'], parseFloat(upload_company_data[0]['query']['results']['quote'][i]['Adj_Close'])]);
+            var i_date = new Date(upload_company_data[0]['query']['results']['quote'][i]['Date']);
+            console.log("LOOP: " + i_date);
+            stock_data.push([Date.UTC(i_date.getFullYear(), i_date.getMonth(), i_date.getDate()), parseFloat(upload_company_data[0]['query']['results']['quote'][i]['Adj_Close'])]);
+        }
+    }
+    */
+   
+    function draw_algorithm_line_graph(type)
+    {
+        //algorithm_graph_result()
+        data = algorithm_graph_result();
+        //console.log(field);
+        var graph_1 = [];
+        graph_1.push({name: "Total", data: data});
+        
+   
+        $(function () {
+            $('#graph_container').highcharts({
+                title: {
+                    text: type,
+                    x: -20 //center
+                },
+                subtitle: {
+                    text: '',
+                    x: -20
+                },
+                xAxis: {
+                    tickInterval: 1,
+                //    type: 'datetime',
+                //    dateTimeLabelFormats: {
+                //        month: '%b %Y',
+                //        year: '%Y'
+                //    },
+                    title: {
+                        text: 'Days'
+                    }
+                },
+                yAxis: {
+                    title: {
+                        text: 'Number of Trades'
+                    },
+                    plotLines: [{
+                        value: 0,
+                        width: 1,
+                        color: '#808080'
+                    }]
+                },
+                tooltip: {
+                    valueSuffix: ' shares'
+                },
+                legend: {
+                    layout: 'vertical',
+                    align: 'right',
+                    verticalAlign: 'middle',
+                    borderWidth: 0
+                },
+                //series: [{
+                //    name: 'Algo',
+                //    data: data
+                //}]
+                series: graph_1
+            });
+        });        
+
+    }
+
+
+
+    function algorithm_graph_dropdown()
+    {
+        var user_name="${username}$";
+        var generate_algorithm_graph_dropdown="generate_algorithm_graph_dropdown";
+        var generate_algorithm_graph_dropdown_parsed = [];
+
+        var generate_algorithm_graph_dropdown_result = $.ajax({
+            type: 'POST',
+           	url: "${algorithm_graph_dropdown_link}$",
+           	data: 'user_name='+ user_name,
+           	dataType: "json",
+           	async: false}).responseText;
+        console.log(generate_algorithm_graph_dropdown_result);
+        generate_algorithm_graph_dropdown_parsed=JSON.parse(generate_algorithm_graph_dropdown_result);
+        console.log(generate_algorithm_graph_dropdown_parsed);
+        $('#algorithm_graph_dropdown').empty();
+        //$('<option value="Companies"> Algorithms </option>').appendTo('#algorithm_graph_dropdown');
+        for(var field in generate_algorithm_graph_dropdown_parsed) 
+        {
+            $('<li><input type ="checkbox" name="algorithm_graph_checkbox" value=" ' + field + ' ">' + field + '<br></li>').appendTo('#algorithm_graph_dropdown_lines');
+            //$('<li><a href="#" onClick="draw_algorithm_line_graph('+generate_algorithm_graph_dropdown_parsed[field]+');">' + field + '</a></li>').appendTo('#algorithm_graph_dropdown');
+        }
+    }  
+   
+    draw_algorithm_line_graph('Total Volume Traded');
+    algorithm_graph_dropdown();
+
+</script>
+
+
+
+
+
   <script type="text/javascript">
     
       var intervalId = null;
@@ -395,8 +553,8 @@
 	displayChart(json_obj['owned_stocks_chart_axis'],json_obj['owned_stocks_chart_value'],'#owned_stocks_chart',' USD','price')
 			
                 //load_profile_information();
-                most_active_stocks();
-                most_active_stocks_volume();
+                //most_active_stocks();
+                //most_active_stocks_volume();
 				  }
 
 				  function displayChart(chart_axis, chart_data,chart_div,suffix, tooltip){
