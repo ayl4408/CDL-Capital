@@ -101,15 +101,13 @@
     <div class="tab-content" >
       
       <div id="algorithms_menu"  class="tab-pane fade">
-	    <div id="algo_menu" class="panel panel-success">
-	    </div>
-	    
-        <hr>
-	    <div id="active_algos" class="panel panel-danger">
-	    </div>
-
-        <div id="graph_container" style="width: 1200px; height: 800px; margin0 auto"></div>	
-
+	<div id="algo_menu" class="panel panel-success">
+	</div>
+	
+	<hr>
+	<div id="active_algos" class="panel panel-danger">
+	</div>
+	
       </div>
       
       
@@ -179,7 +177,6 @@
 	  </form>
 	  
 	</div>
-
 	<div style="width:50%; display:inline; float:left;">
 	  <form id="buy_form" role="form" rol="form">
 	    <div class="panel panel-warning" style="width:100%; ">
@@ -353,99 +350,6 @@
     <br/>
   </div>
   
-
-
-<script type="text/javascript">
-  
-    function algorithm_graph_result(){ 
-        var algorithm_graph_result = $.ajax({
-          		type: 'POST',
-          		url: '${algorithm_graph_link}$',
-          		data: 'username='+ '${username}$',
-          		dataType: "json",
-          		async: false}).responseText;
-
-          	var json_obj=JSON.parse(algorithm_graph_result);
-            console.log(json_obj)
-            return json_obj
-    }    
-    
-      
- 
-
-    function json_to_graph_data(json_obj)
-    {   
-        
-        for (var i=(parseInt(upload_company_data[0]['query']['count'])-1); i>=0; i--)
-        {
-            //stock_data.push([upload_company_data[0]['query']['results']['quote'][i]['Date'], parseFloat(upload_company_data[0]['query']['results']['quote'][i]['Adj_Close'])]);
-            var i_date = new Date(upload_company_data[0]['query']['results']['quote'][i]['Date']);
-            console.log("LOOP: " + i_date);
-            stock_data.push([Date.UTC(i_date.getFullYear(), i_date.getMonth(), i_date.getDate()), parseFloat(upload_company_data[0]['query']['results']['quote'][i]['Adj_Close'])]);
-        }
-    }
-   
-    function draw_profit_line_graph()
-    {
-        //algorithm_graph_result()
-        data = algorithm_graph_result()
-        
-        $(function () {
-            $('#graph_container').highcharts({
-                title: {
-                    text: 'Algorithm Graph',
-                    x: -20 //center
-                },
-                subtitle: {
-                    text: '',
-                    x: -20
-                },
-                xAxis: {
-                    type: 'datetime',
-                    dateTimeLabelFormats: {
-                        month: '%b %Y',
-                        year: '%Y'
-                    },
-                    title: {
-                        text: 'Days'
-                    }
-                },
-                yAxis: {
-                    title: {
-                        text: 'Number of Trades'
-                    },
-                    plotLines: [{
-                        value: 0,
-                        width: 1,
-                        color: '#808080'
-                    }]
-                },
-                tooltip: {
-                    valueSuffix: ' Trades'
-                },
-                legend: {
-                    layout: 'vertical',
-                    align: 'right',
-                    verticalAlign: 'middle',
-                    borderWidth: 0
-                },
-                series: [{
-                    name: 'Algo',
-                    data: data
-                }]
-            });
-        });        
-
-    }
-
-    draw_profit_line_graph()
-   
-</script>
-
-
-
-
-
   <script type="text/javascript">
     
       var intervalId = null;
@@ -811,13 +715,13 @@
 }
 
 
-    function table_generate_active_stocks_percentchange (json_obj)
-    {
-	    $('.percentchange_min_table tr td').remove();
-	    var tb = document.createElement("tbody");
+function table_generate_active_stocks_percentchange (json_obj)
+{
+	$('.percentchange_min_table tr td').remove();
+	var tb = document.createElement("tbody");
 
-    	var worst_changes = json_obj[0];	
-	    var best_changes = json_obj[1];	
+	var worst_changes = json_obj[0];	
+	var best_changes = json_obj[1];	
 		//console.log(worst_changes[0]["symbol"]);					
 		// Doing the negative changes
 		for (i=0; i < worst_changes.length; i++)
