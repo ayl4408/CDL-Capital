@@ -18,6 +18,28 @@
     <script src="https://code.highcharts.com/highcharts.js"></script>
 
     <style>
+
+      #algorithms_menu{
+      
+      
+      }
+
+      #algo_menu{
+      margin-left:4%;
+       display:inline;
+      float:left;
+      width:40%;
+      }
+
+      #active_algos{
+          display:inline;
+      float:left;
+      width:40%;
+      margin-left:2%;
+      margin-right:4%;
+      }
+      
+      
         #algorithm_graph_dropdown_types_div{
             display:inline;
             float:left;    
@@ -28,11 +50,6 @@
             margin-left: 5px;
         }
 
-    	#algorithms_menu select{
-    		min-width:300px;
-    		width:20%;
-    		display:inline;
-    	}
 
     	#header{
     		background: -webkit-linear-gradient(#F5F0E4, #E0D8C1);
@@ -75,11 +92,12 @@
     	
 
     	#algorithms_menu button{
-    		width:80px; 
+      width:80px;
+      margin-top:3px;
     	}
 
     	#algorithms_menu{
-    		width:40%;
+    		width:100%;
     		min-width:400px;
     	}
     </style>
@@ -111,13 +129,15 @@
     <div class="tab-content" >
       
       <div id="algorithms_menu"  class="tab-pane fade">
+	   
 	    <div id="algo_menu" class="panel panel-success">
 	    </div>
 	    
-        <hr>
-	    <div id="active_algos" class="panel panel-danger">
+            <div id="active_algos" class="panel panel-danger">
 	    </div>
-        
+	   
+	    <hr>
+	    
         <div class="dropdown" id="algorithm_graph_dropdown_types_div" > 
           <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style="width:150px;">Graph Type<span class="caret"></span></button>
           <ul id="algorithm_graph_dropdown_types" class="dropdown-menu"> 
@@ -298,11 +318,11 @@
 	  </div>
 	  <div class="col-sm-6" sidenav>
 	     <div><h2><b><u>Top Invested Companies</u></b></h2></div>
-	     <div><div id="owned_stocks_chart" style="width:500px; height:500px;"></div></div>
+	     <div><div id="owned_stocks_chart" style="height:500px;"></div></div>
  
 
 	    <div><h2><b><u>Top Invested Industries</u></b></h2></div>
-	    <div id="sector_chart" style="width: 500px; height: 550px; float:right;"></div>
+	    <div id="sector_chart" style=" height: 550px; "></div>
 	    
 	   
   
