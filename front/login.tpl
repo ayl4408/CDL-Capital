@@ -62,7 +62,7 @@
     <div class="container">
       <center><img id="headerImg" src="http://cliparts.co/cliparts/rcn/Kxo/rcnKxonLi.png"/></center>
       <form class="form-signin" action="${validate_login_link}$" method="POST">
-	<h3 class="form-signin-heading"><b><u>CDL Capital</u></b><br>Sign-In</h3>
+	<h3 class="form-signin-heading"><b><u>CDL Capital</u></b><br></h3>
 	<label for="inputEmail" class="sr-only">Email address</label>
 	<input type="text" id="username" name="username" class="form-control" placeholder="Username" required autofocus>
 	<label for="inputPassword" class="sr-only">Password</label>
