@@ -189,5 +189,34 @@ else:
     data['users']['total_stock_values'] = 0
     data['users']['profit'] = 0
     
+
+
+
+
+#----------------------------------code owned Stocks chart-----------------------------#
+
+owned_stocks=data['owned_stocks']
+owned_stocks_graph_data={}
+
+sorted_owned_stocks_chart_axis=[]
+sorted_owned_stocks_chart_value=[]
+
+for i in owned_stocks:
+    owned_stocks_graph_data[owned_stocks[i]['stock']]=owned_stocks[i]['total_worth']
+
+length=len(owned_stocks_graph_data);
+sorted_data=sorted(owned_stocks_graph_data.items(),key=operator.itemgetter(1))
+
+
+for i in range(length-1,-1,-1):
+    if(length-i>MAX):break
+    sorted_owned_stocks_chart_axis.append(sorted_data[i][0])
+    sorted_owned_stocks_chart_value.append(sorted_data[i][1])
+
+data['owned_stocks_chart_axis']=sorted_owned_stocks_chart_axis;
+data['owned_stocks_chart_value']=sorted_owned_stocks_chart_value;
+
 json_result = json.dumps(data)
 print json_result
+
+                    
