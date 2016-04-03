@@ -18,11 +18,38 @@
     <script src="https://code.highcharts.com/highcharts.js"></script>
 
     <style>
-    	#algorithms_menu select{
-    		min-width:300px;
-    		width:20%;
-    		display:inline;
-    	}
+
+      #algorithms_menu{
+      
+      
+      }
+
+      #algo_menu{
+      margin-left:4%;
+       display:inline;
+      float:left;
+      width:40%;
+      }
+
+      #active_algos{
+          display:inline;
+      float:left;
+      width:40%;
+      margin-left:2%;
+      margin-right:4%;
+      }
+      
+      
+        #algorithm_graph_dropdown_types_div{
+            display:inline;
+            float:left;    
+        }
+
+        #algorithm_graph_dropdown_lines_div{
+            float:left;
+            margin-left: 5px;
+        }
+
 
     	#header{
     		background: -webkit-linear-gradient(#F5F0E4, #E0D8C1);
@@ -65,18 +92,19 @@
     	
 
     	#algorithms_menu button{
-    		width:80px; 
+      width:80px;
+      margin-top:3px;
     	}
 
     	#algorithms_menu{
-    		width:40%;
+    		width:100%;
     		min-width:400px;
     	}
     </style>
 </head>
 
 <body>
-
+  
   <div id="header">
     <div id="title" style="float:left; display:inline;"><b><i>CDL Capital</i></b></div>
     <div id="logout"> Logged in as <b><u>${username}$</b></u> <button class="btn btn-danger" style="margin-left:3px" onclick="logout();">Log Out</button></div>
@@ -89,9 +117,10 @@
     
     <ul class ="nav nav-tabs">
       <li class="active"><a data-toggle="tab" href="#home">Portfolio</a></li>
-      <li><a data-toggle="tab" href="#menu1">Transactions</a></li>
-      <li><a data-toggle="tab" href="#menu2">Trending</a></li>
-      <li><a data-toggle="tab" href="#algorithms_menu" onclick="fetchAlgo(); displayActive(); ">Algorithms</a></li>
+      <li><a data-toggle="tab" href="#transactions" onclick="generate_sell_drop_down();">Transactions</a></li>
+      <li><a data-toggle="tab" href="#algorithms_menu" onclick="fetchAlgo(); displayActive();">Algorithms</a></li>
+      <li><a data-toggle="tab" href="#analysis">Analysis</a></li>
+      <li><a data-toggle="tab" href="#trending" onclick="most_active_stocks(); most_active_stocks_volume();" >Trending</a></li>
       <li><a data-toggle="tab" href="#settings_menu">Settings</a></li>
       
     </ul>
@@ -101,13 +130,38 @@
     <div class="tab-content" >
       
       <div id="algorithms_menu"  class="tab-pane fade">
-	<div id="algo_menu" class="panel panel-success">
-	</div>
-	
-	<hr>
-	<div id="active_algos" class="panel panel-danger">
-	</div>
-	
+	   
+	    <div id="algo_menu" class="panel panel-success">
+	    </div>
+	    
+            <div id="active_algos" class="panel panel-danger">
+	    </div>
+
+	    <div style="clear:left;"><hr><br></div>
+      </div>
+
+      <div id="analysis" class="tab-pane fade">
+	    
+        <div class="dropdown" id="algorithm_graph_dropdown_types_div" > 
+          <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style="width:150px;">Graph Type<span class="caret"></span></button>
+          <ul id="algorithm_graph_dropdown_types" class="dropdown-menu"> 
+            
+                                    
+            <li><a href="#" onClick="draw_algorithm_line_graph('Total Volume Traded')">Total Volume Traded</a></li>
+
+          </ul>
+        </div>
+
+        <div class="dropdown" id="algorithm_graph_dropdown_lines_div"> 
+          <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style="width:150px;">Filter<span class="caret"></span></button>
+          <ul id="algorithm_graph_dropdown_lines" class="dropdown-menu"> </ul>
+        </div>
+
+    
+
+        <!--<select id="algorithm_graph_dropdown" class="form-control"  name="algorithm_graph_dropdown"></select>-->
+        <div id="graph_container" style="width: 1200px; height: 600px; margin0 auto"></div>	
+
       </div>
       
       
@@ -159,7 +213,7 @@
       </div>
       
       
-      <div id="menu1" class="tab-pane fade">
+      <div id="transactions" class="tab-pane fade">
 	<br>
 	
 			
@@ -209,16 +263,12 @@
 	
 	
       </div>
+      
       <div id="home" class="tab-pane fade in active">
 	<div class="dropdown">
 	  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Portfolio Filter<span class="caret"></span></button>
 	  <br>
 	  <ul id="portfolio_filter_dropdown" class="dropdown-menu">
-	    <!--
-	    <li><a href="#" onClick="set_filter_cookie(1);update_profile_information();">All</a></li>
-	    <li><a href="#" onClick="set_filter_cookie(0);update_profile_information();">User</a></li>
-	    <li><a href="#" onClick="set_filter_cookie(2);update_profile_information();">Algorithms</a></li>
-	    -->
 	  </ul>
 	</div>
 	
@@ -236,12 +286,9 @@
 		</tr>
 	      </thead>
 	    </table>
-	    
-	    
-	    <div id="user_information"></div>
+ 
 	    <h2><b><u>Owned Stocks</u></b></h2>
-	    <!--<div class="col-sm-12">-->
-	    <div style= "overflow:auto; max-height:600px;">
+	    <div style= "overflow:auto; max-height:400px;">
 	      <table class="table table-hover owned_stocks_table">
 		<thead>
 		  <tr>
@@ -253,22 +300,12 @@
 		  </tr>
 		</thead>
 	      </table>
-	      <!--</div>-->
 	    </div>
-	    <div id="owned_stocks_information"></div>
-	  </div>
-	  
-	  <div class="col-sm-6" style="height:900px">
+
 	    <br>
-	    <div id="sector_chart" style="width: 500px; height: 950px; float:right;"></div>
-	  </div>
-	</div>
-	<br>
-	<br>
-	<div class="row">
-	  <div class="col-sm-6">
+	    
 	    <h2><b><u>Transaction History</u></b></h2>
-	    <div style="overflow:auto; max-height:500px;">
+	    <div style="overflow:auto; max-height:400px;">
 	      <table class="table table-hover transaction_table" >
 		<thead>
 		  <tr>
@@ -283,13 +320,21 @@
 	      </table>
 	    </div>
 	  </div>
-	  <div class="col-sm-6"></div>
-	</div>
-	<br><br>
+	  <div class="col-sm-6" sidenav>
+	     <div><h2><b><u>Top Invested Companies</u></b></h2></div>
+	     <div><div id="owned_stocks_chart" style="height:500px;"></div></div>
+ 
+
+	    <div><h2><b><u>Top Invested Industries</u></b></h2></div>
+	    <div id="sector_chart" style=" height: 550px; "></div>
+	    
+	   
+  
+	  </div>
+	</div>	
       </div>
-      
-      
-      <div id="menu2" class="tab-pane fade">	
+          
+      <div id="trending" class="tab-pane fade">	
 	<div class="row">
 	  <div class="col-sm-6">
 	    <h2><b><u>Percent Change In Price</u></b></h2>				
@@ -350,6 +395,142 @@
     <br/>
   </div>
   
+
+
+<script type="text/javascript">
+  
+  function algorithm_graph_result(){
+
+  var algorithm_graph_result = ({});
+        algorithm_graph_result = $.ajax({
+          		type: 'POST',
+          		url: '${algorithm_graph_link}$',
+          		data: 'username='+ '${username}$',
+          		dataType: "json",
+          		async: false}).responseText;
+
+if (algorithm_graph_result != false){
+
+    var json_obj=JSON.parse(algorithm_graph_result);
+            console.log(json_obj)
+    return json_obj
+    }else{
+    return false;
+    }
+    }    
+    
+      
+ 
+    // Doesn't do anything, never did anything, might use later
+    /*
+    function json_to_graph_data(json_obj)
+    {   
+        
+        for (var i=(parseInt(upload_company_data[0]['query']['count'])-1); i>=0; i--)
+        {
+            //stock_data.push([upload_company_data[0]['query']['results']['quote'][i]['Date'], parseFloat(upload_company_data[0]['query']['results']['quote'][i]['Adj_Close'])]);
+            var i_date = new Date(upload_company_data[0]['query']['results']['quote'][i]['Date']);
+            console.log("LOOP: " + i_date);
+            stock_data.push([Date.UTC(i_date.getFullYear(), i_date.getMonth(), i_date.getDate()), parseFloat(upload_company_data[0]['query']['results']['quote'][i]['Adj_Close'])]);
+        }
+    }
+    */
+   
+    function draw_algorithm_line_graph(type)
+    {
+        //algorithm_graph_result()
+    data = algorithm_graph_result();
+    if(data){
+        //console.log(field);
+        var graph_1 = [];
+        graph_1.push({name: "Total", data: data});
+        
+   
+        $(function () {
+            $('#graph_container').highcharts({
+                title: {
+                    text: type,
+                    x: -20 //center
+                },
+                subtitle: {
+                    text: '',
+                    x: -20
+                },
+                xAxis: {
+                    tickInterval: 1,
+                //    type: 'datetime',
+                //    dateTimeLabelFormats: {
+                //        month: '%b %Y',
+                //        year: '%Y'
+                //    },
+                    title: {
+                        text: 'Days'
+                    }
+                },
+                yAxis: {
+                    title: {
+                        text: 'Number of Trades'
+                    },
+                    plotLines: [{
+                        value: 0,
+                        width: 1,
+                        color: '#808080'
+                    }]
+                },
+                tooltip: {
+                    valueSuffix: ' shares'
+                },
+                legend: {
+                    layout: 'vertical',
+                    align: 'right',
+                    verticalAlign: 'middle',
+                    borderWidth: 0
+                },
+                //series: [{
+                //    name: 'Algo',
+                //    data: data
+                //}]
+                series: graph_1
+            });
+        });        
+    }
+    }
+
+
+
+    function algorithm_graph_dropdown()
+    {
+        var user_name="${username}$";
+        var generate_algorithm_graph_dropdown="generate_algorithm_graph_dropdown";
+        var generate_algorithm_graph_dropdown_parsed = [];
+
+        var generate_algorithm_graph_dropdown_result = $.ajax({
+            type: 'POST',
+           	url: "${algorithm_graph_dropdown_link}$",
+           	data: 'user_name='+ user_name,
+           	dataType: "json",
+           	async: false}).responseText;
+        console.log(generate_algorithm_graph_dropdown_result);
+        generate_algorithm_graph_dropdown_parsed=JSON.parse(generate_algorithm_graph_dropdown_result);
+        console.log(generate_algorithm_graph_dropdown_parsed);
+        $('#algorithm_graph_dropdown').empty();
+        //$('<option value="Companies"> Algorithms </option>').appendTo('#algorithm_graph_dropdown');
+        for(var field in generate_algorithm_graph_dropdown_parsed) 
+        {
+            $('<li><input type ="checkbox" name="algorithm_graph_checkbox" value=" ' + field + ' ">' + field + '<br></li>').appendTo('#algorithm_graph_dropdown_lines');
+            //$('<li><a href="#" onClick="draw_algorithm_line_graph('+generate_algorithm_graph_dropdown_parsed[field]+');">' + field + '</a></li>').appendTo('#algorithm_graph_dropdown');
+        }
+    }  
+   
+    draw_algorithm_line_graph('Total Volume Traded');
+    algorithm_graph_dropdown();
+
+</script>
+
+
+
+
+
   <script type="text/javascript">
     
       var intervalId = null;
@@ -376,11 +557,11 @@
       function start()
       {
         set_filter_cookie(1);
-      	generate_sell_drop_down();
+      	//generate_sell_drop_down();
 	generate_filter_dropdown();
       	get_company_names();
       	update_profile_information();
-      	intervalId = setInterval(update_profile_information, 30000);
+      	intervalId = setInterval(update_profile_information, 600000);
       }
 
       function update_profile_information()
@@ -398,19 +579,20 @@
         table_generate_users(json_obj['users']);
         table_generate_transactions(json_obj['transactions']);
         table_generate_owned_stocks(json_obj['owned_stocks']);
-        displayChart(json_obj)
+        displayChart(json_obj['chart_axis'],json_obj['chart_data'],'#sector_chart',' stocks' , 'volume')
 				  //drawChart();
-                //load_profile_information();
-                most_active_stocks();
-                most_active_stocks_volume();
+
+	displayChart(json_obj['owned_stocks_chart_axis'],json_obj['owned_stocks_chart_value'],'#owned_stocks_chart',' USD','price')
 				  }
 
-				  function displayChart(json_obj){
-				  chart_axis=json_obj['chart_axis']
-				  chart_data=json_obj['chart_data']
-
+				  function displayChart(chart_axis, chart_data,chart_div,suffix, tooltip){
+				 
+				  if(chart_axis.length<10){
+							 document.getElementById('sector_chart').style.height='500px';
+							 }
+				  
 				  $(function () {
-				  $('#sector_chart').highcharts({
+				  $(chart_div).highcharts({
 				  chart: {
 				  plotBackgroundColor: null,
 				  plotBorderWidth: null,
@@ -435,10 +617,10 @@
 				  }
 				  },
 				  tooltip:{
-				  valueSuffix: ' stocks'
+				  valueSuffix: suffix,
 				  },
 				  series: [{
-				  name: 'volume',
+				  name: tooltip,
 				  colorByPoint: true,
 				  data: chart_data
 				  }]
@@ -610,7 +792,7 @@
 		        //console.log(buy_result)
 		        update_profile_information();
 		    }
-		    generate_sell_drop_down();
+		    //generate_sell_drop_down();
 		    document.getElementById("buy_form").reset();
 		}
 		
@@ -632,7 +814,7 @@
 			}
                 //console.log(sell_result);
                 document.getElementById("sell_form").reset();
-                generate_sell_drop_down();
+                //generate_sell_drop_down();
                 
             }
 
@@ -734,7 +916,7 @@ function table_generate_active_stocks_percentchange (json_obj)
 
 			var t1 = document.createTextNode(i+1 + ". " + worst_changes[i]['symbol']);
 			td1.appendChild(t1);
-			var t2 = document.createTextNode(worst_changes[i]['PercentChange'] + " %");
+			var t2 = document.createTextNode(Math.round(worst_changes[i]['PercentChange']*100)/100 + " %");
 			td2.appendChild(t2);
 
 
@@ -766,7 +948,7 @@ function table_generate_active_stocks_percentchange (json_obj)
 			
 			var t1 = document.createTextNode(i+1 + ". " + best_changes[i]['symbol']);
 			td1.appendChild(t1);
-                        var t2 = document.createTextNode("+" + best_changes[i]['PercentChange'] + " %"); // Add the + sign for display
+                        var t2 = document.createTextNode("+" + Math.round(best_changes[i]['PercentChange']*100)/100 + " %"); // Add the + sign for display
                         td2.appendChild(t2);
 
                         tr.appendChild(td1);
@@ -808,7 +990,7 @@ function table_generate_active_stocks_percentchange (json_obj)
 			
 			var t1 = document.createTextNode(i+1 + ". " + json_obj[i]['symbol']);
 			td1.appendChild(t1);
-			var t2 = document.createTextNode(json_obj[i]['volume_change'] + " %");
+			var t2 = document.createTextNode(Math.round(json_obj[i]['volume_change']*100)/100 + " %");
 			td2.appendChild(t2);
 
 			tr.appendChild(td1);
