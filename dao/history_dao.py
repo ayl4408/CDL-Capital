@@ -18,13 +18,8 @@ class History_dao:
     def __init__(self):
         self.db =  PDO().get_connection(LINK_HEADERS.DB_HOST, LINK_HEADERS.DB_USER, LINK_HEADERS.DB_PASSWORD, LINK_HEADERS.DB_NAME)
 
-<<<<<<< HEAD
     def insert(self, user, trans_type, stock, price, total_price, volume, algo_id):
         self.db.query("insert into history (user, trans_type, stock, price, total_price, volume, algo_id) values ('%s','%s','%s','%s','%s',%s,'%s')"%(user, trans_type, stock, round(Decimal(price),2), round(Decimal(total_price),2), volume, algo_id)+";")
-=======
-    def insert(self, user, trans_date, trans_type, stock, price, total_price, volume, algo_id):
-        self.db.query("insert into history (user, trans_date, trans_type, stock, price, total_price, volume, algo_id) values ('%s','%s','%s','%s','%s','%s',%d, '%s')"%(user, trans_date, trans_type, stock, round(Decimal(price),2), round(Decimal(total_price),2), volume, algo_id)+";")
->>>>>>> upstream/master
 
     def select_all(self, user):
         result = self.db.query("select * from history where user=('%s')"%(user)+";")
@@ -83,14 +78,12 @@ class History_dao:
                 l.append(c)
         return l 
 
-<<<<<<< HEAD
     #def get_owned_stocks_volume_and_populate_algorithm_details_model(self, user, algorithm_details_model_list):
         #result = self.db.query("select sum(volume) from history where user=('%s') and sold ='0' group by algo_id, stock"%(user) + ";")
         #if result:
             #l = []
             #for i in range(len(result)):
                  
-=======
     def get_volume_per_day(self,user):
         result = self.db.query("select DATE(trans_date) as date, sum(volume) as volume from history where user=('%s') group by DATE(trans_date)"%(user)+";");
         if result:
@@ -108,4 +101,3 @@ class History_dao:
 #print h.get_volume_per_day("al356")
             
         
->>>>>>> upstream/master
