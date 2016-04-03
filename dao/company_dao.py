@@ -53,7 +53,7 @@ class Company_dao:
                 return False
                 
     def get_company_model(self, symbol):
-        result = self.db.query("select ask, name, volume from company_info where symbol = ('%s')"%(symbol)+";")
+        result = self.db.query("select Ask, Name, Volume from company_info where symbol = ('%s')"%(symbol)+";")
         if result:
             c = Company()
             c.set_ask(result[0]['Ask'])

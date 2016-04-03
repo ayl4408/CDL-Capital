@@ -395,17 +395,24 @@
 
 <script type="text/javascript">
   
-    function algorithm_graph_result(){ 
-        var algorithm_graph_result = $.ajax({
+  function algorithm_graph_result(){
+
+  var algorithm_graph_result = ({});
+        algorithm_graph_result = $.ajax({
           		type: 'POST',
           		url: '${algorithm_graph_link}$',
           		data: 'username='+ '${username}$',
           		dataType: "json",
           		async: false}).responseText;
 
-          	var json_obj=JSON.parse(algorithm_graph_result);
+if (algorithm_graph_result != false){
+
+    var json_obj=JSON.parse(algorithm_graph_result);
             console.log(json_obj)
-            return json_obj
+    return json_obj
+    }else{
+    return false;
+    }
     }    
     
       
@@ -428,7 +435,8 @@
     function draw_algorithm_line_graph(type)
     {
         //algorithm_graph_result()
-        data = algorithm_graph_result();
+    data = algorithm_graph_result();
+    if(data){
         //console.log(field);
         var graph_1 = [];
         graph_1.push({name: "Total", data: data});
@@ -481,7 +489,7 @@
                 series: graph_1
             });
         });        
-
+    }
     }
 
 
