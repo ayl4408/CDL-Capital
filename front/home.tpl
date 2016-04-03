@@ -117,10 +117,10 @@
     
     <ul class ="nav nav-tabs">
       <li class="active"><a data-toggle="tab" href="#home">Portfolio</a></li>
-      <li><a data-toggle="tab" href="#menu1">Transactions</a></li>
-      <li><a data-toggle="tab" href="#algorithms_menu">Algorithms</a></li>
-      <li><a data-toggle="tab" href="#analysis"  onclick="fetchAlgo(); displayActive(); ">Analysis</a></li>
-      <li><a data-toggle="tab" href="#menu2" onclick="most_active_stocks(); most_active_stocks_volume();" >Trending</a></li>
+      <li><a data-toggle="tab" href="#transactions" onclick="generate_sell_drop_down();">Transactions</a></li>
+      <li><a data-toggle="tab" href="#algorithms_menu" onclick="fetchAlgo(); displayActive();">Algorithms</a></li>
+      <li><a data-toggle="tab" href="#analysis">Analysis</a></li>
+      <li><a data-toggle="tab" href="#trending" onclick="most_active_stocks(); most_active_stocks_volume();" >Trending</a></li>
       <li><a data-toggle="tab" href="#settings_menu">Settings</a></li>
       
     </ul>
@@ -213,7 +213,7 @@
       </div>
       
       
-      <div id="menu1" class="tab-pane fade">
+      <div id="transactions" class="tab-pane fade">
 	<br>
 	
 			
@@ -334,7 +334,7 @@
 	</div>	
       </div>
           
-      <div id="menu2" class="tab-pane fade">	
+      <div id="trending" class="tab-pane fade">	
 	<div class="row">
 	  <div class="col-sm-6">
 	    <h2><b><u>Percent Change In Price</u></b></h2>				
@@ -557,7 +557,7 @@ if (algorithm_graph_result != false){
       function start()
       {
         set_filter_cookie(1);
-      	generate_sell_drop_down();
+      	//generate_sell_drop_down();
 	generate_filter_dropdown();
       	get_company_names();
       	update_profile_information();
@@ -583,10 +583,6 @@ if (algorithm_graph_result != false){
 				  //drawChart();
 
 	displayChart(json_obj['owned_stocks_chart_axis'],json_obj['owned_stocks_chart_value'],'#owned_stocks_chart',' USD','price')
-			
-                //load_profile_information();
-                //most_active_stocks();
-                //most_active_stocks_volume();
 				  }
 
 				  function displayChart(chart_axis, chart_data,chart_div,suffix, tooltip){
@@ -796,7 +792,7 @@ if (algorithm_graph_result != false){
 		        //console.log(buy_result)
 		        update_profile_information();
 		    }
-		    generate_sell_drop_down();
+		    //generate_sell_drop_down();
 		    document.getElementById("buy_form").reset();
 		}
 		
@@ -818,7 +814,7 @@ if (algorithm_graph_result != false){
 			}
                 //console.log(sell_result);
                 document.getElementById("sell_form").reset();
-                generate_sell_drop_down();
+                //generate_sell_drop_down();
                 
             }
 
