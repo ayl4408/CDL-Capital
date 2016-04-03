@@ -117,9 +117,10 @@
     
     <ul class ="nav nav-tabs">
       <li class="active"><a data-toggle="tab" href="#home">Portfolio</a></li>
-      <li><a data-toggle="tab" href="#menu1">Transactions</a></li>
-      <li><a data-toggle="tab" href="#menu2" onclick="most_active_stocks(); most_active_stocks_volume();" >Trending</a></li>
-      <li><a data-toggle="tab" href="#algorithms_menu" onclick="fetchAlgo(); displayActive(); ">Algorithms</a></li>
+      <li><a data-toggle="tab" href="#transactions">Transactions</a></li>
+      <li><a data-toggle="tab" href="#algorithms_menu" onclick="fetchAlgo(); displayActive();">Algorithms</a></li>
+      <li><a data-toggle="tab" href="#analysis">Analysis</a></li>
+      <li><a data-toggle="tab" href="#trending" onclick="most_active_stocks(); most_active_stocks_volume();" >Trending</a></li>
       <li><a data-toggle="tab" href="#settings_menu">Settings</a></li>
       
     </ul>
@@ -135,8 +136,11 @@
 	    
             <div id="active_algos" class="panel panel-danger">
 	    </div>
-	   
-	    <hr>
+
+	    <div style="clear:left;"><hr><br></div>
+      </div>
+
+      <div id="analysis" class="tab-pane fade">
 	    
         <div class="dropdown" id="algorithm_graph_dropdown_types_div" > 
           <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style="width:150px;">Graph Type<span class="caret"></span></button>
@@ -209,7 +213,7 @@
       </div>
       
       
-      <div id="menu1" class="tab-pane fade">
+      <div id="transactions" class="tab-pane fade">
 	<br>
 	
 			
@@ -330,7 +334,7 @@
 	</div>	
       </div>
           
-      <div id="menu2" class="tab-pane fade">	
+      <div id="trending" class="tab-pane fade">	
 	<div class="row">
 	  <div class="col-sm-6">
 	    <h2><b><u>Percent Change In Price</u></b></h2>				
