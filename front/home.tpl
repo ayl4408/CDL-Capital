@@ -118,8 +118,9 @@
     <ul class ="nav nav-tabs">
       <li class="active"><a data-toggle="tab" href="#home">Portfolio</a></li>
       <li><a data-toggle="tab" href="#menu1">Transactions</a></li>
+      <li><a data-toggle="tab" href="#algorithms_menu">Algorithms</a></li>
+      <li><a data-toggle="tab" href="#analysis"  onclick="fetchAlgo(); displayActive(); ">Analysis</a></li>
       <li><a data-toggle="tab" href="#menu2" onclick="most_active_stocks(); most_active_stocks_volume();" >Trending</a></li>
-      <li><a data-toggle="tab" href="#algorithms_menu" onclick="fetchAlgo(); displayActive(); ">Algorithms</a></li>
       <li><a data-toggle="tab" href="#settings_menu">Settings</a></li>
       
     </ul>
@@ -135,8 +136,11 @@
 	    
             <div id="active_algos" class="panel panel-danger">
 	    </div>
-	   
-	    <hr>
+
+	    <div style="clear:left;"><hr><br></div>
+      </div>
+
+      <div id="analysis" class="tab-pane fade">
 	    
         <div class="dropdown" id="algorithm_graph_dropdown_types_div" > 
           <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style="width:150px;">Graph Type<span class="caret"></span></button>
