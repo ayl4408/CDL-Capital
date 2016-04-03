@@ -51,4 +51,11 @@ class Algorithms_dao:
     def delete_algorithm(self, user, algo_name):
         result = self.db.query("delete from algorithms where user=('%s') and algo_name=('%s')"%(user, algo_name) + ";")
 
- 
+    def select_used_algorithms(self, user):
+        l=[]
+        result = self.db.query("select distinct algo_name, algorithms.algo_id from algorithms, transactions where algorithms.algo_id=transactions.algo_id and algorithms.user=('%s')"%(user) + ";")
+        if result:
+            for i in range(len(result)):
+                a=Algorithms(user,result[i]['algo_name'],result[i]['algo_id'])
+                l.append(a)
+        return l

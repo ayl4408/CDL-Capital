@@ -7,6 +7,8 @@ sys.path.insert(0, str(LINK_HEADERS.MODELS_LINK))
 from database_class import DB
 from history_model import History
 from PDO import PDO
+from algorithms_detail_model import Algorithm_details
+from company_model import Company
 
 class History_dao:
 
@@ -53,5 +55,31 @@ class History_dao:
                 h = History(user, result[i]['trans_date'], result[i]['trans_type'], result[i]['stock'], result[i]['price'], result[i]['total_price'], result[i]['volume'], result[i]['algo_id'])
                 l.append(h)
             return l
+    
+    def get_algorithm_buy_sell_volume(self, user):
+        result1= self.db.query("select count(trans_type) as buy, algo_id, sum(volume) as volume from history where user=('%s') and trans_type = 'buy' group by algo_id order by algo_id"%(user) + ";")
+        result2= self.db.query("select count(trans_type) as sell, algo_id, sum(volume) as volume from history where user=('%s') and trans_type = 'sell' group by algo_id order by algo_id"%(user) + ";")
+        if result1 or result2:
+            l=[]
+            iterations=max(len(result1), len(result2))
+            for i in range(iterations):
+                ad=Algorithm_details(user, result1[i]['algo_id'],str(int(result1[i]['volume']) + int(result2[i]['volume'])), result1[i]['buy'], result2[i]['sell'])
+                l.append(ad)
+            return l 
+           
+    def get_distinct_traded_stocks(self, user):
+        result = self.db.query("select distinct stock from history where user=('%s')"%(user) + ";")
+        if result:
+            l=[]
+            for i in range(len(result)):
+                c = Company()
+                c.set_name(result[i]['stock'])
+                l.append(c)
+        return l 
 
-        
+    #def get_owned_stocks_volume_and_populate_algorithm_details_model(self, user, algorithm_details_model_list):
+        #result = self.db.query("select sum(volume) from history where user=('%s') and sold ='0' group by algo_id, stock"%(user) + ";")
+        #if result:
+            #l = []
+            #for i in range(len(result)):
+                 
