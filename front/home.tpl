@@ -368,6 +368,10 @@
 
 <script type="text/javascript">
   
+    var total_algorithm_graph_data;
+    var algorithm_graph;
+    var data;
+
     function algorithm_graph_result(){ 
         var algorithm_graph_result = $.ajax({
           		type: 'POST',
@@ -375,10 +379,11 @@
           		data: 'username='+ '${username}$',
           		dataType: "json",
           		async: false}).responseText;
-
+            
+            //console.log(algorithm_graph_result);
           	var json_obj=JSON.parse(algorithm_graph_result);
-            console.log(json_obj)
-            return json_obj
+            //console.log(json_obj);
+            return json_obj;
     }    
     
       
@@ -400,43 +405,42 @@
    
     function draw_algorithm_line_graph(type)
     {
-        //algorithm_graph_result()
-        data = algorithm_graph_result();
-        //console.log(field);
-        var graph_1 = [];
-        graph_1.push({name: "Total", data: data});
+        //data = algorithm_graph_result();
+        var graph_1 = algorithm_graph_result();
         
-   
+        
+        //console.log(data);        
+ 
         $(function () {
             $('#graph_container').highcharts({
                 title: {
                     text: type,
                     x: -20 //center
                 },
-                subtitle: {
-                    text: '',
-                    x: -20
-                },
+                //subtitle: {
+                //    text: '',
+                //    x: -20
+                //},
                 xAxis: {
-                    tickInterval: 1,
-                //    type: 'datetime',
-                //    dateTimeLabelFormats: {
-                //        month: '%b %Y',
-                //        year: '%Y'
-                //    },
+                //    tickInterval: 1,
+                    type: 'datetime',
+                    dateTimeLabelFormats: {
+                        month: '%b %Y',
+                        year: '%Y'
+                    },
                     title: {
                         text: 'Days'
                     }
                 },
                 yAxis: {
                     title: {
-                        text: 'Number of Trades'
+                        text: 'Number of Shares'
                     },
-                    plotLines: [{
-                        value: 0,
-                        width: 1,
-                        color: '#808080'
-                    }]
+                    //plotLines: [{
+                    //    value: 0,
+                    //    width: 1,
+                    //    color: '#808080'
+                    //}]
                 },
                 tooltip: {
                     valueSuffix: ' shares'
@@ -471,20 +475,46 @@
            	data: 'user_name='+ user_name,
            	dataType: "json",
            	async: false}).responseText;
-        console.log(generate_algorithm_graph_dropdown_result);
+        //console.log(generate_algorithm_graph_dropdown_result);
         generate_algorithm_graph_dropdown_parsed=JSON.parse(generate_algorithm_graph_dropdown_result);
-        console.log(generate_algorithm_graph_dropdown_parsed);
+        //console.log(generate_algorithm_graph_dropdown_parsed);
         $('#algorithm_graph_dropdown').empty();
         //$('<option value="Companies"> Algorithms </option>').appendTo('#algorithm_graph_dropdown');
+        var i = 0;
         for(var field in generate_algorithm_graph_dropdown_parsed) 
         {
-            $('<li><input type ="checkbox" name="algorithm_graph_checkbox" value=" ' + field + ' ">' + field + '<br></li>').appendTo('#algorithm_graph_dropdown_lines');
+            $('<li><input id="graph_filter_' + i + '"  type ="checkbox" name="algorithm_graph_checkbox" value=" ' + generate_algorithm_graph_dropdown_parsed[field] + ' " onClick="checkbox_draw_algorithm_graph(' + i + ')" checked>' + field + '<br></li>').appendTo('#algorithm_graph_dropdown_lines');
             //$('<li><a href="#" onClick="draw_algorithm_line_graph('+generate_algorithm_graph_dropdown_parsed[field]+');">' + field + '</a></li>').appendTo('#algorithm_graph_dropdown');
+            i++;
         }
-    }  
+    } 
+
+
+
+    function checkbox_draw_algorithm_graph(id)
+    {
+        
+        //console.log(id);
+        algorithm_graph = $('#graph_container').highcharts();
+        
+        var series = algorithm_graph.series[id]; 
+        if (series.visible)
+        {
+            series.hide();
+        }
+        else
+        {
+            series.show();       
+        }
+
+    }         
    
     draw_algorithm_line_graph('Total Volume Traded');
     algorithm_graph_dropdown();
+    
+        
+    
+
 
 </script>
 
