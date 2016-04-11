@@ -30,9 +30,30 @@ class Company_dao:
                     c.set_symbol(result[i]['Symbol'])
                     l.append(c)
             return l
+
+    def get_list_of_company_models(self, symbols_list):
+        if symbols_list:
+            symbols_string=""
+            for i in range(len(symbols_list)):
+                symbols_string = symbols_string + "'" + symbols_list[i] + "'"
+                if i != len(symbols_list)-1:
+                    symbols_string = symbols_string + ","
+                
+            result = self.db.query("select ask, name, symbol from company_info where symbol in ("+symbols_string+");")
+            if result:
+                l=[]
+                for i in range(len(result)):
+                    c = Company()
+                    c.set_ask(result[i]['ask'])
+                    c.set_name(result[i]['name'])
+                    c.set_symbol(result[i]['symbol'])
+                    l.append(c)
+                return l
+            else:
+                return False
                 
     def get_company_model(self, symbol):
-        result = self.db.query("select * from company_info where symbol = ('%s')"%(symbol)+";")
+        result = self.db.query("select Ask, Name, Volume from company_info where symbol = ('%s')"%(symbol)+";")
         if result:
             c = Company()
             c.set_ask(result[0]['Ask'])
@@ -105,4 +126,13 @@ class Company_dao:
 		l.append(c)
 	    return l
 	else: #DO THIS FOR ALL 
-	    return False
+            return False
+
+'''
+c = Company_dao()
+l = []
+l.append('aapl')
+r = c.get_list_of_company_models(l)
+print r
+print r[0].get_ask()
+'''
