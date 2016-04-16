@@ -65,30 +65,30 @@ class Company_dao:
             return c
 
     def get_all_companies_percentchange(self):
-	result = self.db.query("select symbol, PercentChange from company_info  WHERE PercentChange IS NOT NULL AND PercentChange!='None';")
-	if result:
-	    l = []
-	    for i in range(len(result)):
-		c = Active_company()
-		c.set_symbol(result[i]['symbol'])
-		#r = result[i]['PercentChange'].translate(None, '+%')
-		#c.set_percent_change(r)
-		c.set_percent_change(result[i]['PercentChange'])#.translate(None, '+%'))
-		#c.set_volume(result[i]['Volume'])
-		#c.set_avg_daily_volume(result[i]['AverageDailyVolume'])
-		l.append(c)
-	    return l
+	    result = self.db.query("select symbol, PercentChange from company_info  WHERE PercentChange IS NOT NULL AND PercentChange!='None';")
+	    if result:
+	        l = []
+	        for i in range(len(result)):
+	    	    c = Active_company()
+	    	    c.set_symbol(result[i]['symbol'])
+	    	    #r = result[i]['PercentChange'].translate(None, '+%')
+	    	    #c.set_percent_change(r)
+	    	    c.set_percent_change(result[i]['PercentChange'])#.translate(None, '+%'))
+	    	    #c.set_volume(result[i]['Volume'])
+	    	    #c.set_avg_daily_volume(result[i]['AverageDailyVolume'])
+	    	    l.append(c)
+	        return l
 	
     def get_all_companies_volume(self):
-	result = self.db.query("select symbol, Volume from company_info;")
-	if result:
-	    l = []
-	    for i in range(len(result)):
-		c = Active_company()
-		c.set_symbol(result[i]['symbol'])
-		c.set_volume(result[i]['Volume'])
-		l.append(c)
-	    return l
+	     result = self.db.query("select symbol, Volume from company_info;")
+	     if result:
+	         l = []
+	         for i in range(len(result)):
+	     	    c = Active_company()
+	     	    c.set_symbol(result[i]['symbol'])
+	     	    c.set_volume(result[i]['Volume'])
+	     	    l.append(c)
+	         return l
 
     
     def get_all_companies_averagedailyvolume(self): #NOT TO SELF: fix the averagedailyvolume and avg_daily_volume difference
@@ -114,19 +114,30 @@ class Company_dao:
             return l   
 
     def get_moving_average(self):
-	result = self.db.query("SELECT Symbol, Ask, FiftydayMovingAverage, TwoHundreddayMovingAverage FROM company_info WHERE FiftydayMovingAverage!='None' and TwoHundreddayMovingAverage!='None' and ask!='None';")
-	if result:
-	    l = []
-	    for i in range(len(result)):
-		c = Moving_average()
-		c.set_symbol(result[i]['Symbol'])
-		c.set_ask(result[i]['Ask'])
-		c.set_fifty_day_ask(result[i]["FiftydayMovingAverage"])
-		c.set_two_hundred_day_ask(result[i]['TwoHundreddayMovingAverage'])
-		l.append(c)
-	    return l
-	else: #DO THIS FOR ALL 
-            return False
+	     result = self.db.query("SELECT Symbol, Ask, FiftydayMovingAverage, TwoHundreddayMovingAverage FROM company_info WHERE FiftydayMovingAverage!='None' and TwoHundreddayMovingAverage!='None' and ask!='None';")
+	     if result:
+	         l = []
+	         for i in range(len(result)):
+	     	    c = Moving_average()
+	     	    c.set_symbol(result[i]['Symbol'])
+	     	    c.set_ask(result[i]['Ask'])
+	     	    c.set_fifty_day_ask(result[i]["FiftydayMovingAverage"])
+	     	    c.set_two_hundred_day_ask(result[i]['TwoHundreddayMovingAverage'])
+	     	    l.append(c)
+	         return l
+	     else: #DO THIS FOR ALL 
+	         return False
+
+    def get_ask_comp(self, symbols):
+        result = self.db.query("select symbol, ask from company_info where symbol in (" + symbols + ");") 
+        if result:
+            l = []
+            for i in range(len(result)):
+                c = Company_base()
+                c.set_ask(result[i]['ask'])
+                c.set_symbol(result[i]['symbol'])
+                l.append(c)
+            return l
 
 '''
 c = Company_dao()

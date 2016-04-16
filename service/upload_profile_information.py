@@ -60,16 +60,16 @@ if t:
     for i in range(len(t)):
         data['transactions'][i]={}
 	
-	#start date formatting
-	from_zone = tz.tzutc()
-	to_zone = tz.tzlocal()
+	    #start date formatting
+        from_zone = tz.tzutc()
+        to_zone = tz.tzlocal()
         date_time = t[i].get_trans_date()
-	date_time = date_time.strftime('%Y-%m-%d %H:%M:%S')
-	date_time = datetime.strptime(date_time, '%Y-%m-%d %H:%M:%S')	
-	date_time = date_time.replace(tzinfo=from_zone)
-	updated_date_time = date_time.astimezone(to_zone)
-	updated_date_time = updated_date_time.strftime('%Y-%m-%d %H:%M:%S')
-	#end date formatting	
+        date_time = date_time.strftime('%Y-%m-%d %H:%M:%S')
+        date_time = datetime.strptime(date_time, '%Y-%m-%d %H:%M:%S')	
+        date_time = date_time.replace(tzinfo=from_zone)
+        updated_date_time = date_time.astimezone(to_zone)
+        updated_date_time = updated_date_time.strftime('%Y-%m-%d %H:%M:%S')
+	    #end date formatting	
 
         data['transactions'][i]['trans_date'] = updated_date_time
         data['transactions'][i]['trans_type'] = t[i].get_trans_type()
