@@ -41,18 +41,18 @@ def request_yql(l,yql,db):
         counter+=1
         final+=1
 
-	if counter==20 or final == len(l):
-	    yql_query=START_YQL + result_string + END_YQL
+        if counter==20 or final == len(l):
+            yql_query=START_YQL + result_string + END_YQL
             while True:
                 yql_result=yql.execute(yql_query)
                 if "query" in yql_result.keys():
-		    break
+                    break
                 else:
                     time.sleep(1)
             #####analyze_ask(yql_result,db,result_string)        
             isGood=update_company_info(yql_result,result_string,db)
             result_string=""
-	    counter=0
+            counter=0
         else:
             result_string += ","
        
@@ -60,7 +60,7 @@ def request_yql(l,yql,db):
 ## @param yql_result = yql query result with stock data for all stock symbols in database 
 ## @param db = db object
 def update_company_info(yql_result,result_string,db):
-    global none_stock_list
+    #global none_stock_list
     START_SQL="INSERT INTO company_info(" + column_names + ")" + "VALUES"
     END_SQL= ""
     VALUES_LIST=[]
@@ -73,10 +73,9 @@ def update_company_info(yql_result,result_string,db):
     previous_ask_list = db.query(SQL)
     for stock_ask in previous_ask_list:
         stored_stock_ask_dict[stock_ask['Symbol']]=stock_ask['Ask']
-#    print stored_stock_ask_dict
     for x in range(int(yql_result['query']['count'])):
         values=[]
-        ask = str(yql_result['query']['results']['quote'][x]['Ask'])
+        ask = str(yql_result['query']['results']['quote'][x]['Ask']).replace(",","")
         symbol = str(yql_result['query']['results']['quote'][x]['Symbol'])
         goog_ask = ""
         try:
@@ -88,7 +87,6 @@ def update_company_info(yql_result,result_string,db):
             try:
                 goog_json=getQuotes(symbol)
                 goog_ask = str(goog_json[0]['LastTradePrice'])
-                print goog_ask + type(goog_ask)
                 if goog_ask == "None":
                     SQL = "DELETE FROM company_info WHERE Symbol = '" + symbol + "';"
                     db.query(SQL)
@@ -108,27 +106,26 @@ def update_company_info(yql_result,result_string,db):
                 continue
                 #error=str(e)
                 #print str(e)
-        if previous_ask != "None" and previous_ask != "NULL" and ask != "None":
+        if previous_ask != "None" and previous_ask != "NULL" and previous_ask != "0.00" and ask != "None":
             ask_difference =  Decimal(ask) - Decimal(previous_ask)
+            print Decimal(previous_ask)
             try:
                 percent_change = abs(ask_difference / Decimal(previous_ask))
+                if percent_change > 1:
+                    if Decimal(ask) > 1 and Decimal(previous_ask) > 1:
+                        try:
+                            goog_json=getQuotes(symbol)
+                            goog_ask = str(goog_json[0]['LastTradePrice'])
+                        except Exception, e:
+                            error=str(e)
+                            #fail_stock_list.append(symbol)
+                            #print str(e)
             except Exception, e:
                 print str(e)
-            if percent_change > 1:
-                if Decimal(ask) > 1 and Decimal(previous_ask) > 1:
-                    try:
-                        goog_json=getQuotes(symbol)
-                        goog_ask = str(goog_json[0]['LastTradePrice'])
-                    except Exception, e:
-                        error=str(e)
-                        #fail_stock_list.append(symbol)
-                        #print str(e)
+                continue
         for key, value in yql_result['query']['results']['quote'][x].iteritems():
-            #print key
             if key == "Ask" and goog_ask != "":
-                #print ("stock: " + yql_result['query']['results']['quote'][x]['Symbol'] + "    yql_value: " + str(value) + "   stored_value: " + str(previous_ask))
                 value = goog_ask 
-                #print ("value after: " + str(value))
             value=str(value).replace("'","\\'")
             values.append(value)
         values=tuple(values)
@@ -138,7 +135,7 @@ def update_company_info(yql_result,result_string,db):
     for x in range(num_columns):
         END_SQL+= str(column_query_result[x]) + "=VALUES(" + str(column_query_result[x]) + "),"        
     END_SQL=END_SQL[:-1] + ";"
-    		
+                
     SQL_QUERY=START_SQL + VALUES_LIST + " ON DUPLICATE KEY UPDATE " + END_SQL
     try:
 #        print SQL_QUERY
