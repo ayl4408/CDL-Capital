@@ -37,8 +37,6 @@ class DB:
         if len(result):
             result=list(result)
             return result
-        else:
-            return
 
     def disconnect(self):
         self.session.close()
@@ -48,21 +46,17 @@ class DB:
         self.connect()
         query="select symbol from company_info;"
         result=self.session.execute(query)
-	self.connection.commit()
+        self.connection.commit()
         result=self.session.fetchall()
         if len(result):
             result=list(result)
-            self.disconnect()
             return result
-        else:
-            self.disconnect()
-            return
 
     def get_column_names(self):
         get_column_names="select column_name from information_schema.columns where table_name='company_info'"
         column_names=[]
         column_result=self.query(get_column_names)
-	for column in column_result:
+        for column in column_result:
             column_names.append(column['column_name'])
         #column_result=re.sub("[()',]*",'',column_result)
         #column_result=column_result.split(' ')

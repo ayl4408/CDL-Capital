@@ -30,13 +30,13 @@ class fifty_vs_two_hund_mving_avg:
 	    if owned_stocks:
 	        if symbol in owned_stocks:
 		    if moving.get_fifty_day_ask() > moving.get_two_hundred_day_ask():
-		        transaction(username, 1, symbol, "sell", "2")
+		        transaction(username, 1, symbol, "sell", "3")
 		if symbol not in owned_stocks:	
 		    if moving.get_fifty_day_ask() < moving.get_two_hundred_day_ask():
-		        transaction(username, 1, symbol, "buy", "2")
+		        transaction(username, 1, symbol, "buy", "3")
 	    else:
 		if moving.get_fifty_day_ask() < moving.get_two_hundred_day_ask():
-		        transaction(username, 1, symbol, "buy", "2")
+		        transaction(username, 1, symbol, "buy", "3")
 	    
 
 
