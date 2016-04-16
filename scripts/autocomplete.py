@@ -8,8 +8,6 @@ from company_dao import Company_dao
 print "Content-Type: text/html\r\n\r\n"
 
 
-
-
 cdao=Company_dao()
 company_stock_list=[]
 company_stock_symbols=cdao.get_all_companies_stock()

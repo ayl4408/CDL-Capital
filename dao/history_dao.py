@@ -78,14 +78,8 @@ class History_dao:
                 l.append(c)
         return l 
 
-    #def get_owned_stocks_volume_and_populate_algorithm_details_model(self, user, algorithm_details_model_list):
-        #result = self.db.query("select sum(volume) from history where user=('%s') and sold ='0' group by algo_id, stock"%(user) + ";")
-        #if result:
-            #l = []
-            #for i in range(len(result)):
-                 
-    def get_volume_per_day(self,user):
-        result = self.db.query("select DATE(trans_date) as date, sum(volume) as volume from history where user=('%s') group by DATE(trans_date)"%(user)+";");
+    def get_all_volume_per_day(self,user):
+        result = self.db.query("select UNIX_TIMESTAMP(DATE(trans_date))*1000 as date, sum(volume) as volume from history where user=('%s') group by DATE(trans_date)"%(user)+";");
         if result:
             l = []
             for i in range(len(result)):
@@ -97,7 +91,49 @@ class History_dao:
         else:
             return False
 
+    def get_user_volume_per_day(self,user):
+        result = self.db.query("select UNIX_TIMESTAMP(DATE(trans_date))*1000 as date, sum(volume) as volume from history where user=('%s') and algo_id='0' group by DATE(trans_date)"%(user)+";");
+        if result:
+            l = []
+            for i in range(len(result)):
+                t = Date_history()
+                t.set_date(result[i]['date'])
+                t.set_volume(result[i]['volume'])
+                l.append(t)
+            return l
+        else:
+            return False
+
+    def get_all_algorithms_volume_per_day(self,user):
+        result = self.db.query("select UNIX_TIMESTAMP(DATE(trans_date))*1000 as date, sum(volume) as volume from history where user=('%s') and algo_id!='0' group by DATE(trans_date)"%(user)+";");
+        if result:
+            l = []
+            for i in range(len(result)):
+                t = Date_history()
+                t.set_date(result[i]['date'])
+                t.set_volume(result[i]['volume'])
+                l.append(t)
+            return l
+        else:
+            return False
+
+    def get_algorithm_volume_per_day(self,user,algo_id):
+        result = self.db.query("select UNIX_TIMESTAMP(DATE(trans_date))*1000 as date, sum(volume) as volume from history where user=('%s') and algo_id=('%s') group by DATE(trans_date)"%(user, algo_id)+";");
+        if result:
+            l = []
+            for i in range(len(result)):
+                t = Date_history()
+                t.set_date(result[i]['date'])
+                t.set_volume(result[i]['volume'])
+                l.append(t)
+            return l
+        else:
+            return False
+
+
+
+
 #h = History_dao()
-#print h.get_volume_per_day("al356")
+#print h.get_algorithm_volume_per_day("al356", '3')
             
         

@@ -133,10 +133,14 @@ class Transaction_dao:
 
 
 
-     def get_owned_stock_volume_per_algorithm(self, user, stock, price, algo_id):
-         volume_result=self.db.query("select stock, count(*) as volume from transactions where user = ('%s') and sold = '0' and algo_id= ('%s')"%(user,algo_id)+";") 
+     def get_owned_stock_volume_per_algorithm(self, user, algo_id):
+         volume_result=self.db.query("select stock, count(*) as volume from transactions where user = ('%s') and sold = '0' and algo_id=('%s') group by stock"%(user,algo_id)+";") 
          if volume_result:
              l=[]
+             for i in range(len(volume_result)):
+                 o = Owned_stock(volume_result[i]['stock'], volume_result[i]['volume'], None, None, None)
+                 l.append(o)
+             return l   
           
      def get_profit_per_algorithm(self, user):
           profit_result = self.db.query("select sum(profit) as profit from transactions where user = ('%s') and sold = '1' group by algo_id"%(user) + ";")
@@ -147,13 +151,13 @@ class Transaction_dao:
                   l.append(o)
               return l
 
-     def get_algorithm_stock_value_model(self, user):
-          result1=self.db.query("select sum(profit) as profit from transactions where user=('%s') and sold = '1' group by algo_id"%(user) + ";")  
-          if result1:
-               l=[]
-               for i in range(len(result)):
-                    l.append(result[i]['profit'])
-               return l
+    # def get_algorithm_stock_value_model(self, user):
+         # result1=self.db.query("select sum(profit) as profit from transactions where user=('%s') and sold = '1' group by algo_id"%(user) + ";")  
+         # if result1:
+         #      l=[]
+         #      for i in range(len(result)):
+         #           l.append(result[i]['profit'])
+         #      return l
 
 
      def get_user_stock_value_model(self, user):
