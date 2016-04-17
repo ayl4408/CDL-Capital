@@ -189,5 +189,65 @@ class Transaction_dao:
           else:
                return False
 
+     def select_all_profit_per_day(self, user):
+          result = self.db.query("select UNIX_TIMESTAMP(DATE(trans_date))*1000 as date, sum(profit) as profit from transactions where user=('%s') and sold='1' group by DATE(trans_date)"%(user)+";");
+        
+          if result:
+               l = []
+               for i in range(len(result)):
+                    t = Date_transaction()
+                    t.set_date(result[i]['date'])
+                    t.set_profit(result[i]['profit'])
+                    l.append(t)
+               return l
+          else:
+               return False
+
+     def select_user_profit_per_day(self, user):
+          result = self.db.query("select UNIX_TIMESTAMP(DATE(trans_date))*1000 as date, sum(profit) as profit from transactions where user=('%s') and sold='1' and algo_id='0' group by DATE(trans_date)"%(user)+";");
+
+          if result:
+               l = []
+               for i in range(len(result)):
+                    t = Date_transaction()
+                    t.set_date(result[i]['date'])
+                    t.set_profit(result[i]['profit'])
+                    l.append(t)
+               return l
+          else:
+               return False
+     
+     def select_all_algorithms_profit_per_day(self, user):
+          result = self.db.query("select UNIX_TIMESTAMP(DATE(trans_date))*1000 as date, sum(profit) as profit from transactions where user=('%s') and sold='1' and algo_id!='0' group by DATE(trans_date)"%(user)+";");
+
+          if result:
+               l = []
+               for i in range(len(result)):
+                    t = Date_transaction()
+                    t.set_date(result[i]['date'])
+                    t.set_profit(result[i]['profit'])
+                    l.append(t)
+               return l
+          else:
+               return False
+
+     def select_algorithm_profit_per_day(self, user, algo_id):
+          result = self.db.query("select UNIX_TIMESTAMP(DATE(trans_date))*1000 as date, sum(profit) as profit from transactions where user=('%s') and sold='1' and algo_id=('%s') group by DATE(trans_date)"%(user, algo_id)+";");
+
+          if result:
+               l = []
+               for i in range(len(result)):
+                    t = Date_transaction()
+                    t.set_date(result[i]['date'])
+                    t.set_profit(result[i]['profit'])
+                    l.append(t)
+               return l
+          else:
+               return False
+
+
+
+
 #t = Transaction_dao()
-#print t.get_trades_per_day("al356")
+#test =  t.select_all_profit_per_day("al356")
+#print test[4].get_profit()

@@ -141,21 +141,28 @@
       </div>
 
       <div id="analysis" class="tab-pane fade">
+
 	<div class="row">    
-          <div class="dropdown" id="algorithm_graph_dropdown_types_div" > 
-            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style="width:150px;">Graph Type<span class="caret"></span></button>
-            <ul id="algorithm_graph_dropdown_types" class="dropdown-menu">               
-              <li><a href="#" onClick="draw_algorithm_line_graph('Total Volume Traded')">Total Volume Traded</a></li>
-            </ul>
-          </div>
-	  
-          <div class="dropdown" id="algorithm_graph_dropdown_lines_div"> 
-            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style="width:150px;">Filter<span class="caret"></span></button>
-            <ul id="algorithm_graph_dropdown_lines" class="dropdown-menu"> </ul>
-          </div>
-	  
-          <!--<select id="algorithm_graph_dropdown" class="form-control"  name="algorithm_graph_dropdown"></select>-->
-          <div id="graph_container" style="width: 1200px; height: 600px; margin0 auto"></div>
+        <div class="dropdown" id="algorithm_graph_dropdown_types_div" > 
+          <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style="width:150px;">Graph Type<span class="caret"></span></button>
+          <ul id="algorithm_graph_dropdown_types" class="dropdown-menu"> 
+            
+                                   
+            <li><a href="#" onClick="draw_algorithm_line_graph('Total Volume Traded Daily', '${algorithm_graph_link}$', 'Number of Shares', ' shares')">Total Volume Traded Daily</a></li> 
+            <li><a href="#" onClick="draw_algorithm_line_graph('Profit Daily', '${algorithm_profit_graph_link}$', 'Profit', ' dollars')">Profit Daily</a></li>
+
+          </ul>
+        </div>
+        <!--
+        <div class="dropdown" id="algorithm_graph_dropdown_lines_div"> 
+          <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style="width:150px;">Filter<span class="caret"></span></button>
+          <ul id="algorithm_graph_dropdown_lines" class="dropdown-menu"> </ul>
+        </div>
+        -->
+    
+
+        <!--<select id="algorithm_graph_dropdown" class="form-control"  name="algorithm_graph_dropdown"></select>-->
+        <div id="graph_container" style="width: 1200px; height: 600px; margin0 auto"></div>	
 	</div>
 
 	<br>
@@ -477,11 +484,11 @@
     var algorithm_graph;
     var data;
 
-    function algorithm_graph_result(){
+    function algorithm_graph_result(type){
         var algorithm_graph_result = ({});
         algorithm_graph_result = $.ajax({
           		type: 'POST',
-          		url: '${algorithm_graph_link}$',
+          		url: type,
           		data: 'username='+ '${username}$',
           		dataType: "json",
           		async: false}).responseText;
@@ -497,8 +504,29 @@
             return false;
         }
     }    
-    
-      
+   
+    /* 
+    function algorithm_profit_graph_result(){
+        var algorithm_profit_graph_result = ({});
+        algorithm_graph_result = $.ajax({
+          		type: 'POST',
+          		url: '${algorithm_profit_graph_link}$',
+          		data: 'username='+ '${username}$',
+          		dataType: "json",
+          		async: false}).responseText;
+
+        if (algorithm_graph_result != false)
+        {
+            var json_obj=JSON.parse(algorithm_graph_result);
+            console.log(json_obj)
+            return json_obj
+        }
+        else
+        {
+            return false;
+        }
+    } 
+    */ 
  
     // Doesn't do anything, never did anything, might use later
     /*
@@ -515,12 +543,12 @@
     }
     */
    
-    function draw_algorithm_line_graph(type)
+    function draw_algorithm_line_graph(graph_title, type, yaxis_title, suffix)
     {
         //data = algorithm_graph_result();
-        var graph_1 = algorithm_graph_result();
+        var graph_1 = algorithm_graph_result(type);
         //algorithm_graph_result()
-        data = algorithm_graph_result();
+        data = algorithm_graph_result(type);
         if(graph_1){
         //console.log(field);
         //console.log(data);        
@@ -528,7 +556,7 @@
         $(function () {
             $('#graph_container').highcharts({
                 title: {
-                    text: type,
+                    text: graph_title,
                     x: -20 //center
                 },
                 //subtitle: {
@@ -548,7 +576,7 @@
                 },
                 yAxis: {
                     title: {
-                        text: 'Number of Shares'
+                        text: yaxis_title
                     },
                     //plotLines: [{
                     //    value: 0,
@@ -557,7 +585,7 @@
                     //}]
                 },
                 tooltip: {
-                    valueSuffix: ' shares'
+                    valueSuffix: suffix
                 },
                 legend: {
                     layout: 'vertical',
@@ -576,7 +604,8 @@
     }
 
 
-
+    // FOr the checkbox dropdown
+    /*
     function algorithm_graph_dropdown()
     {
         var user_name="${username}$";
@@ -601,10 +630,11 @@
             //$('<li><a href="#" onClick="draw_algorithm_line_graph('+generate_algorithm_graph_dropdown_parsed[field]+');">' + field + '</a></li>').appendTo('#algorithm_graph_dropdown');
             i++;
         }
-    } 
+    }
+    */ 
 
-
-
+    // For the check box dropdown
+    /*
     function checkbox_draw_algorithm_graph(id)
     {
         
@@ -621,10 +651,11 @@
             series.show();       
         }
 
-    }         
+    }
+    */         
    
-    draw_algorithm_line_graph('Total Volume Traded');
-    algorithm_graph_dropdown();
+    draw_algorithm_line_graph('Total Volume Traded', '${algorithm_graph_link}$', 'Number of Shares', ' shares');
+    //algorithm_graph_dropdown();
     
         
     
