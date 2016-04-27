@@ -73,6 +73,12 @@ if t:
 
         data['transactions'][i]['trans_date'] = updated_date_time
         data['transactions'][i]['trans_type'] = t[i].get_trans_type()
+
+#        try:
+#            data['transactions'][i]['name']=cdao.get_company_model(t[i].get_stock()).get_name()
+#        except:
+#            data['transactions'][i]['name']=""
+            
         data['transactions'][i]['stock'] = t[i].get_stock()
         data['transactions'][i]['price'] = t[i].get_price()
         data['transactions'][i]['total_price'] = t[i].get_total_price()
@@ -82,6 +88,7 @@ else:
     data['transactions'][0]={}
     data['transactions'][0]['trans_date'] = ""
     data['transactions'][0]['trans_type'] = ""
+    data['transactions'][0]['name']=""
     data['transactions'][0]['stock'] = ""
     data['transactions'][0]['price'] = ""
     data['transactions'][0]['total_price'] = ""
@@ -109,6 +116,7 @@ if l:
                 continue
             
             data['owned_stocks'][i]={}
+            data['owned_stocks'][i]['name']=c[i].get_name()
             data['owned_stocks'][i]['stock'] = c[i].get_symbol()
             data['owned_stocks'][i]['current_shares'] = o.get_volume()
             data['owned_stocks'][i]['current_price'] = c[i].get_ask()
@@ -134,6 +142,7 @@ if l:
 else:
     data['owned_stocks']={}
     data['owned_stocks'][0]={}
+    data['owned_stocks'][0]['name'] =""
     data['owned_stocks'][0]['stock'] = ""
     data['owned_stocks'][0]['current_shares'] = ""
     data['owned_stocks'][0]['current_price'] = ""

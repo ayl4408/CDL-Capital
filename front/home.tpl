@@ -16,7 +16,12 @@
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
     <script src="https://code.highcharts.com/highcharts.js"></script>
-
+    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js" integrity="sha256-xNjb53/rY+WmG+4L6tTl9m6PpqknWZvRt0rO1SRnJzw=" crossorigin="anonymous"></script>
+    <script>
+      $(document).ready(function(){
+      });
+    </script>
+    
     <style>
 
       #algorithms_menu{
@@ -38,7 +43,23 @@
       margin-left:2%;
       margin-right:4%;
       }
+
+
+      table{
+      border:3px solid #7CAECC;
       
+      }
+      
+      tr{
+        background-color:#FDFFF2;
+      }
+
+      th{
+      background-color:#7CAECC;
+      color:white;
+      font-weight:normal;
+      font-size:120%;
+      }
       
         #algorithm_graph_dropdown_types_div{
             display:inline;
@@ -64,16 +85,17 @@
     		text-align:center;
     		color:black;
 
-    	}
+        }
 
-    	#logout{
-    		float:right;
+    
+      #logout{
+                float:right;
     		display:inline;
     		margin-right:5px;
     		margin-top:5px;
     	}
 
-    	#title{
+      #title{
     		font-size:200%;
     		margin-left:2%;
     		margin-top:2px;
@@ -99,15 +121,51 @@
     	#algorithms_menu{
     		width:100%;
     		min-width:400px;
-    	}
+      }
+
+      #available{
+      background-color:rgba(255,255,255,.2);
+      display:inline;
+      color:rgba(0,0,0,.70);
+
+      backgound-color:black;
+      //color:white;
+      
+      margin-left:5px;
+      margin-right:25px;
+      font-size:110%;
+     // border:1px solid grey;
+      }
+
+      .company_search{
+      width:250px;
+      display:inline;
+      }
+
+      
     </style>
 </head>
 
 <body>
   
   <div id="header">
-    <div id="title" style="float:left; display:inline;"><b><i>CDL Capital</i></b></div>
-    <div id="logout"> Logged in as <b><u>${username}$</b></u> <button class="btn btn-danger" style="margin-left:3px" onclick="logout();">Log Out</button></div>
+    <div id="title" style="float:left; display:inline;"><b><i>CDL Capital</i></b><div id='user' style='font-size:70%; display:inline'>(${username}$)</div></div>
+      
+    <div id="logout">
+      <!--</div>(Logged in as <b><u>${username}$</u>)</b>
+	-->
+
+      <div id='available' style='display:inline; width:100px;'></div>
+  
+      
+      <div id="company_search" style='display:inline; width:500px;'>
+	<input type='text'  class='form-control company_search' placeholder='Search Company'/>
+      </div>
+      
+      <div style='display:inline;'> <button class="btn btn-danger" style="margin-left:3px" onclick="logout();">Log Out</button></div>
+    </div>
+
+    
     
   </div>
   <br><br><br>
@@ -122,7 +180,7 @@
       <li><a data-toggle="tab" href="#analysis" onclick="generate_trade_information_table();">Analysis</a></li>
       <li><a data-toggle="tab" href="#trending" onclick="most_active_stocks(); most_active_stocks_volume();" >Trending</a></li>
       <li><a data-toggle="tab" href="#settings_menu">Settings</a></li>
-      
+          
     </ul>
     <br>
     
@@ -258,7 +316,7 @@
 	    <div class="panel panel-warning" style="width:100%; ">
 	      <div class="panel-heading">Buy</div>
 	      <div id="deposits" class="panel-body">
-		Company: <input id="company_name_buy" type="text" class="form-control" name="company_name" /><br>
+		Company: <input id="company_name_buy" type="text" class="form-control"  name="company_name" /><br>
 		Volume: <input id="volume_buy" class="form-control" type="number" min="0" name="volume_buy" /><br>
 		<button class="btn btn-warning" id="Buy" onclick="buy()">Buy</button>
 	      </div>
@@ -314,6 +372,7 @@
 	      <table class="table table-hover owned_stocks_table">
 		<thead>
 		  <tr>
+		    <th>Company</th>
 		    <th>Stock</th>
 		    <th>Shares</th>
 		    <th>Current Price</th>
@@ -442,7 +501,7 @@
 
   for (i in json_obj)
   {
-    var tr = document.createElement("tr");
+  var tr = document.createElement("tr");
     var td1 = document.createElement("td");
     var td2 = document.createElement("td");
     var td3 = document.createElement("td");
@@ -483,6 +542,11 @@
     var total_algorithm_graph_data;
     var algorithm_graph;
     var data;
+
+    function update_global_portfolio(available_funds){
+        available_funds=number_with_commas(parseInt(available_funds));
+        $('#available').html('<font color="black"></font><b>Available Funds</b>:[$'+available_funds+']')
+    }
 
     function algorithm_graph_result(type){
         var algorithm_graph_result = ({});
@@ -542,6 +606,11 @@
         }
     }
     */
+
+    function number_with_commas(x) {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+    
    
     function draw_algorithm_line_graph(graph_title, type, yaxis_title, suffix)
     {
@@ -711,7 +780,10 @@
       		async: false}).responseText;
 
       	var json_obj=JSON.parse(update_profile_result);
-        //		console.log(json_obj);
+				  //		console.log(json_obj);
+
+	update_global_portfolio(json_obj['users']['available_funds'])
+				
         table_generate_users(json_obj['users']);
         table_generate_transactions(json_obj['transactions']);
         table_generate_owned_stocks(json_obj['owned_stocks']);
@@ -775,12 +847,15 @@
             	for (i in json_obj)
                 {
             		var tr = document.createElement("tr");
-            		var td1 = document.createElement("td");
+		        var td0 = document.createElement("td");
+			var td1 = document.createElement("td");
             		var td2 = document.createElement("td");
             		var td3 = document.createElement("td");
             		var td4 = document.createElement("td");
             		var td5 = document.createElement("td");
 
+			var t0 = document.createTextNode(json_obj[i]['name']);
+			td0.appendChild(t0);				 
             		var t1 = document.createTextNode(json_obj[i]['stock']);
             		td1.appendChild(t1);
             		var t2 = document.createTextNode(json_obj[i]['current_shares']);
@@ -792,6 +867,8 @@
             		var t5 = document.createTextNode(json_obj[i]['profit']);
             		td5.appendChild(t5);
 
+
+			tr.appendChild(td0);
             		tr.appendChild(td1);
             		tr.appendChild(td2);
             		tr.appendChild(td3);
@@ -865,15 +942,15 @@
             	var td4 = document.createElement("td");
             	var td5 = document.createElement("td");
 
-            	var t1 = document.createTextNode(json_obj['total_portfolio']);
+            	var t1 = document.createTextNode(number_with_commas(parseInt(json_obj['total_portfolio'])));
             	td1.appendChild(t1);
-            	var t2 = document.createTextNode(json_obj['available_funds']);
+            	var t2 = document.createTextNode(number_with_commas(parseInt(json_obj['available_funds'])));
             	td2.appendChild(t2);
-            	var t4 = document.createTextNode(json_obj['total_stock_values']);
+            	var t4 = document.createTextNode(number_with_commas(parseInt(json_obj['total_stock_values'])));
             	td4.appendChild(t4);
-            	var t5 = document.createTextNode(json_obj['profit']);
+            	var t5 = document.createTextNode(number_with_commas(parseInt(json_obj['profit'])));
             	td5.appendChild(t5);
-            	var t3 = document.createTextNode(json_obj['total_deposited']);
+            	var t3 = document.createTextNode(number_with_commas(parseInt(json_obj['total_deposited'])));
             	td3.appendChild(t3);
 
             	tr.appendChild(td1);
@@ -1154,7 +1231,7 @@ function table_generate_active_stocks_percentchange (json_obj)
 	      			response(results.slice(0, 10));
 	      		}
 	      	});
-	      });
+					      });
 
 	  }
 
