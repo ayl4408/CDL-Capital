@@ -143,14 +143,13 @@
       }
 
       
-      
     </style>
 </head>
 
 <body>
   
   <div id="header">
-    <div id="title" style="float:left; display:inline;"><b><i>CDL Capital</i></b><div style='font-size:70%; display:inline'>(${username}$)</div></div>
+    <div id="title" style="float:left; display:inline;"><b><i>CDL Capital</i></b><div id='user' style='font-size:70%; display:inline'>(${username}$)</div></div>
       
     <div id="logout">
       <!--</div>(Logged in as <b><u>${username}$</u>)</b>
@@ -373,6 +372,7 @@
 	      <table class="table table-hover owned_stocks_table">
 		<thead>
 		  <tr>
+		    <th>Company</th>
 		    <th>Stock</th>
 		    <th>Shares</th>
 		    <th>Current Price</th>
@@ -501,7 +501,7 @@
 
   for (i in json_obj)
   {
-    var tr = document.createElement("tr");
+  var tr = document.createElement("tr");
     var td1 = document.createElement("td");
     var td2 = document.createElement("td");
     var td3 = document.createElement("td");
@@ -847,12 +847,15 @@
             	for (i in json_obj)
                 {
             		var tr = document.createElement("tr");
-            		var td1 = document.createElement("td");
+		        var td0 = document.createElement("td");
+			var td1 = document.createElement("td");
             		var td2 = document.createElement("td");
             		var td3 = document.createElement("td");
             		var td4 = document.createElement("td");
             		var td5 = document.createElement("td");
 
+			var t0 = document.createTextNode(json_obj[i]['name']);
+			td0.appendChild(t0);				 
             		var t1 = document.createTextNode(json_obj[i]['stock']);
             		td1.appendChild(t1);
             		var t2 = document.createTextNode(json_obj[i]['current_shares']);
@@ -864,6 +867,8 @@
             		var t5 = document.createTextNode(json_obj[i]['profit']);
             		td5.appendChild(t5);
 
+
+			tr.appendChild(td0);
             		tr.appendChild(td1);
             		tr.appendChild(td2);
             		tr.appendChild(td3);
@@ -937,15 +942,15 @@
             	var td4 = document.createElement("td");
             	var td5 = document.createElement("td");
 
-            	var t1 = document.createTextNode(json_obj['total_portfolio']);
+            	var t1 = document.createTextNode(number_with_commas(parseInt(json_obj['total_portfolio'])));
             	td1.appendChild(t1);
-            	var t2 = document.createTextNode(json_obj['available_funds']);
+            	var t2 = document.createTextNode(number_with_commas(parseInt(json_obj['available_funds'])));
             	td2.appendChild(t2);
-            	var t4 = document.createTextNode(json_obj['total_stock_values']);
+            	var t4 = document.createTextNode(number_with_commas(parseInt(json_obj['total_stock_values'])));
             	td4.appendChild(t4);
-            	var t5 = document.createTextNode(json_obj['profit']);
+            	var t5 = document.createTextNode(number_with_commas(parseInt(json_obj['profit'])));
             	td5.appendChild(t5);
-            	var t3 = document.createTextNode(json_obj['total_deposited']);
+            	var t3 = document.createTextNode(number_with_commas(parseInt(json_obj['total_deposited'])));
             	td3.appendChild(t3);
 
             	tr.appendChild(td1);
