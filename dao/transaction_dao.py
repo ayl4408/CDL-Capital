@@ -60,9 +60,9 @@ class Transaction_dao:
                l.sort(key=lambda x: x.get_trans_date(), reverse=False)
                return l
 
-     def buy(self,user, trans_date, stock, volume, price, algo_id):
+     def buy(self,user, stock, volume, price, algo_id):
           for i in range(volume):
-               self.db.query("insert into transactions (user, trans_date, stock, price, sold, order_id, profit, algo_id) values ('%s','%s','%s',%f,'%s',%d,%f,'%s')"%(user, trans_date, stock, round(Decimal(price), 2), 0, int(i), Decimal(0), algo_id)+";")
+               self.db.query("insert into transactions (user, stock, price, sold, order_id, profit, algo_id) values ('%s','%s',%f,'%s',%d,%f,'%s')"%(user, stock, round(Decimal(price), 2), 0, int(i), Decimal(0), algo_id)+";")
 
      def sell(self, user, stock, volume, price, algo_id):
           result = self.db.query("select * from transactions where user=('%s') and stock=('%s') and sold='0'"%(user, stock)+" ORDER BY trans_date ASC, order_id ASC LIMIT "+str(volume)+";")
@@ -131,6 +131,35 @@ class Transaction_dao:
                o = Owned_stock(stock, volume, price, total_worth, profit)
                return o
 
+
+
+     def get_owned_stock_volume_per_algorithm(self, user, algo_id):
+         volume_result=self.db.query("select stock, count(*) as volume from transactions where user = ('%s') and sold = '0' and algo_id=('%s') group by stock"%(user,algo_id)+";") 
+         if volume_result:
+             l=[]
+             for i in range(len(volume_result)):
+                 o = Owned_stock(volume_result[i]['stock'], volume_result[i]['volume'], None, None, None)
+                 l.append(o)
+             return l   
+          
+     def get_profit_per_algorithm(self, user):
+          profit_result = self.db.query("select sum(profit) as profit from transactions where user = ('%s') and sold = '1' group by algo_id"%(user) + ";")
+          if profit_result:
+              l=[]
+              for i in range(len(profit_result)):
+                  o = Owned_stock(None, None, None, None, profit_result[i]['profit'])
+                  l.append(o)
+              return l
+
+    # def get_algorithm_stock_value_model(self, user):
+         # result1=self.db.query("select sum(profit) as profit from transactions where user=('%s') and sold = '1' group by algo_id"%(user) + ";")  
+         # if result1:
+         #      l=[]
+         #      for i in range(len(result)):
+         #           l.append(result[i]['profit'])
+         #      return l
+
+
      def get_user_stock_value_model(self, user):
           result1 = self.db.query("select sum(profit) from transactions where user=('%s') and sold='1'"%(user)+";")
           result2 = self.db.query("select sum(price) from transactions where user=('%s') and sold='0'"%(user)+";")
@@ -160,5 +189,65 @@ class Transaction_dao:
           else:
                return False
 
+     def select_all_profit_per_day(self, user):
+          result = self.db.query("select UNIX_TIMESTAMP(DATE(trans_date))*1000 as date, sum(profit) as profit from transactions where user=('%s') and sold='1' group by DATE(trans_date)"%(user)+";");
+        
+          if result:
+               l = []
+               for i in range(len(result)):
+                    t = Date_transaction()
+                    t.set_date(result[i]['date'])
+                    t.set_profit(result[i]['profit'])
+                    l.append(t)
+               return l
+          else:
+               return False
+
+     def select_user_profit_per_day(self, user):
+          result = self.db.query("select UNIX_TIMESTAMP(DATE(trans_date))*1000 as date, sum(profit) as profit from transactions where user=('%s') and sold='1' and algo_id='0' group by DATE(trans_date)"%(user)+";");
+
+          if result:
+               l = []
+               for i in range(len(result)):
+                    t = Date_transaction()
+                    t.set_date(result[i]['date'])
+                    t.set_profit(result[i]['profit'])
+                    l.append(t)
+               return l
+          else:
+               return False
+     
+     def select_all_algorithms_profit_per_day(self, user):
+          result = self.db.query("select UNIX_TIMESTAMP(DATE(trans_date))*1000 as date, sum(profit) as profit from transactions where user=('%s') and sold='1' and algo_id!='0' group by DATE(trans_date)"%(user)+";");
+
+          if result:
+               l = []
+               for i in range(len(result)):
+                    t = Date_transaction()
+                    t.set_date(result[i]['date'])
+                    t.set_profit(result[i]['profit'])
+                    l.append(t)
+               return l
+          else:
+               return False
+
+     def select_algorithm_profit_per_day(self, user, algo_id):
+          result = self.db.query("select UNIX_TIMESTAMP(DATE(trans_date))*1000 as date, sum(profit) as profit from transactions where user=('%s') and sold='1' and algo_id=('%s') group by DATE(trans_date)"%(user, algo_id)+";");
+
+          if result:
+               l = []
+               for i in range(len(result)):
+                    t = Date_transaction()
+                    t.set_date(result[i]['date'])
+                    t.set_profit(result[i]['profit'])
+                    l.append(t)
+               return l
+          else:
+               return False
+
+
+
+
 #t = Transaction_dao()
-#print t.get_trades_per_day("al356")
+#test =  t.select_all_profit_per_day("al356")
+#print test[4].get_profit()

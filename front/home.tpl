@@ -178,7 +178,7 @@
       <li class="active"><a data-toggle="tab" href="#home">Portfolio</a></li>
       <li><a data-toggle="tab" href="#transactions" onclick="generate_sell_drop_down();">Transactions</a></li>
       <li><a data-toggle="tab" href="#algorithms_menu" onclick="fetchAlgo(); displayActive();">Algorithms</a></li>
-      <li><a data-toggle="tab" href="#analysis">Analysis</a></li>
+      <li><a data-toggle="tab" href="#analysis" onclick="generate_trade_information_table();">Analysis</a></li>
       <li><a data-toggle="tab" href="#trending" onclick="most_active_stocks(); most_active_stocks_volume();" >Trending</a></li>
       <li><a data-toggle="tab" href="#settings_menu">Settings</a></li>
           
@@ -200,30 +200,52 @@
       </div>
 
       <div id="analysis" class="tab-pane fade">
-	    
+
+	<div class="row">    
         <div class="dropdown" id="algorithm_graph_dropdown_types_div" > 
           <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style="width:150px;">Graph Type<span class="caret"></span></button>
           <ul id="algorithm_graph_dropdown_types" class="dropdown-menu"> 
             
-                                    
-            <li><a href="#" onClick="draw_algorithm_line_graph('Total Volume Traded')">Total Volume Traded</a></li>
+                                   
+            <li><a href="#" onClick="draw_algorithm_line_graph('Total Volume Traded Daily', '${algorithm_graph_link}$', 'Number of Shares', ' shares')">Total Volume Traded Daily</a></li> 
+            <li><a href="#" onClick="draw_algorithm_line_graph('Profit Daily', '${algorithm_profit_graph_link}$', 'Profit', ' dollars')">Profit Daily</a></li>
 
           </ul>
         </div>
-
+        <!--
         <div class="dropdown" id="algorithm_graph_dropdown_lines_div"> 
           <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style="width:150px;">Filter<span class="caret"></span></button>
           <ul id="algorithm_graph_dropdown_lines" class="dropdown-menu"> </ul>
         </div>
-
+        -->
     
 
         <!--<select id="algorithm_graph_dropdown" class="form-control"  name="algorithm_graph_dropdown"></select>-->
         <div id="graph_container" style="width: 1200px; height: 600px; margin0 auto"></div>	
+	</div>
 
+	<br>
+	<br>
+	<div class="row">
+	  <div id="trade_information_table">
+	    <h2><b><u>Trading Information</u></b></h2>
+	    <div style= "overflow:auto; max-height:200px;">
+	      <table class="table table-hover trading_info_table">
+		<thead>
+		  <tr>
+		    <th>Name</th>
+		    <th>Total Stock Value</th>
+		    <th>Total Trades Executed</th>
+		    <th>Total Buys Executed</th>
+		    <th>Total Sells Executed</th>
+		    <th>Profit Earned/Loss</th>
+		  </tr>
+		</thead>
+	      </table>
+	    </div>
+	  </div>
+	</div>
       </div>
-      
-      
       
       <div id="settings_menu" class="tab-pane fade">
 	<div style="width:50%; float:left; display:inline;">
@@ -457,6 +479,65 @@
 
 
 <script type="text/javascript">
+
+  function generate_trade_information_table()
+  {
+    var result = $.ajax({
+      type: 'POST',
+      url: '${trade_info_script_link}$',
+      data: 'username='+ '${username}$',
+      dataType: "json",
+    async: false}).responseText;
+
+  console.log(result);
+  
+  if(result != false)
+  {
+  var json_obj = JSON.parse(result);
+  $('.trading_info_table tr td').remove();
+  var tb = document.createElement("tbody");
+
+  console.log(json_obj);
+
+  for (i in json_obj)
+  {
+    var tr = document.createElement("tr");
+    var td1 = document.createElement("td");
+    var td2 = document.createElement("td");
+    var td3 = document.createElement("td");
+    var td4 = document.createElement("td");
+    var td5 = document.createElement("td");
+    var td6 = document.createElement("td");
+
+    console.log(json_obj[i]["algo_name"]);
+  
+    var t1 = document.createTextNode(json_obj[i]["algo_name"]);
+    td1.appendChild(t1);
+    var t2 = document.createTextNode(json_obj[i]["total_owned_stocks_value"]);
+    td2.appendChild(t2);
+    var t3 = document.createTextNode(json_obj[i]["total_trades"]);
+    td3.appendChild(t3);
+    var t4 = document.createTextNode(json_obj[i]["total_buys"]);
+    td4.appendChild(t4);
+    var t5 = document.createTextNode(json_obj[i]["total_sells"]);
+    td5.appendChild(t5);
+    var t6 = document.createTextNode(json_obj[i]["total_profit"]);
+    td6.appendChild(t6);
+  
+    tr.appendChild(td1);
+    tr.appendChild(td2);
+    tr.appendChild(td3);
+    tr.appendChild(td4);
+    tr.appendChild(td5);
+    tr.appendChild(td6);
+  
+    tb.appendChild(tr);
+   }
+
+    var $formrow = tb
+      $('.trading_info_table').append($formrow);
+    }
+  }
   
     var total_algorithm_graph_data;
     var algorithm_graph;
@@ -467,11 +548,11 @@
         $('#available').html('<font color="black"></font><b>Available Funds</b>:[$'+available_funds+']')
     }
 
-    function algorithm_graph_result(){
+    function algorithm_graph_result(type){
         var algorithm_graph_result = ({});
         algorithm_graph_result = $.ajax({
           		type: 'POST',
-          		url: '${algorithm_graph_link}$',
+          		url: type,
           		data: 'username='+ '${username}$',
           		dataType: "json",
           		async: false}).responseText;
@@ -487,8 +568,29 @@
             return false;
         }
     }    
-    
-      
+   
+    /* 
+    function algorithm_profit_graph_result(){
+        var algorithm_profit_graph_result = ({});
+        algorithm_graph_result = $.ajax({
+          		type: 'POST',
+          		url: '${algorithm_profit_graph_link}$',
+          		data: 'username='+ '${username}$',
+          		dataType: "json",
+          		async: false}).responseText;
+
+        if (algorithm_graph_result != false)
+        {
+            var json_obj=JSON.parse(algorithm_graph_result);
+            console.log(json_obj)
+            return json_obj
+        }
+        else
+        {
+            return false;
+        }
+    } 
+    */ 
  
     // Doesn't do anything, never did anything, might use later
     /*
@@ -509,12 +611,13 @@
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
     
-    function draw_algorithm_line_graph(type)
+   
+    function draw_algorithm_line_graph(graph_title, type, yaxis_title, suffix)
     {
         //data = algorithm_graph_result();
-        var graph_1 = algorithm_graph_result();
+        var graph_1 = algorithm_graph_result(type);
         //algorithm_graph_result()
-        data = algorithm_graph_result();
+        data = algorithm_graph_result(type);
         if(graph_1){
         //console.log(field);
         //console.log(data);        
@@ -522,7 +625,7 @@
         $(function () {
             $('#graph_container').highcharts({
                 title: {
-                    text: type,
+                    text: graph_title,
                     x: -20 //center
                 },
                 //subtitle: {
@@ -542,7 +645,7 @@
                 },
                 yAxis: {
                     title: {
-                        text: 'Number of Shares'
+                        text: yaxis_title
                     },
                     //plotLines: [{
                     //    value: 0,
@@ -551,7 +654,7 @@
                     //}]
                 },
                 tooltip: {
-                    valueSuffix: ' shares'
+                    valueSuffix: suffix
                 },
                 legend: {
                     layout: 'vertical',
@@ -570,7 +673,8 @@
     }
 
 
-
+    // FOr the checkbox dropdown
+    /*
     function algorithm_graph_dropdown()
     {
         var user_name="${username}$";
@@ -595,10 +699,11 @@
             //$('<li><a href="#" onClick="draw_algorithm_line_graph('+generate_algorithm_graph_dropdown_parsed[field]+');">' + field + '</a></li>').appendTo('#algorithm_graph_dropdown');
             i++;
         }
-    } 
+    }
+    */ 
 
-
-
+    // For the check box dropdown
+    /*
     function checkbox_draw_algorithm_graph(id)
     {
         
@@ -615,10 +720,11 @@
             series.show();       
         }
 
-    }         
+    }
+    */         
    
-    draw_algorithm_line_graph('Total Volume Traded');
-    algorithm_graph_dropdown();
+    draw_algorithm_line_graph('Total Volume Traded', '${algorithm_graph_link}$', 'Number of Shares', ' shares');
+    //algorithm_graph_dropdown();
     
         
     

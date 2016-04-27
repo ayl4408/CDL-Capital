@@ -1,13 +1,8 @@
 #!/usr/bin/python
 
 class Owned_stock:
-    name = None
-    volume = None
-    price = None
-    total_worth = None
-    profit = None
 
-    def __init__(self, name, volume, price, total_worth, profit):
+    def __init__(self, name=None, volume=None, price=None, total_worth=None, profit=None):
          self.name = name
          self.volume = volume
          self.price = price

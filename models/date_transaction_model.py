@@ -5,7 +5,7 @@ class Date_transaction:
     def __init__(self):
         self.date = None;
         self.num_trades = None;
-
+        self.profit = None;
     
     def get_date(self):
         return self.date
@@ -18,4 +18,10 @@ class Date_transaction:
     
     def set_num_trades(self, x):
         self.num_trades = x
+
+    def get_profit(self):
+        return self.profit
+
+    def set_profit(self, x):
+        self.profit = x
 

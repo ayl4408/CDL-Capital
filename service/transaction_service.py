@@ -26,15 +26,15 @@ def transaction(username, volume, company, trans_type, algo_id):
     c = cdao.get_company_model(company)
 
     ask = Decimal(c.get_ask())
-    time = datetime.datetime.utcnow()
+    #time = datetime.datetime.utcnow()
 
     final = calculate_price(ask, volume)
 
     if trans_type == 'buy':
         u = udao2.get_user_portfolio_model(username)
         if final <= u.get_available_funds():
-            tdao.buy(username, time, company, volume, ask, algo_id)
-            hdao.insert(username, time, 'buy', company, ask, final, volume, algo_id)
+            tdao.buy(username, company, volume, ask, algo_id)
+            hdao.insert(username, 'buy', company, ask, final, volume, algo_id)
             
             o = tdao.get_user_stock_value_model(username)
             
@@ -53,7 +53,7 @@ def transaction(username, volume, company, trans_type, algo_id):
         
         if o.get_volume() >= volume:
             tdao.sell(username, company, volume, ask, algo_id)
-            hdao.insert(username, time, 'sell', company, ask, final, volume, algo_id)
+            hdao.insert(username, 'sell', company, ask, final, volume, algo_id)
 
             u = tdao.get_user_stock_value_model(username)    
             udao1.update_total_stock_values(username, u.get_total_stock_values())
